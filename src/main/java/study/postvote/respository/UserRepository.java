@@ -3,6 +3,7 @@ package study.postvote.respository;
 import study.postvote.domain.User;
 import study.postvote.domain.type.City;
 import study.postvote.domain.type.Mbti;
+import study.postvote.domain.type.Role;
 import study.postvote.respository.db.ConnectionManager;
 
 import java.sql.Connection;
@@ -16,8 +17,8 @@ import java.util.Objects;
 public class UserRepository {
     Connection conn;
 
-    public void insert(User user) {
-        String sql = "insert into user (name, age, gender, city, email, password, mbti) values(?, ?, ?, ?, ?, ?, ?)";
+    public void save(User user) {
+        String sql = "insert into user (name, age, gender, city, email, password, mbti, role) values(?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             conn = ConnectionManager.getConnection();
 
@@ -29,10 +30,17 @@ public class UserRepository {
             pstmt.setString(5, user.getEmail());
             pstmt.setString(6, user.getPassword());
             pstmt.setString(7, String.valueOf(user.getMbti()));
+            pstmt.setString(8, String.valueOf(user.getRole()));
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -87,7 +95,7 @@ public class UserRepository {
 
     public void updateUser(User user) {
         String sql = "update user set " +
-                "name = ?, age = ?, gender = ?, city = ?, email = ?, password = ?, mbti = ? where user_id = ?";
+                "name = ?, age = ?, gender = ?, city = ?, email = ?, password = ?, mbti = ?, role = ? where user_id = ?";
         try {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -99,7 +107,8 @@ public class UserRepository {
             pstmt.setString(5, user.getEmail());
             pstmt.setString(6, user.getPassword());
             pstmt.setString(7, String.valueOf(user.getMbti()));
-            pstmt.setLong(8, user.getUserId());
+            pstmt.setString(8, String.valueOf(user.getRole()));
+            pstmt.setLong(9, user.getUserId());
 
             pstmt.executeUpdate();
         } catch (Exception ignored) {
@@ -116,7 +125,7 @@ public class UserRepository {
             while (rs.next()) {
                 libraryList.add(new User(Long.parseLong(rs.getString(1)), rs.getString(2), Integer.parseInt(rs.getString(3)),
                         Boolean.parseBoolean(rs.getString(4)), City.valueOf(rs.getString(5)), rs.getString(6), rs.getString(7),
-                        Mbti.valueOf(rs.getString(8))));
+                        Mbti.valueOf(rs.getString(8)), Role.valueOf(rs.getString(9))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

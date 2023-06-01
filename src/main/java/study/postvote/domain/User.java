@@ -2,6 +2,7 @@ package study.postvote.domain;
 
 import study.postvote.domain.type.City;
 import study.postvote.domain.type.Mbti;
+import study.postvote.domain.type.Role;
 
 public class User {
     private Long userId;
@@ -12,11 +13,12 @@ public class User {
     private String email;
     private String password;
     private Mbti mbti;
+    private Role role;
 
     public User() {
     }
 
-    public User(String name, int age, boolean gender, City city, String email, String password, Mbti mbti) {
+    public User(String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -24,9 +26,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.mbti = mbti;
+        this.role = role;
     }
 
-    public User(Long userId, String name, int age, boolean gender, City city, String email, String password, Mbti mbti) {
+    public User(Long userId, String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role) {
         this.userId = userId;
         this.name = name;
         this.age = age;
@@ -35,6 +38,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.mbti = mbti;
+        this.role = role;
     }
 
     public Long getUserId() {
@@ -67,5 +71,9 @@ public class User {
 
     public Mbti getMbti() {
         return mbti;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }
