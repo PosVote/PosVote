@@ -116,6 +116,22 @@ public class UserRepository {
         }
     }
 
+    public void updateRole(User user, Role role) {
+        String sql = "update user set " +
+                "role = ? where user_id = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, String.valueOf(role));
+            pstmt.setLong(2, user.getUserId());
+
+            pstmt.executeUpdate();
+        } catch (Exception ignored) {
+
+        }
+    }
+
     private List<User> executeQuery(PreparedStatement pstmt) {
         List<User> libraryList = new ArrayList<>();
         ResultSet rs = null;
