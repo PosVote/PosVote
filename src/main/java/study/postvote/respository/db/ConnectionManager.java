@@ -1,9 +1,5 @@
 package study.postvote.respository.db;
 
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,10 +31,5 @@ public class ConnectionManager {
         }
 
         return con;
-    }
-
-    private static Properties loadPropertiesFromFile(String filePath) throws IOException, IOException {
-        ClassPathResource resource = new ClassPathResource(filePath);
-        return PropertiesLoaderUtils.loadProperties(resource);
     }
 }
