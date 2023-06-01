@@ -14,11 +14,12 @@ public class User {
     private String password;
     private Mbti mbti;
     private Role role;
+    private Long orgId;
 
     public User() {
     }
 
-    public User(String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role) {
+    public User(String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -27,9 +28,10 @@ public class User {
         this.password = password;
         this.mbti = mbti;
         this.role = role;
+        this.orgId = orgId;
     }
 
-    public User(Long userId, String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role) {
+    public User(Long userId, String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
         this.userId = userId;
         this.name = name;
         this.age = age;
@@ -39,6 +41,7 @@ public class User {
         this.password = password;
         this.mbti = mbti;
         this.role = role;
+        this.orgId = orgId;
     }
 
     public Long getUserId() {
@@ -75,5 +78,9 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public Long getOrgId() {
+        return orgId;
     }
 }

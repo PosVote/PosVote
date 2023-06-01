@@ -11,8 +11,9 @@
     String password = request.getParameter("password");
     Mbti mbti = Mbti.valueOf(request.getParameter("mbti"));
     Role role = Role.valueOf(request.getParameter("role"));
+    long orgId = Integer.parseInt(request.getParameter("orgId"));
 
-    User user = new User(name, age, gender, city, email, password, mbti, role);
+    User user = new User(name, age, gender, city, email, password, mbti, role, orgId);
 
     UserService userService = new UserService();
     try {

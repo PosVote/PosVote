@@ -71,6 +71,94 @@
         .submit-button:hover {
             background-color: #45a049;
         }
+
+        .organization-search-button {
+            background-color: #3f51b5;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .organization-search-button:hover {
+            background-color: #3949ab;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 4px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .organization-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .organization-list-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 4px;
+        }
+
+        .organization-list-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .create-organization-button {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-organization-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .disabled-input {
+            background-color: #f2f2f2;
+            color: #888;
+        }
     </style>
 </head>
 <body>
@@ -141,10 +229,64 @@
             <option value="ENTJ">ENTJ</option>
         </select>
 
-        <input type="hidden" id="role" name="role" value="USER">
+        <div>
+            <label for="role">역할:</label>
+            <select id="role" name="role" required>
+                <option value="USER">User</option>
+                <option value="OWNER">Owner</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="organization">조직:</label>
+            <input type="text" id="organization" name="organization" class="disabled-input" readonly>
+            <button type="button" class="organization-search-button" onclick="openModal()">조직 찾기</button>
+            <button type="button" class="create-organization-button" onclick="openCreateModal()" style="display: none;">조직 생성</button>
+        </div>
 
         <input type="submit" class="submit-button" value="회원가입">
     </form>
 </div>
+
+<!-- Organization Search Modal -->
+<div id="organizationSearchModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>조직 찾기</h2>
+        <ul class="organization-list">
+            <li class="organization-list-item">조직 1</li>
+            <li class="organization-list-item">조직 2</li>
+            <li class="organization-list-item">조직 3</li>
+            <!-- Add more organization items here -->
+        </ul>
+    </div>
+</div>
+
+<!-- Organization Create Modal -->
+<div id="organizationCreateModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeCreateModal()">&times;</span>
+        <h2>조직 생성</h2>
+        <!-- Add organization creation form here -->
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        document.getElementById("organizationSearchModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("organizationSearchModal").style.display = "none";
+    }
+
+    function openCreateModal() {
+        document.getElementById("organizationCreateModal").style.display = "block";
+    }
+
+    function closeCreateModal() {
+        document.getElementById("organizationCreateModal").style.display = "none";
+    }
+</script>
 </body>
 </html>

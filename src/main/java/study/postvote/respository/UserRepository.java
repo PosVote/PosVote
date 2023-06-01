@@ -154,7 +154,7 @@ public class UserRepository {
             while (rs.next()) {
                 userList.add(new User(rs.getLong(1), rs.getString(2), Integer.parseInt(rs.getString(3)),
                         Boolean.parseBoolean(rs.getString(4)), City.valueOf(rs.getString(5)), rs.getString(6), rs.getString(7),
-                        Mbti.valueOf(rs.getString(8)), Role.valueOf(rs.getString(9))));
+                        Mbti.valueOf(rs.getString(8)), Role.valueOf(rs.getString(9)), rs.getLong(10)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
