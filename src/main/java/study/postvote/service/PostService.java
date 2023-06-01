@@ -1,6 +1,7 @@
 package study.postvote.service;
 
 import study.postvote.domain.Post;
+import study.postvote.dto.post.response.PostListResponse;
 import study.postvote.respository.PostRepository;
 
 import java.util.List;
@@ -8,8 +9,8 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
 
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    public PostService() {
+        this.postRepository = new PostRepository();
     }
 
     public List<Post> findByTitle(Long title) {
@@ -26,5 +27,9 @@ public class PostService {
 
     public List<Post> findAll() {
         return postRepository.findAll();
+    }
+
+    public List<PostListResponse> findAllPostListResponse() {
+        return postRepository.findAllPostListResponse();
     }
 }

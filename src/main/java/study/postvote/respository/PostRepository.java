@@ -5,6 +5,7 @@ import study.postvote.domain.User;
 import study.postvote.domain.type.City;
 import study.postvote.domain.type.Mbti;
 import study.postvote.domain.type.Role;
+import study.postvote.dto.post.response.PostListResponse;
 import study.postvote.respository.db.ConnectionManager;
 
 import java.sql.*;
@@ -109,6 +110,21 @@ public class PostRepository {
         }
     }
 
+    public List<PostListResponse> findAllPostListResponse() {
+//        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id ORDER BY p.date DESC LIMIT ? OFFSET ?;";
+        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id;";
+
+        PreparedStatement pstmt = null;
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            return executeQueryPostListResponse(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<Post> executeQuery(PreparedStatement pstmt) {
         List<Post> postList = new ArrayList<>();
         ResultSet rs = null;
@@ -144,5 +160,42 @@ public class PostRepository {
         }
 
         return postList;
+    }
+
+    private List<PostListResponse> executeQueryPostListResponse(PreparedStatement pstmt) {
+        List<PostListResponse> postListResponses = new ArrayList<>();
+        ResultSet rs = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                postListResponses.add(new PostListResponse(rs.getLong(1),
+                        rs.getString(2),
+                        LocalDateTime.parse(rs.getString(3), formatter),
+                        rs.getLong(4),
+                        rs.getString(5)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                Objects.requireNonNull(rs).close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                Objects.requireNonNull(pstmt).close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return postListResponses;
     }
 }
