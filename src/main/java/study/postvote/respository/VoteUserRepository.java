@@ -16,7 +16,7 @@ public class VoteUserRepository {
     PreparedStatement ps;
     ResultSet rs;
 
-    void save(VoteUser voteUser){
+    public void save(VoteUser voteUser){
         String sql = "insert into vote_user (vote_id, user_id, option_id) values(?, ?, ?)";
         try{
             conn = ConnectionManager.getConnection();
@@ -38,7 +38,7 @@ public class VoteUserRepository {
         }
     }
 
-    List<VoteUser> findAll(){
+    public List<VoteUser> findAll(){
         String sql = "select * from vote_user";
         List<VoteUser> voteUsers = new ArrayList<>();
         try{
@@ -71,7 +71,7 @@ public class VoteUserRepository {
         return voteUsers;
     }
 
-    List<VoteUser> findVoteUserByVoteId(long voteId){
+    public List<VoteUser> findVoteUserByVoteId(long voteId){
         String sql = "select * from vote_user where vote_id = ?";
         List<VoteUser> voteUsers = new ArrayList<>();
         try{
@@ -110,7 +110,7 @@ public class VoteUserRepository {
 //
 //    }
 
-    List<VoteUser> findVoteUserByUserId(long userId){
+    public List<VoteUser> findVoteUserByUserId(long userId){
         String sql = "select * from vote_user where user_id = ?";
         List<VoteUser> voteUsers = new ArrayList<>();
         try{
@@ -144,7 +144,7 @@ public class VoteUserRepository {
         return voteUsers;
     }
 
-    VoteUser findVoteUserByUserIdVoteId(long userId, long voteId){
+    public VoteUser findVoteUserByUserIdVoteId(long userId, long voteId){
         String sql = "select * from vote_user where user_id = ? and vote_id = ?";
         List<VoteUser> voteUsers = new ArrayList<>();
         try{
@@ -178,7 +178,7 @@ public class VoteUserRepository {
         return null;
     }
 
-    void updateVoteUser(VoteUser voteUser){
+    public void updateVoteUser(VoteUser voteUser){
         String sql = "update vote_user set vote_id = ?, user_id = ?, option_id = ? where vote_user_id = ?";
         try{
             conn = ConnectionManager.getConnection();
@@ -207,7 +207,7 @@ public class VoteUserRepository {
 //
 //    }
 
-    void deleteAll(){
+    public void deleteAll(){
         String sql = "delete from vote_user";
         try{
             conn = ConnectionManager.getConnection();
@@ -226,9 +226,9 @@ public class VoteUserRepository {
             }
         }
     }
-    
 
-    void deleteVoteUserByUserId(long userId){
+
+    public void deleteVoteUserByUserId(long userId){
         String sql = "delete from vote_user where user_id = ?";
         try{
             conn = ConnectionManager.getConnection();
@@ -249,7 +249,7 @@ public class VoteUserRepository {
         }
     }
 
-    void deleteVoteUserByUserIdVoteId(long userId, long voteId){
+    public void deleteVoteUserByUserIdVoteId(long userId, long voteId){
         String sql = "delete from vote_user where user_id = ? and vote_id = ?";
         try{
             conn = ConnectionManager.getConnection();

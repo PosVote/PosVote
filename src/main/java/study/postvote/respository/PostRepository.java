@@ -60,7 +60,6 @@ public class PostRepository {
 
     public void deleteById(Long post_id) {
         String sql = "delte from post where post_id";
-        Connection conn = null;
         PreparedStatement pstmt = null;
 
         try {
@@ -98,7 +97,6 @@ public class PostRepository {
 
     public List<Post> findAll() {
         String sql = "select * from post";
-        Connection conn = null;
         PreparedStatement pstmt = null;
         try {
             conn = ConnectionManager.getConnection();
