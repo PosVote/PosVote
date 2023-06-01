@@ -23,7 +23,7 @@ public class PostRepository {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String sql = "insert into post (post_id, u_id, title, description, vote_id, date) values(?,?,?,?,?,?)";
+        String sql = "insert into post (post_id, userId, title, description, date) values(?,?,?,?,?)";
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -32,7 +32,6 @@ public class PostRepository {
             pstmt.setLong(2, post.getUserId());
             pstmt.setString(3, post.getTitle());
             pstmt.setString(4, post.getDescription());
-            pstmt.setLong(5, post.getVoteId());
             pstmt.setDate(4, Date.valueOf(String.valueOf(post.getDate())));
 
             pstmt.executeUpdate();
@@ -120,8 +119,7 @@ public class PostRepository {
                         rs.getLong(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getLong(5),
-                        LocalDateTime.parse(rs.getString(6), formatter)));
+                        LocalDateTime.parse(rs.getString(5), formatter)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

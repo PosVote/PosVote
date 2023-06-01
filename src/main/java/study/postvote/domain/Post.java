@@ -8,23 +8,20 @@ public class Post {
     private Long userId;
     private String title;
     private String description;
-    private Long voteId;
     private LocalDateTime date;
 
-    public Post(Long postId, Long userId, String title, String description, Long voteId, LocalDateTime date) {
+    public Post(Long postId, Long userId, String title, String description, LocalDateTime date) {
         this.postId = postId;
         this.userId = userId;
         this.title = title;
         this.description = description;
-        this.voteId = voteId;
         this.date = date;
     }
 
-    public Post(Long userId, String title, String description, Long voidId, LocalDateTime date)  {
+    public Post(Long userId, String title, String description, LocalDateTime date)  {
         this.userId = userId;
         this.title = title;
         this.description = description;
-        this.voteId = voidId;
         this.date = date;
     }
 
@@ -36,7 +33,6 @@ public class Post {
 
     public String getDescription() { return description; }
 
-    public Long getVoteId() { return voteId; }
 
     public LocalDateTime getDate() { return date;  }
 }
