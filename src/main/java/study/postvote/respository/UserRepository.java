@@ -146,13 +146,13 @@ public class UserRepository {
     }
 
     private List<User> executeQuery(PreparedStatement pstmt) {
-        List<User> libraryList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
         ResultSet rs = null;
         try {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                libraryList.add(new User(Long.parseLong(rs.getString(1)), rs.getString(2), Integer.parseInt(rs.getString(3)),
+                userList.add(new User(rs.getLong(1), rs.getString(2), Integer.parseInt(rs.getString(3)),
                         Boolean.parseBoolean(rs.getString(4)), City.valueOf(rs.getString(5)), rs.getString(6), rs.getString(7),
                         Mbti.valueOf(rs.getString(8)), Role.valueOf(rs.getString(9))));
             }
@@ -176,6 +176,6 @@ public class UserRepository {
             }
         }
 
-        return libraryList;
+        return userList;
     }
 }

@@ -204,7 +204,6 @@ public class OptionRepository {
         }finally {
             try{
                 conn.close();
-                rs.close();
                 ps.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -227,7 +226,6 @@ public class OptionRepository {
         }finally {
             try{
                 conn.close();
-                rs.close();
                 ps.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -247,7 +245,6 @@ public class OptionRepository {
         }finally {
             try{
                 conn.close();
-                rs.close();
                 ps.close();
             } catch (SQLException e) {
                 e.printStackTrace();
