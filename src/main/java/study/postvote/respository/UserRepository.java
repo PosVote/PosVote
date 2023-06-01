@@ -23,8 +23,8 @@ public class UserRepository {
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, user.getName());
-            pstmt.setString(2, String.valueOf(user.getAge()));
-            pstmt.setString(3, String.valueOf(user.isGender()));
+            pstmt.setInt(2, user.getAge());
+            pstmt.setBoolean(3, user.isGender());
             pstmt.setString(4, String.valueOf(user.getCity()));
             pstmt.setString(5, user.getEmail());
             pstmt.setString(6, user.getPassword());
@@ -34,7 +34,77 @@ public class UserRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public User findById(Long id) {
+        String sql = "select * from user where user_id = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+            return executeQuery(pstmt).get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<User> findByEmail(String name) {
+        String sql = "select * from user where email like ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + name + "%");
+            return executeQuery(pstmt);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<User> findAll() {
+        String sql = "select * from user";
+        try {
+            conn = ConnectionManager.getConnection();
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteById(Long id) {
+        String sql = "delete from user where user_id = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+            pstmt.executeUpdate();
+        } catch (Exception ignored) {
+
+        }
+    }
+
+    public void updateUser(User user) {
+        String sql = "update user set " +
+                "name = ?, age = ?, gender = ?, city = ?, email = ?, password = ?, mbti = ? where user_id = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, user.getName());
+            pstmt.setInt(2, user.getAge());
+            pstmt.setBoolean(3, user.isGender());
+            pstmt.setString(4, String.valueOf(user.getCity()));
+            pstmt.setString(5, user.getEmail());
+            pstmt.setString(6, user.getPassword());
+            pstmt.setString(7, String.valueOf(user.getMbti()));
+            pstmt.setLong(8, user.getUserId());
+
+            pstmt.executeUpdate();
+        } catch (Exception ignored) {
+
+        }
     }
 
     private List<User> executeQuery(PreparedStatement pstmt) {
