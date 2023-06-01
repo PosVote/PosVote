@@ -19,6 +19,13 @@ public class Vote {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+    public Vote(Long postId, boolean isAnonymous, String isMulti, LocalDateTime startTime, LocalDateTime endTime) {
+        this.postId = postId;
+        this.isAnonymous = isAnonymous;
+        this.isMulti = isMulti;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
     public Long getVoteId() {
         return voteId;
