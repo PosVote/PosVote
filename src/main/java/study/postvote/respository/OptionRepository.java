@@ -92,8 +92,8 @@ public class OptionRepository {
         }
     }
 
-    Option findById(long id){
-        String sql = "select * from option where id = ?";
+    Option findByOptionId(long id){
+        String sql = "select * from option where option_id = ?";
         try{
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
@@ -214,7 +214,7 @@ public class OptionRepository {
 
     }
 
-    void deleteById(long id){
+    void deleteByOptionId(long id){
         String sql = "delete from option where option_id = ?";
         try{
             conn = ConnectionManager.getConnection();
@@ -237,6 +237,23 @@ public class OptionRepository {
     }
     void deleteAll(){
         String sql = "delete from option";
+        try{
+            conn = ConnectionManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }finally {
+            try{
+                conn.close();
+                rs.close();
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 
