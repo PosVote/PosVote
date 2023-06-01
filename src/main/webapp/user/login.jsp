@@ -35,7 +35,7 @@
             text-align: left;
         }
 
-        input[type="text"],
+        input[type="email"],
         input[type="password"] {
             width: 100%;
             padding: 10px;
@@ -77,7 +77,7 @@
             width: 30%;
         }
 
-        .form-row input[type="text"],
+        .form-row input[type="email"],
         .form-row input[type="password"] {
             width: 70%;
             margin-left: 10px;
