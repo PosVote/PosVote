@@ -11,7 +11,7 @@ public class ConnectionManager {
     public static Connection getConnection() {
         Connection con = null;
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/db01";
+        String url = "jdbc:mysql://localhost:3306/posvote";
         String id = "root";
         String pwd = "1234";
 
