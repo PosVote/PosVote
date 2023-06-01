@@ -17,6 +17,19 @@ import java.util.Objects;
 public class UserRepository {
     Connection conn;
 
+    public User login(String email, String password) {
+        String sql = "select * from user where email = ? and password = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            return executeQuery(pstmt).get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public void save(User user) {
         String sql = "insert into user (name, age, gender, city, email, password, mbti, role) values(?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -56,13 +69,13 @@ public class UserRepository {
         }
     }
 
-    public List<User> findByEmail(String name) {
+    public User findByEmail(String name) {
         String sql = "select * from user where email like ?";
         try {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + name + "%");
-            return executeQuery(pstmt);
+            return executeQuery(pstmt).get(0);
         } catch (Exception e) {
             return null;
         }

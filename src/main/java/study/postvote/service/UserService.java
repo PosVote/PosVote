@@ -13,12 +13,16 @@ public class UserService {
         this.userRepository = new UserRepository();
     }
 
-    public void save(User user) {
-        User findUser = findByEmail(user.getEmail());
+    public User login(String email, String password) {
+        return userRepository.login(email, password);
+    }
+
+    public void save(User user) throws Exception {
+        User findUser = userRepository.findByEmail(user.getEmail());
         if (findUser == null) {
             userRepository.save(user);
         } else {
-            System.out.println("이미 이메일이 존재합니다.");
+            throw new Exception();
         }
     }
 
@@ -27,8 +31,7 @@ public class UserService {
     }
 
     public User findByEmail(String email) {
-        List<User> users = userRepository.findByEmail(email);
-        return users.size() > 0 ? users.get(0) : null;
+        return userRepository.findByEmail(email);
     }
 
     public List<User> findAll() {
@@ -36,28 +39,29 @@ public class UserService {
     }
 
     public void deleteById(Long id) {
-        userRepository.deleteById(id);
+        User findUser = userRepository.findById(id);
+        userRepository.deleteById(findUser.getUserId());
     }
 
     public void updateUser(User updateUser) {
         userRepository.updateUser(updateUser);
     }
 
-    public void updateRoleUser(Long id) {
+    public void updateRoleUser(Long id) throws Exception {
         User findUser = userRepository.findById(id);
         if (findUser != null) {
             userRepository.updateRole(findUser, Role.USER);
         } else {
-            System.out.println("유저가 존재하지 않습니다.");
+            throw new Exception();
         }
     }
 
-    public void updateRoleAdmin(Long id) {
+    public void updateRoleAdmin(Long id) throws Exception {
         User findUser = userRepository.findById(id);
         if (findUser != null) {
             userRepository.updateRole(findUser, Role.ADMIN);
         } else {
-            System.out.println("유저가 존재하지 않습니다.");
+            throw new Exception();
         }
     }
 }

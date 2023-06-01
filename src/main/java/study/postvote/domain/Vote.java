@@ -6,23 +6,23 @@ public class Vote {
     private Long voteId;
     private Long postId;
     private boolean isAnonymous;
-    private String isMulti;
+    private String inputType;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     public Vote() {}
 
-    public Vote(Long voteId, Long postId, boolean isAnonymous, String isMulti, LocalDateTime startTime, LocalDateTime endTime) {
+    public Vote(Long voteId, Long postId, boolean isAnonymous, String inputType, LocalDateTime startTime, LocalDateTime endTime) {
         this.voteId = voteId;
         this.postId = postId;
         this.isAnonymous = isAnonymous;
-        this.isMulti = isMulti;
+        this.inputType = inputType;
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    public Vote(Long postId, boolean isAnonymous, String isMulti, LocalDateTime startTime, LocalDateTime endTime) {
+    public Vote(Long postId, boolean isAnonymous, String inputType, LocalDateTime startTime, LocalDateTime endTime) {
         this.postId = postId;
         this.isAnonymous = isAnonymous;
-        this.isMulti = isMulti;
+        this.inputType = inputType;
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -39,8 +39,8 @@ public class Vote {
         return isAnonymous;
     }
 
-    public String getIsMulti() {
-        return isMulti;
+    public String getInputType() {
+        return inputType;
     }
 
     public LocalDateTime getStartTime() {
@@ -50,6 +50,4 @@ public class Vote {
     public LocalDateTime getEndTime() {
         return endTime;
     }
-
-
 }
