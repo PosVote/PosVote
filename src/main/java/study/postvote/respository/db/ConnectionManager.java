@@ -1,7 +1,6 @@
 package study.postvote.respository.db;
 
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -15,23 +14,12 @@ public class ConnectionManager {
 
     public static Connection getConnection() {
         Connection con = null;
+        String driver = "com.mysql.cj.jdbc.Driver";
+        String url = "jdbc:mysql://localhost:3306/db01";
+        String id = "root";
+        String pwd = "1234";
+
         try {
-            Properties properties = loadPropertiesFromFile("application.yml");
-
-            StandardEnvironment environment = new StandardEnvironment();
-            org.springframework.core.env.PropertiesPropertySource propertySource = new org.springframework.core.env.PropertiesPropertySource("myProperties", properties);
-            environment.getPropertySources().addFirst(propertySource);
-
-//            String driver = environment.getProperty("driver-class-name");
-//            String url = environment.getProperty("spring.datasource.url");
-//            String id = environment.getProperty("spring.datasource.username");
-//            String pwd = environment.getProperty("spring.datasource.password");
-
-            String driver = "com.mysql.cj.jdbc.Driver";
-            String url = "jdbc:mysql://localhost:3306/posvote";
-            String id = "root";
-            String pwd = "1234";
-
             Class.forName(driver);
             try {
                 con = DriverManager.getConnection(url, id, pwd);
@@ -44,8 +32,6 @@ public class ConnectionManager {
             // TODO Auto-generated catch block
             System.out.println("Connection Failed. Check Driver or URL");
             e.printStackTrace();        // 예외 발생시 내용 출력
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
 
         return con;
