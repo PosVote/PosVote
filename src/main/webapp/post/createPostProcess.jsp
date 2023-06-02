@@ -54,16 +54,12 @@
     out.println(inputType+"<br/>");
 
 
-    userId = 2l;
-//    start_time = start_time.replace("T", " ");
-//    end_time = end_time.replace("T", " ");
+    userId = (long)session.getAttribute("userId");
 
-    System.out.println("CreatePost  "+start_time);
     Post post = new Post(userId, title, description, LocalDateTime.parse(start_time, dateTimeFormatter));
     Long post_id = postService.save(post);
     Vote vote = new Vote(post_id, isAnonymous, inputType, LocalDateTime.parse(start_time, dateTimeFormatter), LocalDateTime.parse(end_time, dateTimeFormatter));
     Long vote_id = voteService.insert(vote);
-    System.out.println("VoteKey " + vote_id);
     for(String label: labels) optionList.add(new Option(label, vote_id));
     optionService.saveList(optionList);
     response.sendRedirect("./list.jsp");

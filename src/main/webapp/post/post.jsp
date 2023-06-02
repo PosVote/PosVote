@@ -76,13 +76,12 @@
 <div class="container">
     <h1>글쓰기</h1>
 
-    <form action="CreatePostProcess.jsp" method="post">
+    <form action="createPostProcess.jsp" method="post">
     <div>
         <label for="title">제목:</label>
         <input type="text" id="title" name="title" required>
         <% Date date = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            System.out.println(simpleDateFormat.format(date));
         %>
         <input type="date" min="<%=simpleDateFormat.format(date)%>" name="end_time">
     </div>
