@@ -11,23 +11,23 @@ public class VoteUserService {
         this.voteUserRepository = new VoteUserRepository();
     }
 
-    void save(VoteUser voteUser){voteUserRepository.save(voteUser);}
+    public void save(VoteUser voteUser){voteUserRepository.save(voteUser);}
 
-    List<VoteUser> findAll(){return voteUserRepository.findAll();}
+    public List<VoteUser> findAll(){return voteUserRepository.findAll();}
 
-    List<VoteUser> findVoteUserByVoteId(long voteId){return voteUserRepository.findVoteUserByVoteId(voteId);}
-
-
-    List<VoteUser> findVoteUserByUserId(long userId){return voteUserRepository.findVoteUserByUserId(userId);}
-
-    VoteUser findVoteUserByUserIdVoteId(long userId, long voteId){return voteUserRepository.findVoteUserByUserIdVoteId(userId, voteId);}
-
-    void updateVoteUser(VoteUser voteUser){voteUserRepository.updateVoteUser(voteUser);}
-
-    void deleteAll(){voteUserRepository.deleteAll();}
+    public List<VoteUser> findVoteUserByVoteId(long voteId){return voteUserRepository.findVoteUserByVoteId(voteId);}
 
 
-    void deleteVoteUserByUserId(long userId){voteUserRepository.deleteVoteUserByUserId(userId);}
+    public List<VoteUser> findVoteUserByUserId(long userId){return voteUserRepository.findVoteUserByUserId(userId);}
 
-    void deleteVoteUserByUserIdVoteId(long userId, long voteId){voteUserRepository.deleteVoteUserByUserIdVoteId(userId, voteId);}
+    public VoteUser findVoteUserByUserIdVoteId(long userId, long voteId){return voteUserRepository.findVoteUserByUserIdVoteId(userId, voteId);}
+
+    public void updateVoteUser(VoteUser voteUser){voteUserRepository.updateVoteUser(voteUser);}
+
+    public void deleteAll(){voteUserRepository.deleteAll();}
+
+
+    public void deleteVoteUserByUserId(long userId){voteUserRepository.deleteVoteUserByUserId(userId);}
+
+    public void deleteVoteUserByUserIdVoteId(long userId, long voteId){voteUserRepository.deleteVoteUserByUserIdVoteId(userId, voteId);}
 }

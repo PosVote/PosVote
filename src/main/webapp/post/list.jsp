@@ -75,8 +75,8 @@
             for (PostListResponse post : postList) {
     %>
     <div class="post">
-        <h2 class="post-title"><%= post.getTitle() %>
-        </h2>
+        <a class="post-title" href="PostView.jsp/<%=post.getPostId()%>"><%= post.getTitle() %>
+        </a>
         <p class="post-meta">작성자: <%= post.getName() %>, 작성일: <%= post.getDate() %>
         </p>
     </div>

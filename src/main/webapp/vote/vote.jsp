@@ -10,17 +10,31 @@
     <title>투표 보여주는 창</title>
 </head>
 <body>
+<%
+    VoteService voteService = new VoteService();
+    OptionService optionService = new OptionService();
+//    Long postId = Long.parseLong(request.getParameter("postId"));
+    Long postId = Long.parseLong(request.getRequestURI().substring(1));
 
+    Vote v = voteService.findByPostId(postId);
 
-    <h1>투표하는 창</h1>
-    <form action="vote_ok.jsp" method="post">
+    List<Option> optionList = optionService.findByVoteId(v.getVoteId());
+    String type = v.getInputType();
+%>
 
-        <input type="checkbox" name="vote" value="불"/>불
-        <input type="checkbox" name="vote" value="협"/>협
-        <input type="checkbox" name="vote" value="화"/>화
-        <input type="checkbox" name="vote" value="음"/>음
+<h1>투표하는 창</h1>
+<form action="voteOk.jsp" onsubmit="post">
 
-        <input type="submit" value="투표하기">
-    </form>
+    <%
+        for (Option option: optionList) {
+    %>
+    <input type="<%=type%>" name="option" value="<%=option.getOptionId()%>"/><%=option.getLabel()%>
+    <br/>
+    <%
+        }
+    %>
+    <input type="hidden" name="voteId" value="<%=v.getVoteId()%>"/>
+    <input type="submit" value="투표하기">
+</form>
 </body>
 </html>

@@ -45,8 +45,20 @@ public class PostRepository {
         }
     }
 
+    public Post findByPostId(Long postId) {
+        String sql = "select * from post where post_id = ?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, postId);
+            return (Post) executeQuery(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public List<Post> findByTitle(Long title) {
-        String sql = "select * from posvote where title like ?";
+        String sql = "select * from post where title like ?";
 
         try {
             conn = ConnectionManager.getConnection();
