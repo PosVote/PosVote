@@ -21,19 +21,23 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+
+    /*
+    * TODO: 현재 유저가 데베에 있는 유저인지 확인.
+    * */
     PostService postService = new PostService();
     VoteService voteService = new VoteService();
     OptionService optionService = new OptionService();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     Date start_time_date = new Date();
     List<Option> optionList = new ArrayList<>();
 
 
     request.setCharacterEncoding("UTF8");
     String title = request.getParameter("title");
-    String start_time = simpleDateFormat.format(start_time_date);
-    String end_time = request.getParameter("end_time");
+    LocalDateTime start_time = LocalDateTime.now();
+    String end_time = request.getParameter("end_time") +" 23:59:59";
     String description = request.getParameter("description");
     String[] labels = request.getParameterValues("labels");
     int isAnonymous = Integer.parseInt(request.getParameter("isAnonymous"));
@@ -49,17 +53,15 @@
     out.println(isAnonymous+"<br/>");
     out.println(inputType+"<br/>");
 
-//    userId = 1l;
-//    Post post = new Post(userId, title, description, LocalDateTime.parse(start_time));
-//    Long post_id = postService.save(post);
-//    Vote vote = new Vote(post_id, true, inputType, LocalDateTime.now(), LocalDateTime.parse(end_time, dateTimeFormatter));
-//    Long vote_id = voteService.insert(vote);
-//
-//    for(String label: labels) optionList.add(new Option(label, vote_id));
-//
-//
-//    optionService.saveList(optionList);
+    boolean isAnonyBool = isAnonymous == 1? true: false;
 
-
+    userId = 2l;
+    Post post = new Post(userId, title, description, start_time);
+    Long post_id = postService.save(post);
+    Vote vote = new Vote(post_id, isAnonyBool, inputType, start_time, LocalDateTime.parse(end_time, dateTimeFormatter));
+    Long vote_id = voteService.insert(vote);
+    for(String label: labels) optionList.add(new Option(label, vote_id));
+    optionService.saveList(optionList);
+    response.sendRedirect("./list.jsp");
 
 %>
