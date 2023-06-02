@@ -13,12 +13,16 @@
     String email = request.getParameter("email");
     String password = request.getParameter("password");
     Mbti mbti = Mbti.valueOf(request.getParameter("mbti"));
-    Role role = Role.OWNER;
+    Role role = Role.valueOf(request.getParameter("role"));
+    Long orgId = Long.parseLong(request.getParameter("orgId"));
     Status status = Status.WAITING;
 
-    Organization organization = new Organization(request.getParameter("orgName"));
     OrganizationService organizationService = new OrganizationService();
-    Long orgId = organizationService.save(organization);
+
+    if (orgId == -1) {
+        Organization organization = new Organization(request.getParameter("orgName"));
+        orgId = organizationService.save(organization);
+    }
 
     User user = new User(name, age, gender, city, email, password, mbti, role, orgId, status);
 
@@ -34,5 +38,7 @@
         dispatcher.forward(request, response);
 
         organizationService.deleteById(orgId);
+
+        e.printStackTrace();
     }
 %>

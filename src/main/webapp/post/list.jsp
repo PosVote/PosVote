@@ -117,7 +117,7 @@
             }
         }
 
-        out.println("<input type='text' style='display: none;' id='copyText' value='" + SERVER_IP + "/signupUser.jsp?orgId=" + orgId + "' readonly>");
+        out.println("<input type='text' style='display: none;' id='copyText' value='" + SERVER_IP + "/user/signupUser.jsp?orgId=" + orgId + "' readonly>");
     } else {
         out.println("<p class=\"no-posts\">승인되지 않거나 권한이 없습니다.</p>");
     }
