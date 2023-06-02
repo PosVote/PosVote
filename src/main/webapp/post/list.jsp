@@ -83,14 +83,33 @@
             cursor: pointer;
             border-radius: 4px;
         }
+
         .make-button {
             right: 300px;
+            top: 50px;
+            background-color: #0033ff;
         }
 
         .requestListButton {
             position: absolute;
             top: 10px;
-            right: 150px;
+            right: 130px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .userListButton {
+            position: absolute;
+            top: 10px;
+            right: 250px;
             background-color: #4CAF50;
             border: none;
             color: white;
@@ -111,6 +130,7 @@
                 alert("초대 코드 복사 완료");
             })
         }
+
         const makeVote = () => {
             window.location.href = "/post/post.jsp";
         }
@@ -125,9 +145,10 @@
 
 
     if (Status.ACCEPT.equals(status) && Role.OWNER.equals(role)) {
-        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>");
-        out.println("<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>");
-        out.println("<button class='make-button' onclick='makeVote()'>투표 생성하기</button>");
+        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>"
+                + "<button class='userListButton' onclick=\"location.href='/user/userList/userAcceptList.jsp'\">유저 목록</button>"
+                + "<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>"
+                + "<button class='make-button' onclick='makeVote()'>투표 생성하기</button>");
     }
 
     out.println("<div class=\"container\">");
@@ -145,7 +166,7 @@
                 out.println("<a class=\"post-title\" href=\"postView.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a>");
                 out.println("<p class=\"post-meta\">작성자: " + post.getName() +
                         " 작성일: " + post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
-                        " 총 투표 수: "+new VoteService().countVote(post.getPostId()) +
+                        " 총 투표 수: " + new VoteService().countVote(post.getPostId()) +
                         "</p>");
                 out.println("</div>");
             }
