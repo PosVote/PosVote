@@ -14,7 +14,7 @@ public class PostService {
     }
 
     public Long save(Post post) {return postRepository.save(post);}
-    public Post findByPostId(Long postId) {return postRepository.findByPostId(postId);}
+    public List<Post> findByPostId(Long postId) {return postRepository.findByPostId(postId);}
     public List<Post> findByTitle(Long title) {
         return postRepository.findByTitle(title);
     }

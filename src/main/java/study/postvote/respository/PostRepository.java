@@ -49,14 +49,14 @@ public class PostRepository {
         }
     }
 
-    public Post findByPostId(Long postId) {
+    public List<Post> findByPostId(Long postId) {
         String sql = "select * from post where post_id = ?";
 
         try {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, postId);
-            return (Post) executeQuery(pstmt);
+            return executeQuery(pstmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
