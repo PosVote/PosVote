@@ -84,7 +84,7 @@
             border-radius: 4px;
         }
         .make-button {
-            right: 130px;
+            right: 300px;
         }
 
         .requestListButton {
