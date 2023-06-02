@@ -4,6 +4,8 @@
 <%@ page import="study.postvote.service.OptionService" %>
 <%@ page import="study.postvote.domain.Option" %>
 <%@ page import="java.util.List" %>
+<%@ page import="study.postvote.service.UserService" %>
+<%@ page import="study.postvote.domain.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,18 +15,29 @@
 <%
     VoteService voteService = new VoteService();
     OptionService optionService = new OptionService();
-//    Long postId = Long.parseLong(request.getParameter("postId"));
-    Long postId = Long.parseLong(request.getRequestURI().substring(1));
+    Long postId1 = Long.parseLong(request.getParameter("id"));
+    System.out.println("postId: " + postId1);
 
-    Vote v = voteService.findByPostId(postId);
-
+    Vote v = voteService.findByPostId(postId1);
+    System.out.println(v.toString());
     List<Option> optionList = optionService.findByVoteId(v.getVoteId());
     String type = v.getInputType();
+
+    Long userId = Long.parseLong((String)session.getAttribute("userId"));
+
 %>
 
 <h1>투표하는 창</h1>
-<form action="voteOk.jsp" onsubmit="post">
+<%
+    if(new UserService().findById(userId) == null){
+%>
+        <h3>!로그인이 필요합니다!</h3>
+<%
+    }else{
+%>
 
+<form action="voteOk.jsp" onsubmit="post">
+    <p>투표 마감: <%=v.getEndTime()%></p>
     <%
         for (Option option: optionList) {
     %>
@@ -36,5 +49,6 @@
     <input type="hidden" name="voteId" value="<%=v.getVoteId()%>"/>
     <input type="submit" value="투표하기">
 </form>
+<%}%>
 </body>
 </html>

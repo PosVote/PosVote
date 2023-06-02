@@ -63,6 +63,9 @@
     </style>
 </head>
 <body>
+<%
+    request.setCharacterEncoding("utf-8");
+%>
 <div class="container">
     <h1>게시판</h1>
     <%
@@ -75,7 +78,7 @@
             for (PostListResponse post : postList) {
     %>
     <div class="post">
-        <a class="post-title" href="PostView.jsp/<%=post.getPostId()%>"><%= post.getTitle() %>
+        <a class="post-title" href="postView.jsp?id=<%=post.getPostId()%>"><%= post.getTitle() %>
         </a>
         <p class="post-meta">작성자: <%= post.getName() %>, 작성일: <%= post.getDate() %>
         </p>

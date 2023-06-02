@@ -18,7 +18,7 @@ public class VoteRepository {
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, vote.getPostId());
-            pstmt.setBoolean(2, vote.isAnonymous());
+            pstmt.setInt(2, vote.isAnonymous());
             pstmt.setString(3, vote.getInputType());
             pstmt.setDate(4, Date.valueOf(String.valueOf(vote.getStartTime())));
             pstmt.setDate(5, Date.valueOf(String.valueOf(vote.getEndTime())));
@@ -29,26 +29,44 @@ public class VoteRepository {
         }
     }
     public Vote findByPostId(Long postId){
-        Vote v = new Vote();
         String sql = "select * from vote where post_id = ?";
+        Vote v = null;
         try {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, postId);
-            ResultSet rs = pstmt.executeQuery();
-            java.sql.Date sqlDate = rs.getDate(5);
-            LocalDateTime startTime = sqlDate.toLocalDate().atStartOfDay();
-            java.sql.Date sqlDate2 = rs.getDate(6);
-            LocalDateTime endTime = sqlDate2.toLocalDate().atStartOfDay();
 
-            return new Vote(
-                    rs.getLong(1),
-                    rs.getLong(2),
-                    rs.getBoolean(3),
-                    rs.getString(4),
-                    startTime,
-                    endTime
-            );
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println(rs);
+
+//            System.out.println("rs: " + rs.getLong(1));
+//            java.sql.Date sqlDate = rs.getDate(5);
+//            LocalDateTime startTime = sqlDate.toLocalDate().atStartOfDay();
+//            java.sql.Date sqlDate2 = rs.getDate(6);
+//            LocalDateTime endTime = sqlDate2.toLocalDate().atStartOfDay();
+            while (rs.next()){
+                java.sql.Date sqlDate = rs.getDate(5);
+                LocalDateTime startTime = sqlDate.toLocalDate().atStartOfDay();
+                java.sql.Date sqlDate2 = rs.getDate(6);
+                LocalDateTime endTime = sqlDate2.toLocalDate().atStartOfDay();
+                v = new Vote(
+                        rs.getLong(1),
+                        rs.getLong(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        startTime,
+                        endTime
+                );
+            }
+//            return new Vote(
+//                    rs.getLong(1),
+//                    rs.getLong(2),
+//                    rs.getInt(3),
+//                    rs.getString(4),
+//                    startTime,
+//                    endTime
+//            );
+            return v;
         } catch (Exception e) {
             return null;
         }

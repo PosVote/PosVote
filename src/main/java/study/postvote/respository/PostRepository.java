@@ -19,11 +19,11 @@ import java.util.Objects;
 
 public class PostRepository {
     Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
 
-    public void save(Post post) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+
+    public int save(Post post) {
         String sql = "insert into post (post_id, userId, title, description, date) values(?,?,?,?,?)";
         try {
             conn = ConnectionManager.getConnection();
@@ -36,23 +36,25 @@ public class PostRepository {
             pstmt.setDate(4, Date.valueOf(String.valueOf(post.getDate())));
 
             pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            int post_pk = rs.getInt(1);
             conn.close();
             pstmt.close();
             rs.close();
-
+            return post_pk;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Post findByPostId(Long postId) {
+    public List<Post> findByPostId(Long postId) {
         String sql = "select * from post where post_id = ?";
 
         try {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, postId);
-            return (Post) executeQuery(pstmt);
+            return executeQuery(pstmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

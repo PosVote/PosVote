@@ -4,14 +4,16 @@
 <html>
 <head>
     <title>글 상세 페이지</title>
+    <script>
+
+    </script>
 </head>
 <body>
   <%
-    Long postId = Long.parseLong(request.getRequestURI().substring(1));
-    out.println(postId);
-    out.print(request.getRequestURI());
+    Long postId = Long.parseLong(request.getParameter("id"));
+    System.out.println("postView postId: " + postId);
     PostService postService = new PostService();
-    Post post = postService.findByPostId(postId);
+    Post post= postService.findByPostId(postId).get(0);
   %>
   <div class="container">
     <div>
