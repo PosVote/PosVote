@@ -10,7 +10,8 @@
 
     if (user != null) {
         session.setAttribute("userId", user.getUserId());
-        session.setAttribute("status", user.getStatus().toString());
+        session.setAttribute("status", user.getStatus());
+        session.setAttribute("role", user.getRole());
         session.setAttribute("orgId", user.getOrgId());
         response.sendRedirect("../post/list.jsp");
     } else {

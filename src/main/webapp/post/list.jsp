@@ -3,6 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="study.postvote.dto.post.response.PostListResponse" %>
 <%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %>
+<%@ page import="study.postvote.domain.type.Status" %>
+<%@ page import="study.postvote.domain.type.Role" %>
 
 <!DOCTYPE html>
 <html>
@@ -63,10 +65,26 @@
             color: #888;
         }
 
-        .copy-button {
+        .copyButton {
             position: absolute;
             top: 10px;
             right: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .requestListButton {
+            position: absolute;
+            top: 10px;
+            right: 150px;
             background-color: #4CAF50;
             border: none;
             color: white;
@@ -92,17 +110,19 @@
 <body>
 <%
     request.setCharacterEncoding("utf-8");
-    String status = (String) session.getAttribute("status");
+    Status status = (Status) session.getAttribute("status");
     Long orgId = (Long) session.getAttribute("orgId");
+    Role role = (Role) session.getAttribute("role");
 
-    if ("ACCEPT".equals(status)) {
-        out.println("<button class='copy-button' onclick='copyText()'>초대 코드 복사</button>");
+    if (Status.ACCEPT.equals(status) && Role.OWNER.equals(role)) {
+        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>");
+        out.println("<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>");
     }
 
     out.println("<div class=\"container\">");
     out.println("<h1>게시판</h1>");
 
-    if ("ACCEPT".equals(status)) {
+    if (Status.ACCEPT.equals(status)) {
         PostService postService = new PostService();
         List<PostListResponse> postList = postService.findAllPostListResponse();
 
