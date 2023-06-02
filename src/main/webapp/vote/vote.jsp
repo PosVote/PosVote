@@ -25,18 +25,19 @@
 
     Long userId = Long.parseLong((String)session.getAttribute("userId"));
 
+    System.out.println("findByUser: " + new UserService().findById(userId));
 %>
 
 <h1>투표하는 창</h1>
 <%
     if(new UserService().findById(userId) == null){
 %>
-        <h3>!로그인이 필요합니다!</h3>
+<h3>!로그인이 필요합니다!</h3>
 <%
-    }else{
+}else{
 %>
 
-<form action="voteOk.jsp" onsubmit="post">
+<form action="/vote/voteOk.jsp" onsubmit="post">
     <p>투표 마감: <%=v.getEndTime()%></p>
     <%
         for (Option option: optionList) {
