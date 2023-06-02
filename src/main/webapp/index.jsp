@@ -44,6 +44,12 @@
     </style>
 </head>
 <body>
+<%
+    Long orgId = (Long) session.getAttribute("orgId");
+    if (orgId != null) {
+        response.sendRedirect("/post/list.jsp");
+    }
+%>
 <div class="container">
     <h1>투표 커뮤니티</h1>
     <h1>'투커'</h1>
