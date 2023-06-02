@@ -17,7 +17,7 @@ public class OptionRepository {
     ResultSet rs;
 
     public void save(Option option){ // Option 하나만 넣을 때.
-        String sql = "insert into option (label, vote_id) values(?, ?)";
+        String sql = "insert into vote_option (label, vote_id) values(?, ?)";
 
         try{
             conn = ConnectionManager.getConnection();
@@ -39,7 +39,7 @@ public class OptionRepository {
     }
 
     public void saveList(List<Option> optionList){ //Option List 형식으로 받아서 한번에 업데이트.
-        String sql = "insert into option (label, vote_id) values ";
+        String sql = "insert into vote_option (label, vote_id) values ";
 
         for(int i = 0; i < optionList.size() -1; i++){
             sql += "(?, ?), ";
@@ -70,7 +70,7 @@ public class OptionRepository {
     }
 
     public void update(Option option){
-        String sql = "update option set label = ?, vote_id = ? where option_id = ?";
+        String sql = "update vote_option set label = ?, vote_id = ? where option_id = ?";
         try{
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
@@ -93,7 +93,7 @@ public class OptionRepository {
     }
 
     public Option findByOptionId(long id){
-        String sql = "select * from option where option_id = ?";
+        String sql = "select * from vote_option where option_id = ?";
         try{
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
@@ -125,7 +125,7 @@ public class OptionRepository {
 
 
     public List<Option> findByVoteId(long id){
-        String sql = "select * from option where vote_id = ?";
+        String sql = "select * from vote_option where vote_id = ?";
         List<Option> optionList = new ArrayList<>();
         try{
             conn = ConnectionManager.getConnection();
@@ -160,7 +160,7 @@ public class OptionRepository {
 
 
     public List<Option> findAll(){
-        String sql = "select * from option";
+        String sql = "select * from vote_option";
         List<Option> optionList = new ArrayList<>();
         try{
             conn = ConnectionManager.getConnection();
@@ -192,7 +192,7 @@ public class OptionRepository {
     }
 
     public void deleteByVoteId(long id){
-        String sql = "delete from option where vote_id = ?";
+        String sql = "delete from vote_option where vote_id = ?";
         try{
             conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -214,7 +214,7 @@ public class OptionRepository {
     }
 
     public void deleteByOptionId(long id){
-        String sql = "delete from option where option_id = ?";
+        String sql = "delete from vote_option where option_id = ?";
         try{
             conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -234,7 +234,7 @@ public class OptionRepository {
         }
     }
     public void deleteAll(){
-        String sql = "delete from option";
+        String sql = "delete from vote_option";
         try{
             conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);

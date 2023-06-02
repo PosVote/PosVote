@@ -11,7 +11,8 @@ import java.util.Objects;
 
 public class VoteRepository {
     Connection conn;
-    public void insert(Vote vote){
+    ResultSet rs;
+    public Long insert(Vote vote){
         String sql = "insert into vote (post_id, is_anonymous, input_type, start_time, end_time) values(?, ?, ?, ?, ?)";
         try {
             conn = ConnectionManager.getConnection();
@@ -24,6 +25,9 @@ public class VoteRepository {
             pstmt.setDate(5, Date.valueOf(String.valueOf(vote.getEndTime())));
 
             pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            Long vote_key = rs.getLong(1);
+            return vote_key;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -16,12 +16,13 @@ import java.util.Objects;
 
 public class UserRepository {
     Connection conn;
+    PreparedStatement pstmt;
 
     public User login(String email, String password) {
         String sql = "select * from user where email = ? and password = ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, email);
             pstmt.setString(2, password);
             return executeQuery(pstmt).get(0);
@@ -35,7 +36,7 @@ public class UserRepository {
         try {
             conn = ConnectionManager.getConnection();
 
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, user.getName());
             pstmt.setInt(2, user.getAge());
             pstmt.setBoolean(3, user.isGender());
@@ -51,6 +52,7 @@ public class UserRepository {
         } finally {
             try {
                 conn.close();
+                pstmt.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -61,7 +63,7 @@ public class UserRepository {
         String sql = "select * from user where user_id = ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+             pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, id);
             return executeQuery(pstmt).get(0);
         } catch (Exception e) {
@@ -73,7 +75,7 @@ public class UserRepository {
         String sql = "select * from user where email like ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + name + "%");
             return executeQuery(pstmt).get(0);
         } catch (Exception e) {
@@ -86,7 +88,7 @@ public class UserRepository {
         try {
             conn = ConnectionManager.getConnection();
 
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
 
             return executeQuery(pstmt);
         } catch (SQLException e) {
@@ -98,11 +100,18 @@ public class UserRepository {
         String sql = "delete from user where user_id = ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, id);
             pstmt.executeUpdate();
         } catch (Exception ignored) {
 
+        }        finally{
+            try{
+                conn.close();
+                pstmt.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -111,7 +120,7 @@ public class UserRepository {
                 "name = ?, age = ?, gender = ?, city = ?, email = ?, password = ?, mbti = ?, role = ? where user_id = ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, user.getName());
             pstmt.setInt(2, user.getAge());
@@ -127,6 +136,14 @@ public class UserRepository {
         } catch (Exception ignored) {
 
         }
+        finally{
+            try{
+                conn.close();
+                pstmt.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void updateRole(User user, Role role) {
@@ -134,7 +151,7 @@ public class UserRepository {
                 "role = ? where user_id = ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, String.valueOf(role));
             pstmt.setLong(2, user.getUserId());
@@ -142,6 +159,14 @@ public class UserRepository {
             pstmt.executeUpdate();
         } catch (Exception ignored) {
 
+        }
+        finally{
+            try{
+                conn.close();
+                pstmt.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

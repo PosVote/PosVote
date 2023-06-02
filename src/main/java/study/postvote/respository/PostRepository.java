@@ -19,27 +19,28 @@ import java.util.Objects;
 
 public class PostRepository {
     Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
 
-    public void save(Post post) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        String sql = "insert into post (post_id, userId, title, description, date) values(?,?,?,?,?)";
+
+    public Long save(Post post) {
+        String sql = "insert into post (user_id, title, description, date) values(?,?,?,?)";
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setLong(1, post.getPostId());
-            pstmt.setLong(2, post.getUserId());
-            pstmt.setString(3, post.getTitle());
-            pstmt.setString(4, post.getDescription());
+            pstmt.setLong(1, post.getUserId());
+            pstmt.setString(2, post.getTitle());
+            pstmt.setString(3, post.getDescription());
             pstmt.setDate(4, Date.valueOf(String.valueOf(post.getDate())));
 
             pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            Long post_pk = rs.getLong(1);
             conn.close();
             pstmt.close();
             rs.close();
-
+            return post_pk;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -71,7 +72,7 @@ public class PostRepository {
     }
 
     public void deleteById(Long post_id) {
-        String sql = "delte from post where post_id";
+        String sql = "delte from post where post_id = ?";
         PreparedStatement pstmt = null;
 
         try {

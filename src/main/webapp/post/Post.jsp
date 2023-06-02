@@ -1,4 +1,6 @@
-<%@ page import="study.postvote.domain.User" %><%--
+<%@ page import="study.postvote.domain.User" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %><%--
   Created by IntelliJ IDEA.
   User: USER
   Date: 2023-06-01
@@ -9,6 +11,19 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <script>
+        const add_textBox = ()=>{
+            const box = document.getElementById("textSet");
+            const newTextField =  document.createElement('p');
+            newTextField.innerHTML = "<input type='text' name='labels' + i><input type='button' value='삭제' onclick='remove(this)'>"
+            box.appendChild(newTextField);
+
+        }
+        const remove = (obj) =>{
+            document.getElementById('textSet').removeChild(obj.parentNode);
+        }
+    </script>
+
     <title>글쓰기</title>
     <style>
         body {
@@ -58,31 +73,36 @@
         }
     </style>
 </head>
-<body>
 <div class="container">
     <h1>글쓰기</h1>
 
-    <br action="" method="post">
+    <form action="CreatePostProcess.jsp" method="post">
     <div>
         <label for="title">제목:</label>
         <input type="text" id="title" name="title" required>
+        <% Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            System.out.println(simpleDateFormat.format(date));
+        %>
+        <input type="date" min="<%=simpleDateFormat.format(date)%>" name="end_time">
     </div>
     <div>
-        <label for="content">내용:</label>
-        <textarea id="content" name="content" rows="5" required></textarea>
+        <label for="description">내용:</label>
+        <textarea id="description" name="description" rows="5" required></textarea>
     </div>
 
-    <div>
+    <div id="textSet">
         <label for="title">투표항목:</label>
-        <input type="text" name="row1" required>
-        <input type="text" name="row2" required>
-        <input type="text" name="row3" required>
-        <input type="text" name="row4" required>
+        <input type="text" name="labels" required>
+        <input type="text" name="labels" required>
+        <input type="text" name="labels" required>
+        <input type="text" name="labels" required>
     </div>
-
-    <input type="radio" name="type" value="0">익명
-    <input type="radio" name="type" value="1">NO익명 </br>
-
+    <input type="button" value="필드 추가하기" onclick="add_textBox()"></br>
+    <input type="radio" name="isAnonymous" value="0">익명
+    <input type="radio" name="isAnonymous" value="1">NO익명 </br>
+    <input type="radio" name="inputType" value="checkbox">다중선택 가능
+    <input type="radio" name="inputType" value="radio">단일 선택</br>
     <div>
         <input type="submit" value="글쓰기">
     </div>
