@@ -8,7 +8,7 @@ public class User {
     private Long userId;
     private String name;
     private int age;
-    private boolean gender;
+    private int gender;
     private City city;
     private String email;
     private String password;
@@ -19,7 +19,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
+    public User(String name, int age, int gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -31,7 +31,7 @@ public class User {
         this.orgId = orgId;
     }
 
-    public User(Long userId, String name, int age, boolean gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
+    public User(Long userId, String name, int age, int gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
         this.userId = userId;
         this.name = name;
         this.age = age;
@@ -56,7 +56,7 @@ public class User {
         return age;
     }
 
-    public boolean isGender() {
+    public int isGender() {
         return gender;
     }
 
