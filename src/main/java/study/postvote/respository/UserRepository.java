@@ -75,7 +75,7 @@ public class UserRepository {
     }
 
     public List<User> findByOrgIdAndStatus(Long orgId, Status status) {
-        String sql = "select * from user where org_Id = ? and status = ?";
+        String sql = "select * from user where org_Id = ? and status = ? and role != 'owner'";
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -87,12 +87,12 @@ public class UserRepository {
         }
     }
 
-    public User findByEmail(String name) {
-        String sql = "select * from user where email like ?";
+    public User findByEmail(String email) {
+        String sql = "select * from user where email = ?";
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "%" + name + "%");
+            pstmt.setString(1, email);
             return executeQuery(pstmt).get(0);
         } catch (Exception e) {
             return null;
@@ -209,6 +209,29 @@ public class UserRepository {
         }
     }
 
+<<<<<<< HEAD
+=======
+    public List<User> findByMyVote(Long id) {
+        String sql = "select PS.* " +
+                "from user US " +
+                "join vote_user VS on US.user_id = VS.user_id" +
+                "join vote VT on VS.vote_id = VT.vote_id" +
+                "join post PS on VT.post_id = PS.post_id";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+>>>>>>> 14d34cc6fbaea5071aaf4928ce62147db2c312b1
     private List<User> executeQuery(PreparedStatement pstmt) {
         List<User> userList = new ArrayList<>();
         ResultSet rs = null;

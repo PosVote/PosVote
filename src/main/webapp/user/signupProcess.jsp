@@ -32,7 +32,8 @@
         userService.save(user);
         response.sendRedirect("/user/login.jsp");
     } catch (Exception e) {
-        System.out.println(e.getMessage());
+        e.printStackTrace();
+        System.out.println(email);
         String errorMessage = "이미 중복되는 이메일이 있습니다.";
         request.setAttribute("errorMessage", errorMessage);
         RequestDispatcher dispatcher = request.getRequestDispatcher("signup.jsp");

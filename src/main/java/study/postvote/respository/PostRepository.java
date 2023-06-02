@@ -2,6 +2,7 @@ package study.postvote.respository;
 
 import study.postvote.domain.Post;
 import study.postvote.domain.User;
+import study.postvote.domain.Vote;
 import study.postvote.domain.type.City;
 import study.postvote.domain.type.Mbti;
 import study.postvote.domain.type.Role;
@@ -124,7 +125,6 @@ public class PostRepository {
             throw new RuntimeException(e);
         }
     }
-
     public List<PostListResponse> findAllPostListResponse() {
 //        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id ORDER BY p.date DESC LIMIT ? OFFSET ?;";
         String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id;";

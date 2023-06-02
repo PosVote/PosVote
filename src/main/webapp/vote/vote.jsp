@@ -17,9 +17,6 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
-            /*display: flex;*/
-            /*justify-content: center;*/
-            /*align-items: center;*/
             height: 100vh;
         }
 
@@ -78,11 +75,9 @@
         Long postId1 = Long.parseLong(request.getParameter("id"));
 
         Vote v = voteService.findByPostId(postId1);
-        System.out.println(postId1+"    "+v.getVoteId());
         List<Option> optionList = optionService.findByVoteId(v.getVoteId());
         String type = v.getInputType();
         Object userObject = session.getAttribute("userId");
-
 
         String s = userObject.toString();
         Long userId = Long.parseLong(s);
@@ -92,7 +87,6 @@
         if(!voteUsers.isEmpty()){
             for (VoteUser voteUser: voteUsers) {
                 Long voteId = voteUser.getVoteId();
-                System.out.println("voteUser's voteId: " + voteId);
                 if(v.getVoteId().equals(voteId)){
                     voteAble = false;
                     break;

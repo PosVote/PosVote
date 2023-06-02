@@ -5,6 +5,8 @@
 <%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %>
 <%@ page import="study.postvote.domain.type.Status" %>
 <%@ page import="study.postvote.domain.type.Role" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="study.postvote.service.VoteService" %>
 
 <!DOCTYPE html>
 <html>
@@ -65,7 +67,8 @@
             color: #888;
         }
 
-        .copyButton {
+
+        .copyButton, .make-button {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -81,10 +84,32 @@
             border-radius: 4px;
         }
 
+        .make-button {
+            right: 300px;
+            top: 50px;
+            background-color: #0033ff;
+        }
+
         .requestListButton {
             position: absolute;
             top: 10px;
-            right: 150px;
+            right: 130px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .userListButton {
+            position: absolute;
+            top: 10px;
+            right: 250px;
             background-color: #4CAF50;
             border: none;
             color: white;
@@ -105,6 +130,10 @@
                 alert("초대 코드 복사 완료");
             })
         }
+
+        const makeVote = () => {
+            window.location.href = "/post/post.jsp";
+        }
     </script>
 </head>
 <body>
@@ -114,25 +143,31 @@
     Long orgId = (Long) session.getAttribute("orgId");
     Role role = (Role) session.getAttribute("role");
 
+
     if (Status.ACCEPT.equals(status) && Role.OWNER.equals(role)) {
-        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>");
-        out.println("<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>");
+        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>"
+                + "<button class='userListButton' onclick=\"location.href='/user/userList/userAcceptList.jsp'\">유저 목록</button>"
+                + "<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>"
+                + "<button class='make-button' onclick='makeVote()'>투표 생성하기</button>");
     }
 
     out.println("<div class=\"container\">");
-    out.println("<h1>게시판</h1>");
+    out.println("<h1>투표 게시판</h1>");
 
     if (Status.ACCEPT.equals(status)) {
         PostService postService = new PostService();
         List<PostListResponse> postList = postService.findAllPostListResponse();
-
+//        int count = new VoteService().countVote();
         if (postList.isEmpty()) {
             out.println("<p class=\"no-posts\">등록된 게시물이 없습니다.</p>");
         } else {
             for (PostListResponse post : postList) {
                 out.println("<div class=\"post\">");
                 out.println("<a class=\"post-title\" href=\"postView.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a>");
-                out.println("<p class=\"post-meta\">작성자: " + post.getName() + ", 작성일: " + post.getDate() + "</p>");
+                out.println("<p class=\"post-meta\">작성자: " + post.getName() +
+                        " 작성일: " + post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                        " 총 투표 수: " + new VoteService().countVote(post.getPostId()) +
+                        "</p>");
                 out.println("</div>");
             }
         }

@@ -9,4 +9,5 @@ public class VoteService {
 
     public Long insert(Vote vote){ return voteRepository.insert(vote); }
     public Vote findByPostId(Long postId){ return voteRepository.findByPostId(postId); }
+    public int countVote(Long postId){ return voteRepository.countVote(postId);}
 }

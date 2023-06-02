@@ -64,11 +64,10 @@
             align-items: center;
         }
 
-        .accept-button,
-        .reject-button {
+        .exileUserButton {
             margin-left: 10px;
             padding: 8px 12px;
-            background-color: #4CAF50;
+            background-color: #ff0606;
             border: none;
             color: white;
             text-align: center;
@@ -94,12 +93,8 @@
         }
     </style>
     <script>
-        function acceptUser(userId) {
-            location.href = "acceptUserOrg.jsp?userId=" + userId + "&type=accept";
-        }
-
-        function rejectUser(userId) {
-            location.href = "acceptUserOrg.jsp?userId=" + userId + "&type=reject";
+        function exileUser(userId) {
+            location.href = "../userExileProcess.jsp?userId=" + userId;
         }
     </script>
 </head>
@@ -113,7 +108,7 @@
 
         if (Status.ACCEPT.equals(status)) {
             UserService userService = new UserService();
-            List<User> userList = userService.findUserOfOrgWaitingByOrgIdAndStatus(orgId);
+            List<User> userList = userService.findUserOfOrgByOrgIdAndStatus(orgId);
 
             if (userList.isEmpty()) {
     %>
@@ -126,18 +121,18 @@
         <div class="user-info">
             <span class="user-name">이름: <%= user.getName() %> </span>
             <span class="user-name">나이: <%= user.getAge() %></span>
+            <span class="user-name">성별: <%= user.getGender() == 0 ? "남자" : "여자" %></span>
             <span class="user-name">이메일: <%= user.getEmail() %></span>
         </div>
         <div class="action-buttons">
-            <button class="accept-button" onclick="acceptUser(<%= user.getUserId() %>)">수락</button>
-            <button class="reject-button" onclick="rejectUser(<%= user.getUserId() %>)">거절</button>
+            <button class="exileUserButton" onclick="exileUser(<%= user.getUserId() %>)">추방</button>
         </div>
     </div>
     <%
             }
         }
     %>
-    <button class="back-button" onclick="history.back()">뒤로 가기</button>
+    <button class="back-button" onclick="location.href='../../post/list.jsp'">뒤로 가기</button>
 </div>
 <%
     }

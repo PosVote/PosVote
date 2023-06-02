@@ -174,7 +174,13 @@
     Organization organization = organizationService.findById(orgId);
 
     if (organization == null) {
-        response.sendRedirect("../post/list.jsp");
+%>
+    <script>
+        window.alert("존재하지 않는 링크입니다");
+        location.href= "/index.jsp";
+    </script>
+<%
+//        response.sendRedirect("../post/list.jsp");
     }
 %>
 
