@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 public class Vote {
     private Long voteId;
     private Long postId;
-    private boolean isAnonymous;
+    private int isAnonymous;
     private String inputType;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     public Vote() {}
 
-    public Vote(Long voteId, Long postId, boolean isAnonymous, String inputType, LocalDateTime startTime, LocalDateTime endTime) {
+    public Vote(Long voteId, Long postId, int isAnonymous, String inputType, LocalDateTime startTime, LocalDateTime endTime) {
         this.voteId = voteId;
         this.postId = postId;
         this.isAnonymous = isAnonymous;
@@ -19,7 +19,7 @@ public class Vote {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    public Vote(Long postId, boolean isAnonymous, String inputType, LocalDateTime startTime, LocalDateTime endTime) {
+    public Vote(Long postId, int isAnonymous, String inputType, LocalDateTime startTime, LocalDateTime endTime) {
         this.postId = postId;
         this.isAnonymous = isAnonymous;
         this.inputType = inputType;
@@ -35,7 +35,7 @@ public class Vote {
         return postId;
     }
 
-    public boolean isAnonymous() {
+    public int isAnonymous() {
         return isAnonymous;
     }
 
