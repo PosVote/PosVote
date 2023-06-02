@@ -1,7 +1,6 @@
 package study.postvote.respository;
 
-import study.postvote.domain.Option;
-import study.postvote.domain.VoteUser;
+import study.postvote.domain.*;
 import study.postvote.respository.db.ConnectionManager;
 
 import java.sql.Connection;
@@ -10,15 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class VoteUserRepository {
     Connection conn;
     PreparedStatement ps;
     ResultSet rs;
 
-    public void save(VoteUser voteUser){
+    public void save(VoteUser voteUser) {
         String sql = "insert into vote_user (vote_id, user_id, option_id) values(?, ?, ?)";
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             ps.setLong(1, voteUser.getVoteId());
@@ -27,8 +27,8 @@ public class VoteUserRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
             } catch (SQLException e) {
@@ -38,14 +38,14 @@ public class VoteUserRepository {
         }
     }
 
-    public List<VoteUser> findAll(){
+    public List<VoteUser> findAll() {
         String sql = "select * from vote_user";
         List<VoteUser> voteUsers = new ArrayList<>();
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 voteUsers.add(
                         new VoteUser(
                                 rs.getLong("vote_user_id"),
@@ -55,11 +55,11 @@ public class VoteUserRepository {
                         )
                 );
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 rs.close();
                 ps.close();
@@ -71,15 +71,15 @@ public class VoteUserRepository {
         return voteUsers;
     }
 
-    public List<VoteUser> findVoteUserByVoteId(long voteId){
+    public List<VoteUser> findVoteUserByVoteId(long voteId) {
         String sql = "select * from vote_user where vote_id = ?";
         List<VoteUser> voteUsers = new ArrayList<>();
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             ps.setLong(1, voteId);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 voteUsers.add(
                         new VoteUser(
                                 rs.getLong("vote_user_id"),
@@ -89,11 +89,11 @@ public class VoteUserRepository {
                         )
                 );
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 rs.close();
                 ps.close();
@@ -103,6 +103,19 @@ public class VoteUserRepository {
             }
         }
         return voteUsers;
+    }
+
+    //나이 통계
+    public int findByAvgAge(int optionId) {
+        String sql = "SELECT AVG(user.age) FROM vote_user join user on vote_user.user_id = user.user_id where vote_user.option_id = ?;";
+        try {
+            conn = ConnectionManager.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, optionId);
+            return executeQueryInteger(ps).get(0);
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
 //  제작 보류
@@ -110,15 +123,15 @@ public class VoteUserRepository {
 //
 //    }
 
-    public List<VoteUser> findVoteUserByUserId(long userId){
+    public List<VoteUser> findVoteUserByUserId(long userId) {
         String sql = "select * from vote_user where user_id = ?";
         List<VoteUser> voteUsers = new ArrayList<>();
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             ps.setLong(1, userId);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 voteUsers.add(
                         new VoteUser(
                                 rs.getLong("vote_user_id"),
@@ -128,11 +141,11 @@ public class VoteUserRepository {
                         )
                 );
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 rs.close();
                 ps.close();
@@ -144,29 +157,29 @@ public class VoteUserRepository {
         return voteUsers;
     }
 
-    public VoteUser findVoteUserByUserIdVoteId(long userId, long voteId){
+    public VoteUser findVoteUserByUserIdVoteId(long userId, long voteId) {
         String sql = "select * from vote_user where user_id = ? and vote_id = ?";
         List<VoteUser> voteUsers = new ArrayList<>();
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             ps.setLong(1, userId);
             ps.setLong(2, voteId);
 
             rs = ps.executeQuery();
-            if(rs.next()){
-                       return new VoteUser(
-                                rs.getLong("vote_user_id"),
-                                rs.getLong("vote_id"),
-                                rs.getLong("user_id"),
-                                rs.getLong("option_id")
-                        );
+            if (rs.next()) {
+                return new VoteUser(
+                        rs.getLong("vote_user_id"),
+                        rs.getLong("vote_id"),
+                        rs.getLong("user_id"),
+                        rs.getLong("option_id")
+                );
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 rs.close();
                 ps.close();
@@ -178,9 +191,9 @@ public class VoteUserRepository {
         return null;
     }
 
-    public void updateVoteUser(VoteUser voteUser){
+    public void updateVoteUser(VoteUser voteUser) {
         String sql = "update vote_user set vote_id = ?, user_id = ?, option_id = ? where vote_user_id = ?";
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             ps.setLong(1, voteUser.getVoteId());
@@ -190,8 +203,8 @@ public class VoteUserRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
             } catch (SQLException e) {
@@ -207,17 +220,17 @@ public class VoteUserRepository {
 //
 //    }
 
-    public void deleteAll(){
+    public void deleteAll() {
         String sql = "delete from vote_user";
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
             } catch (SQLException e) {
@@ -228,9 +241,9 @@ public class VoteUserRepository {
     }
 
 
-    public void deleteVoteUserByUserId(long userId){
+    public void deleteVoteUserByUserId(long userId) {
         String sql = "delete from vote_user where user_id = ?";
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setLong(1, userId);
@@ -238,8 +251,8 @@ public class VoteUserRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
             } catch (SQLException e) {
@@ -249,19 +262,19 @@ public class VoteUserRepository {
         }
     }
 
-    public void deleteVoteUserByUserIdVoteId(long userId, long voteId){
+    public void deleteVoteUserByUserIdVoteId(long userId, long voteId) {
         String sql = "delete from vote_user where user_id = ? and vote_id = ?";
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setLong(1,userId);
-            ps.setLong(2,voteId);
+            ps.setLong(1, userId);
+            ps.setLong(2, voteId);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
             } catch (SQLException e) {
@@ -274,4 +287,35 @@ public class VoteUserRepository {
 // 제작 보류
 //    void deleteVoteUserByVoteId(long voteId){
 //    }
+
+    private List<Integer> executeQueryInteger(PreparedStatement pstmt) {
+        List<Integer> integers = new ArrayList<>();
+        try {
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                integers.add(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                Objects.requireNonNull(rs).close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                Objects.requireNonNull(pstmt).close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return integers;
+    }
 }
