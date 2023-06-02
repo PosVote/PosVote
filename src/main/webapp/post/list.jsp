@@ -96,6 +96,22 @@
             cursor: pointer;
             border-radius: 4px;
         }
+
+        .userListButton {
+            position: absolute;
+            top: 10px;
+            right: 290px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
     <script>
         function copyText() {
@@ -115,8 +131,9 @@
     Role role = (Role) session.getAttribute("role");
 
     if (Status.ACCEPT.equals(status) && Role.OWNER.equals(role)) {
-        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>");
-        out.println("<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>");
+        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>"
+                + "<button class='requestListButton' onclick=\"location.href='/user/userList/userWaitingList.jsp'\">가입 신청 목록</button>"
+                + "<button class='userListButton' onclick=\"location.href='/user/userList/userAcceptList.jsp'\">유저 목록</button>");
     }
 
     out.println("<div class=\"container\">");
