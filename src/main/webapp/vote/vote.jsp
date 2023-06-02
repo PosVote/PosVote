@@ -7,6 +7,8 @@
 <%@ page import="study.postvote.service.UserService" %>
 <%@ page import="study.postvote.domain.User" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="study.postvote.service.VoteUserService" %>
+<%@ page import="study.postvote.domain.VoteUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,11 +17,14 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
+            height: 100vh;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
+            margin: auto;
             padding: 20px;
             background-color: #ffffff;
             border: 1px solid #cccccc;
@@ -47,15 +52,21 @@
             color: #ffffff;
             font-weight: bold;
             cursor: pointer;
+            margin: 20px auto 0 auto;
         }
 
         input[type="submit"]:hover {
             background-color: #117115;
+            transition: 0.3s ease-in;
         }
 
         .error-message {
             color: red;
             text-align: center;
+        }
+
+        .input_vote{
+            padding: 10px;
         }
     </style>
 </head>
@@ -67,16 +78,28 @@
         Long postId1 = Long.parseLong(request.getParameter("id"));
 
         Vote v = voteService.findByPostId(postId1);
+        System.out.println(postId1+"    "+v.getVoteId());
         List<Option> optionList = optionService.findByVoteId(v.getVoteId());
         String type = v.getInputType();
         Object userObject = session.getAttribute("userId");
 
-        System.out.println("session userId: " + userObject);
 
         String s = userObject.toString();
         Long userId = Long.parseLong(s);
 
-        System.out.println("long change userId: " + userId);
+        Boolean voteAble = true;
+        List<VoteUser> voteUsers = new VoteUserService().findVoteUserByUserId(userId);
+        if(!voteUsers.isEmpty()){
+            for (VoteUser voteUser: voteUsers) {
+                Long voteId = voteUser.getVoteId();
+                System.out.println("voteUser's voteId: " + voteId);
+                if(v.getVoteId().equals(voteId)){
+                    voteAble = false;
+                    break;
+                }
+            }
+        }
+
     %>
 
     <%
@@ -88,17 +111,32 @@
     %>
 
     <form action="/vote/voteOk.jsp" method="post">
-        <p>투표 마감: <%=v.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))%></p>
+        <p>투표 마감: <%=v.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%></p>
         <%
             for (Option option: optionList) {
         %>
-        <input type="<%=type%>" name="option" value="<%=option.getOptionId()%>"/><%=option.getLabel()%>
-        <br/>
+        <div class="vote_contents">
+            <input
+                    type="<%=type%>"
+                    name="option"
+                    value="<%=option.getOptionId()%>"
+                    class="input_vote"
+            /><%=option.getLabel()%>
+            <br/>
         <%
             }
         %>
-        <input type="hidden" name="voteId" value="<%=v.getVoteId()%>"/>
-        <input type="submit" value="투표하기">
+            <input type="hidden" name="voteId" value="<%=v.getVoteId()%>"/>
+        <%
+            if(!voteAble){
+        %>
+            <p>이미 투표하셨습니다</p>
+        <%
+            }else{
+        %>
+            <input type="submit" value="투표하기">
+        <%}%>
+        </div>
     </form>
     <%}%>
 </div>

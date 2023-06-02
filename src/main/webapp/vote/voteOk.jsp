@@ -4,8 +4,48 @@
 <html>
 <head>
     <title>투표완료창</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #117115;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
     <%
         request.setCharacterEncoding("utf-8");
     %>
@@ -22,7 +62,8 @@
         }
     %>
 
-    <p>투표가 완료됐습니다</p>
-    <a class="button" href="../index.jsp">메인으로</a>
+    <p>투표가 완료되었습니다.</p>
+    <a class="button" href="/post/list.jsp">메인으로</a>
+</div>
 </body>
 </html>
