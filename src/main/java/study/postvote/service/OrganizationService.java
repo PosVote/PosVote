@@ -18,10 +18,6 @@ public class OrganizationService {
         return organizationRepository.findById(id);
     }
 
-    public Organization findByOwnerId(Long id) {
-        return organizationRepository.findByOwnerId(id);
-    }
-
     public void deleteById(Long id) {
         organizationRepository.deleteById(id);
     }

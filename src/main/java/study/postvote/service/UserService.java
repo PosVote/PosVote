@@ -2,6 +2,7 @@ package study.postvote.service;
 
 import study.postvote.domain.User;
 import study.postvote.domain.type.Role;
+import study.postvote.domain.type.Status;
 import study.postvote.respository.UserRepository;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class UserService {
     public void save(User user) throws Exception {
         User findUser = userRepository.findByEmail(user.getEmail());
         if (findUser == null) {
+            findUser.setStatusWaiting();
             userRepository.save(user);
         } else {
             throw new Exception();
@@ -45,6 +47,10 @@ public class UserService {
 
     public void updateUser(User updateUser) {
         userRepository.updateUser(updateUser);
+    }
+
+    public void updateStatus(User user, Status status) {
+        userRepository.updateStatus(user, status);
     }
 
     public void updateRoleUser(Long id) throws Exception {

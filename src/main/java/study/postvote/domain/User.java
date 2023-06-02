@@ -3,6 +3,7 @@ package study.postvote.domain;
 import study.postvote.domain.type.City;
 import study.postvote.domain.type.Mbti;
 import study.postvote.domain.type.Role;
+import study.postvote.domain.type.Status;
 
 public class User {
     private Long userId;
@@ -15,11 +16,12 @@ public class User {
     private Mbti mbti;
     private Role role;
     private Long orgId;
+    private Status status;
 
     public User() {
     }
 
-    public User(String name, int age, int gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
+    public User(String name, int age, int gender, City city, String email, String password, Mbti mbti, Role role, Long orgId, Status status) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -29,9 +31,10 @@ public class User {
         this.mbti = mbti;
         this.role = role;
         this.orgId = orgId;
+        this.status = status;
     }
 
-    public User(Long userId, String name, int age, int gender, City city, String email, String password, Mbti mbti, Role role, Long orgId) {
+    public User(Long userId, String name, int age, int gender, City city, String email, String password, Mbti mbti, Role role, Long orgId, Status status) {
         this.userId = userId;
         this.name = name;
         this.age = age;
@@ -42,6 +45,7 @@ public class User {
         this.mbti = mbti;
         this.role = role;
         this.orgId = orgId;
+        this.status = status;
     }
 
     public Long getUserId() {
@@ -56,7 +60,7 @@ public class User {
         return age;
     }
 
-    public int isGender() {
+    public int getGender() {
         return gender;
     }
 
@@ -82,5 +86,13 @@ public class User {
 
     public Long getOrgId() {
         return orgId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatusWaiting() {
+        this.status = Status.WAITING;
     }
 }
