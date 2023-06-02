@@ -1,3 +1,6 @@
+<%@ page import="study.postvote.domain.Organization" %>
+<%@ page import="java.util.List" %>
+<%@ page import="study.postvote.service.OrganizationService" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
@@ -163,7 +166,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Sign Up</h1>
+    <h1>회원가입</h1>
     <form method="post" action="signupProcess.jsp">
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" required><br>
@@ -231,9 +234,9 @@
 
         <div>
             <label for="role">역할:</label>
-            <select id="role" name="role" required>
-                <option value="USER">User</option>
-                <option value="OWNER">Owner</option>
+            <select id="role" name="role" required onchange="toggleCreateOrganizationButton()">
+                <option value="USER">사용자</option>
+                <option value="OWNER">조직장</option>
             </select>
         </div>
 
@@ -241,37 +244,82 @@
             <label for="organization">조직:</label>
             <input type="text" id="organization" name="organization" class="disabled-input" readonly>
             <button type="button" class="organization-search-button" onclick="openModal()">조직 찾기</button>
-            <button type="button" class="create-organization-button" onclick="openCreateModal()" style="display: none;">조직 생성</button>
+            <button type="button" id="createOrganizationButton" class="create-organization-button"
+                    onclick="openCreateModal()" style="display: none;">
+                조직 생성
+            </button>
         </div>
 
         <input type="submit" class="submit-button" value="회원가입">
     </form>
 </div>
 
-<!-- Organization Search Modal -->
 <div id="organizationSearchModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>조직 찾기</h2>
-        <ul class="organization-list">
-            <li class="organization-list-item">조직 1</li>
-            <li class="organization-list-item">조직 2</li>
-            <li class="organization-list-item">조직 3</li>
-            <!-- Add more organization items here -->
+
+        <!-- 검색 창 추가 -->
+        <label for="organizationSearchInput"></label><input type="number" id="organizationSearchInput" placeholder="조직 초대 코드 입력">
+        <button type="button" class="search-button" onclick="searchOrganization()">검색</button>
+
+        <ul class="organization-list" id="searchResults">
         </ul>
     </div>
 </div>
 
-<!-- Organization Create Modal -->
-<div id="organizationCreateModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeCreateModal()">&times;</span>
-        <h2>조직 생성</h2>
-        <!-- Add organization creation form here -->
-    </div>
-</div>
-
 <script>
+    // 검색 버튼 클릭 시 조직 검색
+    function searchOrganization() {
+        let input = document.getElementById("organizationSearchInput").value;
+
+        // AJAX 요청으로 검색 결과 가져오기
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    let searchResults = JSON.parse(xhr.responseText);
+                    displaySearchResults(searchResults);
+                } else {
+                    console.log("조직 검색에 실패했습니다.");
+                }
+            }
+        };
+
+        // 검색 결과를 가져올 URL에 동적으로 입력된 값을 포함시켜 요청 보내기
+        let url = "searchOrganization.jsp?id=" + input;
+        xhr.open("GET", url, true);
+        xhr.send();
+    }
+
+    // 검색 결과를 표시하는 함수
+    function displaySearchResults(searchResults) {
+        let organizationList = document.getElementById("searchResults");
+        organizationList.innerHTML = "";
+
+        for (let i = 0; i < searchResults.length; i++) {
+            let organization = searchResults[i];
+            let listItem = document.createElement("li");
+            listItem.className = "organization-list-item";
+            listItem.innerText = organization.orgName;
+            listItem.addEventListener("click", function() {
+                selectOrganization(this.innerText);
+            });
+            organizationList.appendChild(listItem);
+        }
+    }
+
+    function toggleCreateOrganizationButton() {
+        let role = document.getElementById("role").value;
+        let createOrganizationButton = document.getElementById("createOrganizationButton");
+
+        if (role === "OWNER") {
+            createOrganizationButton.style.display = "block";
+        } else {
+            createOrganizationButton.style.display = "none";
+        }
+    }
+
     function openModal() {
         document.getElementById("organizationSearchModal").style.display = "block";
     }
@@ -286,6 +334,11 @@
 
     function closeCreateModal() {
         document.getElementById("organizationCreateModal").style.display = "none";
+    }
+
+    function selectOrganization(organizationName) {
+        document.getElementById("organization").value = organizationName;
+        closeModal();
     }
 </script>
 </body>
