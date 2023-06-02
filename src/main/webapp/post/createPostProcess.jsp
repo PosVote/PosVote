@@ -37,7 +37,11 @@
     request.setCharacterEncoding("UTF8");
     String title = request.getParameter("title");
     String start_time = LocalDateTime.now().format(dateTimeFormatter);
-    String end_time = request.getParameter("end_time") +" 23:59:59";
+//    String end_day = request.getParameter("end_day");
+//            +" 23:59:59";
+    String end_time = request.getParameter("end_time").replace("T", " ")+":00";
+
+    System.out.println(start_time + " " +end_time);
     String description = request.getParameter("description");
     String[] labels = request.getParameterValues("labels");
     int isAnonymous = Integer.parseInt(request.getParameter("isAnonymous"));
