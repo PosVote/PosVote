@@ -21,7 +21,7 @@ public class UserService {
     public void save(User user) throws Exception {
         User findUser = userRepository.findByEmail(user.getEmail());
         if (findUser == null) {
-            findUser.setStatusWaiting();
+            user.setStatusWaiting();
             userRepository.save(user);
         } else {
             throw new Exception();

@@ -10,8 +10,8 @@ public class OrganizationService {
         this.organizationRepository = new OrganizationRepository();
     }
 
-    public void save(Organization organization) {
-        organizationRepository.save(organization);
+    public Long save(Organization organization) {
+        return organizationRepository.save(organization);
     }
 
     public Organization findById(Long id) {

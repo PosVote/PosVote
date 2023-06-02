@@ -11,18 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 public class OrganizationRepository {
     Connection conn = null;
 
-    public void save(Organization organization) {
-        String sql = "insert into user (org_name) values(?)";
+    public Long save(Organization organization) {
+        String sql = "insert into organization (org_name) values(?)";
+        ResultSet rs;
+
         try {
             conn = ConnectionManager.getConnection();
 
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
             pstmt.setString(1, organization.getOrgName());
 
             pstmt.executeUpdate();
+            Long orgKey = -1l;
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) orgKey = rs.getLong(1);
+            return orgKey;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>회원가입</title>
+    <title>조직 생성</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -166,7 +166,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>회원가입</h1>
+    <h1>조직 생성</h1>
     <form method="post" action="signupProcess.jsp">
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" required><br>
@@ -233,40 +233,16 @@
         </select>
 
         <div>
-            <label for="role">역할:</label>
-            <select id="role" name="role" required onchange="toggleCreateOrganizationButton()">
-                <option value="USER">사용자</option>
-                <option value="OWNER">조직장</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="organization">조직:</label>
-            <input type="text" id="organization" name="orgId" class="disabled-input">
-            <button type="button" class="organization-search-button" onclick="openModal()">조직 찾기</button>
+            <label for="orgName">조직 이름:</label>
+            <input type="text" id="orgName" name="orgName">
             <button type="button" id="createOrganizationButton" class="create-organization-button"
                     onclick="openCreateModal()" style="display: none;">
                 조직 생성
             </button>
         </div>
 
-        <input type="submit" class="submit-button" value="회원가입">
+        <input type="submit" class="submit-button" value="신청">
     </form>
-</div>
-
-<div id="organizationSearchModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>조직 찾기</h2>
-
-        <!-- 검색 창 추가 -->
-        <label for="organizationSearchInput"></label>
-        <input type="number" id="organizationSearchInput" placeholder="조직 초대 코드 입력"/>
-        <button type="button" class="search-button" onclick="searchOrganization()">검색</button>
-
-        <ul class="organization-list" id="searchResults">
-        </ul>
-    </div>
 </div>
 
 <script>
@@ -276,7 +252,7 @@
 
         // AJAX 요청으로 검색 결과 가져오기
         let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     let searchResults = JSON.parse(xhr.responseText);
@@ -303,21 +279,10 @@
             let listItem = document.createElement("li");
             listItem.className = "organization-list-item";
             listItem.innerText = organization.orgName;
-            listItem.addEventListener("click", function() {
+            listItem.addEventListener("click", function () {
                 selectOrganization(this.innerText);
             });
             organizationList.appendChild(listItem);
-        }
-    }
-
-    function toggleCreateOrganizationButton() {
-        let role = document.getElementById("role").value;
-        let createOrganizationButton = document.getElementById("createOrganizationButton");
-
-        if (role === "OWNER") {
-            createOrganizationButton.style.display = "block";
-        } else {
-            createOrganizationButton.style.display = "none";
         }
     }
 

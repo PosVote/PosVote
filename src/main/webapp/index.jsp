@@ -48,7 +48,7 @@
     <h1>투표 커뮤니티</h1>
     <h1>'투커'</h1>
     <a class="button" href="user/login.jsp">로그인</a>
-    <a class="button" href="user/signup.jsp">회원가입</a>
+    <a class="button" href="user/signup.jsp">조직 생성</a>
 </div>
 </body>
 </html>
