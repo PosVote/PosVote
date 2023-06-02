@@ -26,13 +26,14 @@ public class PostRepository {
     public Long save(Post post) {
         String sql = "insert into post (user_id, title, description, date) values(?,?,?,?)";
         try {
+            System.out.println("하이"+Timestamp.valueOf(String.valueOf(post.getDate())));
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setLong(1, post.getUserId());
             pstmt.setString(2, post.getTitle());
             pstmt.setString(3, post.getDescription());
-            pstmt.setDate(4, Date.valueOf(String.valueOf(post.getDate())));
+            pstmt.setTimestamp(4, Timestamp.valueOf(String.valueOf(post.getDate())));
 
             pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();

@@ -39,7 +39,7 @@ public class UserRepository {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, user.getName());
             pstmt.setInt(2, user.getAge());
-            pstmt.setBoolean(3, user.isGender());
+            pstmt.setInt(3, user.isGender());
             pstmt.setString(4, String.valueOf(user.getCity()));
             pstmt.setString(5, user.getEmail());
             pstmt.setString(6, user.getPassword());
@@ -124,7 +124,7 @@ public class UserRepository {
 
             pstmt.setString(1, user.getName());
             pstmt.setInt(2, user.getAge());
-            pstmt.setBoolean(3, user.isGender());
+            pstmt.setInt(3, user.isGender());
             pstmt.setString(4, String.valueOf(user.getCity()));
             pstmt.setString(5, user.getEmail());
             pstmt.setString(6, user.getPassword());
@@ -178,7 +178,7 @@ public class UserRepository {
 
             while (rs.next()) {
                 userList.add(new User(rs.getLong(1), rs.getString(2), Integer.parseInt(rs.getString(3)),
-                        Boolean.parseBoolean(rs.getString(4)), City.valueOf(rs.getString(5)), rs.getString(6), rs.getString(7),
+                        Integer.parseInt(rs.getString(4)), City.valueOf(rs.getString(5)), rs.getString(6), rs.getString(7),
                         Mbti.valueOf(rs.getString(8)), Role.valueOf(rs.getString(9)), rs.getLong(10)));
             }
         } catch (SQLException e) {
