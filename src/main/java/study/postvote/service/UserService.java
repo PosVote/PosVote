@@ -28,6 +28,14 @@ public class UserService {
         }
     }
 
+    public List<User> findUserOfOrgByOrgIdAndStatus(Long orgId) {
+        return userRepository.findByOrgIdAndStatus(orgId, Status.ACCEPT);
+    }
+
+    public List<User> findUserOfOrgWaitingByOrgIdAndStatus(Long orgId) {
+        return userRepository.findByOrgIdAndStatus(orgId, Status.WAITING);
+    }
+
     public User findById(Long id) {
         return userRepository.findById(id);
     }

@@ -74,6 +74,19 @@ public class UserRepository {
         }
     }
 
+    public List<User> findByOrgIdAndStatus(Long orgId, Status status) {
+        String sql = "select * from user where org_Id = ? and status = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, orgId);
+            pstmt.setString(2, status.toString());
+            return executeQuery(pstmt);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public User findByEmail(String name) {
         String sql = "select * from user where email like ?";
         try {

@@ -2,6 +2,7 @@
 <%@ page import="study.postvote.domain.Post, study.postvote.service.PostService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="study.postvote.dto.post.response.PostListResponse" %>
+<%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %>
 
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,7 @@
             background-color: #fff;
             border-radius: 4px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         h1 {
@@ -60,17 +62,47 @@
             text-align: center;
             color: #888;
         }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
+    <script>
+        function copyText() {
+            const myTextarea = document.getElementById("copyText");
+
+            window.navigator.clipboard.writeText(myTextarea.value).then(() => {
+                alert("초대 코드 복사 완료");
+            })
+        }
+    </script>
 </head>
 <body>
 <%
     request.setCharacterEncoding("utf-8");
-    String sessionValue = (String) session.getAttribute("status");
+    String status = (String) session.getAttribute("status");
+    Long orgId = (Long) session.getAttribute("orgId");
+
+    if ("ACCEPT".equals(status)) {
+        out.println("<button class='copy-button' onclick='copyText()'>초대 코드 복사</button>");
+    }
 
     out.println("<div class=\"container\">");
     out.println("<h1>게시판</h1>");
 
-    if ("ACCEPT".equals(sessionValue)) {
+    if ("ACCEPT".equals(status)) {
         PostService postService = new PostService();
         List<PostListResponse> postList = postService.findAllPostListResponse();
 
@@ -85,9 +117,9 @@
             }
         }
 
-        out.println("</div>");
+        out.println("<input type='text' style='display: none;' id='copyText' value='" + SERVER_IP + "/signupUser.jsp?orgId=" + orgId + "' readonly>");
     } else {
-        out.println("승인되지 않거나 권한이 없습니다.");
+        out.println("<p class=\"no-posts\">승인되지 않거나 권한이 없습니다.</p>");
     }
 %>
 </body>
