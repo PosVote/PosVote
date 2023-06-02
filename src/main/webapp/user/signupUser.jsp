@@ -167,7 +167,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>조직 생성</h1>
+    <h1>회원가입</h1>
     <form method="post" action="signupProcess.jsp">
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" required><br>
@@ -176,6 +176,12 @@
         <p class="error-message"><%= errorMessage %>
         </p>
         <% } %>
+
+        <%
+            try {
+                Long orgId = Long.parseLong(request.getParameter("orgId"));
+                System.out.println(orgId);
+        %>
 
         <label for="password">비밀번호:</label>
         <input type="password" id="password" name="password" required><br>
@@ -233,46 +239,31 @@
             <option value="ENTJ">ENTJ</option>
         </select>
 
+        <%
+            OrganizationService organizationService = new OrganizationService();
+            Organization organization = organizationService.findById(orgId);
+        %>
+
         <div>
             <label for="orgName">조직 이름:</label>
-            <input type="text" id="orgName" name="orgName">
-            <button type="button" id="createOrganizationButton" class="create-organization-button"
-                    onclick="openCreateModal()" style="display: none;">
-                조직 생성
-            </button>
+            <input type="text" id="orgName" name="orgName" value=<%=organization.getOrgName()%> disabled>
         </div>
+        <input type="hidden" id="orgId" name="orgId" value=<%=organization.getOrgId()%>>
 
-        <input type="hidden" id="role" name="role" value=<%=Role.OWNER%>>
-
-        <input type="hidden" id="orgId" name="orgId" value=-1>>
+        <input type="hidden" id="role" name="role" value=<%=Role.USER%>>
 
         <input type="submit" class="submit-button" value="신청">
     </form>
+
+    <%
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getHeader("referer"));
+        }
+    %>
 </div>
 
 <script>
-    // 검색 버튼 클릭 시 조직 검색
-    function searchOrganization() {
-        let input = document.getElementById("organizationSearchInput").value;
-
-        // AJAX 요청으로 검색 결과 가져오기
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    let searchResults = JSON.parse(xhr.responseText);
-                    displaySearchResults(searchResults);
-                } else {
-                    console.log("조직 검색에 실패했습니다.");
-                }
-            }
-        };
-
-        // 검색 결과를 가져올 URL에 동적으로 입력된 값을 포함시켜 요청 보내기
-        let url = "searchOrganization.jsp?id=" + input;
-        xhr.open("GET", url, true);
-        xhr.send();
-    }
 
     // 검색 결과를 표시하는 함수
     function displaySearchResults(searchResults) {
