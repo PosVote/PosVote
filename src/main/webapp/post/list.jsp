@@ -5,6 +5,8 @@
 <%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %>
 <%@ page import="study.postvote.domain.type.Status" %>
 <%@ page import="study.postvote.domain.type.Role" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="study.postvote.service.VoteService" %>
 
 <!DOCTYPE html>
 <html>
@@ -65,7 +67,7 @@
             color: #888;
         }
 
-        .copy-button {
+        .copy-button, .make-button {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -80,6 +82,9 @@
             cursor: pointer;
             border-radius: 4px;
         }
+        .make-button{
+            right: 130px;
+        }
     </style>
     <script>
         function copyText() {
@@ -88,6 +93,9 @@
             window.navigator.clipboard.writeText(myTextarea.value).then(() => {
                 alert("초대 코드 복사 완료");
             })
+        }
+        const makeVote = () => {
+            window.location.href = "/post/post.jsp";
         }
     </script>
 </head>
@@ -100,22 +108,26 @@
 
     if (role.equals(Role.OWNER.toString())) {
         out.println("<button class='copy-button' onclick='copyText()'>초대 코드 복사</button>");
+        out.println("<button class='make-button' onclick='makeVote()'>투표 생성하기</button>");
     }
 
     out.println("<div class=\"container\">");
-    out.println("<h1>게시판</h1>");
+    out.println("<h1>투표 게시판</h1>");
 
     if (status.equals(Status.ACCEPT.toString())) {
         PostService postService = new PostService();
         List<PostListResponse> postList = postService.findAllPostListResponse();
-
+//        int count = new VoteService().countVote();
         if (postList.isEmpty()) {
             out.println("<p class=\"no-posts\">등록된 게시물이 없습니다.</p>");
         } else {
             for (PostListResponse post : postList) {
                 out.println("<div class=\"post\">");
                 out.println("<a class=\"post-title\" href=\"postView.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a>");
-                out.println("<p class=\"post-meta\">작성자: " + post.getName() + ", 작성일: " + post.getDate() + "</p>");
+                out.println("<p class=\"post-meta\">작성자: " + post.getName() +
+                        " 작성일: " + post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
+                        " 총 투표 수: "+new VoteService().countVote(post.getPostId()) +
+                        "</p>");
                 out.println("</div>");
             }
         }
