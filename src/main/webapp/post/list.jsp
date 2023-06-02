@@ -85,13 +85,15 @@
         }
 
         .make-button {
-            right: 130px;
+            right: 10px;
+            top: 50px;
+            background-color: #0033ff;
         }
 
         .requestListButton {
             position: absolute;
             top: 10px;
-            right: 150px;
+            right: 130px;
             background-color: #4CAF50;
             border: none;
             color: white;
@@ -107,7 +109,7 @@
         .userListButton {
             position: absolute;
             top: 10px;
-            right: 290px;
+            right: 250px;
             background-color: #4CAF50;
             border: none;
             color: white;
