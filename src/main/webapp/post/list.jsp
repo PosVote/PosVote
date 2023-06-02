@@ -67,7 +67,8 @@
             color: #888;
         }
 
-        .copy-button, .make-button {
+
+        .copyButton, .make-button {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -82,8 +83,24 @@
             cursor: pointer;
             border-radius: 4px;
         }
-        .make-button{
+        .make-button {
             right: 130px;
+        }
+
+        .requestListButton {
+            position: absolute;
+            top: 10px;
+            right: 150px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
         }
     </style>
     <script>
@@ -102,19 +119,21 @@
 <body>
 <%
     request.setCharacterEncoding("utf-8");
-    String role = (String) session.getAttribute("role");
+    Status status = (Status) session.getAttribute("status");
     Long orgId = (Long) session.getAttribute("orgId");
-    String status = (String) session.getAttribute("status");
+    Role role = (Role) session.getAttribute("role");
 
-    if (role.equals(Role.OWNER.toString())) {
-        out.println("<button class='copy-button' onclick='copyText()'>초대 코드 복사</button>");
+
+    if (Status.ACCEPT.equals(status) && Role.OWNER.equals(role)) {
+        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>");
+        out.println("<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>");
         out.println("<button class='make-button' onclick='makeVote()'>투표 생성하기</button>");
     }
 
     out.println("<div class=\"container\">");
     out.println("<h1>투표 게시판</h1>");
 
-    if (status.equals(Status.ACCEPT.toString())) {
+    if (Status.ACCEPT.equals(status)) {
         PostService postService = new PostService();
         List<PostListResponse> postList = postService.findAllPostListResponse();
 //        int count = new VoteService().countVote();

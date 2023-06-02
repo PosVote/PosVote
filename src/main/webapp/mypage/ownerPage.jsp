@@ -1,12 +1,14 @@
 <%@ page import="study.postvote.domain.User" %>
-<%@ page import="study.postvote.service.PostService" %>
-<%@ page import="study.postvote.domain.Post" %>
-<%@ page import="study.postvote.service.VoteUserService" %>
-<%@ page import="study.postvote.domain.Vote" %>
 <%@ page import="study.postvote.service.UserService" %>
-<%@ page import="java.util.List" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+<%@ page import="java.util.List" %><%--
+  Created by IntelliJ IDEA.
+  User: USER
+  Date: 2023-06-02
+  Time: 오후 7:37
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -22,7 +24,6 @@
             text-align: right;
             margin-right: 80px;
         }
-
         .button {
             display: inline-block;
             text-decoration: none;
@@ -31,14 +32,15 @@
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
+
+
     </style>
 </head>
 <%
-    Long userid = (Long) session.getAttribute("userId");
+    Long userid = (Long)session.getAttribute("userId");
     System.out.println("Username: " + userid);
     UserService userService = new UserService();
     User user = userService.findById(userid);
-    List<User> listUser = userService.findByMyVote(userid);
 %>
 
 <body>
@@ -48,14 +50,18 @@
 
 <div class="greeting">
     <form method="post" action="update.jsp">
-        <h3><%= user.getName()%>님 안녕하세요.</h3>
+        <h3 ><%= user.getName()%>님 안녕하세요.</h3>
         <input class="button" type="submit" value="개인정보 수정">
     </form>
 </div>
 
-<div>
+<div class ="container">
+    <div>
+
+    </div>
 
 </div>
+
 
 </body>
 </html>

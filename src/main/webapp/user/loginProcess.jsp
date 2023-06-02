@@ -23,9 +23,9 @@
             dispatcher.forward(request, response);
         }
         session.setAttribute("userId", user.getUserId());
-        session.setAttribute("role", user.getRole().toString());
+        session.setAttribute("status", user.getStatus());
+        session.setAttribute("role", user.getRole());
         session.setAttribute("orgId", user.getOrgId());
-        session.setAttribute("status", user.getStatus().toString());
         response.sendRedirect("../post/list.jsp");
     } else {
         String errorMessage = "유효하지 않은 이메일 또는 비밀번호입니다.";
