@@ -65,10 +65,12 @@
 <body>
 <%
     request.setCharacterEncoding("utf-8");
-%>
-<div class="container">
-    <h1>게시판</h1>
-    <%
+    String sessionValue = (String) session.getAttribute("status");
+
+    out.println("<div class=\"container\">");
+    out.println("<h1>게시판</h1>");
+
+    if ("ACCEPT".equals(sessionValue)) {
         PostService postService = new PostService();
         List<PostListResponse> postList = postService.findAllPostListResponse();
 
@@ -76,20 +78,17 @@
             out.println("<p class=\"no-posts\">등록된 게시물이 없습니다.</p>");
         } else {
             for (PostListResponse post : postList) {
-    %>
-    <div class="post">
-        <a class="post-title" href="postView.jsp?id=<%=post.getPostId()%>"><%= post.getTitle() %>
-        </a>
-        <p class="post-meta">작성자: <%= post.getName() %>, 작성일: <%= post.getDate() %>
-        </p>
-    </div>
-    <%
+                out.println("<div class=\"post\">");
+                out.println("<a class=\"post-title\" href=\"postView.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a>");
+                out.println("<p class=\"post-meta\">작성자: " + post.getName() + ", 작성일: " + post.getDate() + "</p>");
+                out.println("</div>");
             }
         }
-    %>
-</div>
+
+        out.println("</div>");
+    } else {
+        out.println("승인되지 않거나 권한이 없습니다.");
+    }
+%>
 </body>
 </html>
-
-
-

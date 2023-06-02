@@ -10,6 +10,8 @@
 
     if (user != null) {
         session.setAttribute("userId", user.getUserId());
+        session.setAttribute("status", user.getStatus().toString());
+        session.setAttribute("orgId", user.getOrgId());
         response.sendRedirect("../post/list.jsp");
     } else {
         String errorMessage = "유효하지 않은 이메일 또는 비밀번호입니다.";
