@@ -85,7 +85,7 @@
         }
 
         .make-button {
-            right: 10px;
+            right: 300px;
             top: 50px;
             background-color: #0033ff;
         }
