@@ -36,7 +36,7 @@
 
     request.setCharacterEncoding("UTF8");
     String title = request.getParameter("title");
-    LocalDateTime start_time = LocalDateTime.now();
+    String start_time = LocalDateTime.now().format(dateTimeFormatter);
     String end_time = request.getParameter("end_time") +" 23:59:59";
     String description = request.getParameter("description");
     String[] labels = request.getParameterValues("labels");
@@ -53,13 +53,17 @@
     out.println(isAnonymous+"<br/>");
     out.println(inputType+"<br/>");
 
-    boolean isAnonyBool = isAnonymous == 1? true: false;
 
     userId = 2l;
-    Post post = new Post(userId, title, description, start_time);
+//    start_time = start_time.replace("T", " ");
+//    end_time = end_time.replace("T", " ");
+
+    System.out.println("CreatePost  "+start_time);
+    Post post = new Post(userId, title, description, LocalDateTime.parse(start_time, dateTimeFormatter));
     Long post_id = postService.save(post);
-    Vote vote = new Vote(post_id, isAnonyBool, inputType, start_time, LocalDateTime.parse(end_time, dateTimeFormatter));
+    Vote vote = new Vote(post_id, isAnonymous, inputType, LocalDateTime.parse(start_time, dateTimeFormatter), LocalDateTime.parse(end_time, dateTimeFormatter));
     Long vote_id = voteService.insert(vote);
+    System.out.println("VoteKey " + vote_id);
     for(String label: labels) optionList.add(new Option(label, vote_id));
     optionService.saveList(optionList);
     response.sendRedirect("./list.jsp");

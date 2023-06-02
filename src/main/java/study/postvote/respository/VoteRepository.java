@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 public class VoteRepository {
     Connection conn;
     ResultSet rs;
@@ -17,16 +19,17 @@ public class VoteRepository {
         try {
             conn = ConnectionManager.getConnection();
 
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql,RETURN_GENERATED_KEYS);
             pstmt.setLong(1, vote.getPostId());
             pstmt.setInt(2, vote.isAnonymous());
             pstmt.setString(3, vote.getInputType());
-            pstmt.setDate(4, Date.valueOf(String.valueOf(vote.getStartTime())));
-            pstmt.setDate(5, Date.valueOf(String.valueOf(vote.getEndTime())));
+            pstmt.setString(4, String.valueOf(vote.getStartTime()));
+            pstmt.setString(5, String.valueOf(vote.getEndTime()));
 
             pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();
-            Long vote_key = rs.getLong(1);
+            Long vote_key = -1l;
+            if(rs.next()) vote_key = rs.getLong(1);
             return vote_key;
         } catch (SQLException e) {
             throw new RuntimeException(e);

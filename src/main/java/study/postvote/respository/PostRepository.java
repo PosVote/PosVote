@@ -17,6 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 public class PostRepository {
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -26,18 +28,18 @@ public class PostRepository {
     public Long save(Post post) {
         String sql = "insert into post (user_id, title, description, date) values(?,?,?,?)";
         try {
-            System.out.println("하이"+Timestamp.valueOf(String.valueOf(post.getDate())));
             conn = ConnectionManager.getConnection();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql,RETURN_GENERATED_KEYS);
 
             pstmt.setLong(1, post.getUserId());
             pstmt.setString(2, post.getTitle());
             pstmt.setString(3, post.getDescription());
-            pstmt.setTimestamp(4, Timestamp.valueOf(String.valueOf(post.getDate())));
+            pstmt.setString(4, (String.valueOf(post.getDate())));
 
             pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();
-            Long post_pk = rs.getLong(1);
+            Long post_pk = -1l;
+            if(rs.next()) post_pk = rs.getLong(1);
             conn.close();
             pstmt.close();
             rs.close();
