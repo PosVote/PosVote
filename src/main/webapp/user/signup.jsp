@@ -188,10 +188,10 @@
         <div class="checkbox-group">
             <label>성별:</label>
             <label>
-                <input type="radio" name="gender" value="false" checked> 남자
+                <input type="radio" name="gender" value="0" checked> 남자
             </label>
             <label>
-                <input type="radio" name="gender" value="true"> 여자
+                <input type="radio" name="gender" value="1"> 여자
             </label>
         </div>
 
@@ -242,7 +242,7 @@
 
         <div>
             <label for="organization">조직:</label>
-            <input type="text" id="organization" name="organization" class="disabled-input" readonly>
+            <input type="text" id="organization" name="orgId" class="disabled-input">
             <button type="button" class="organization-search-button" onclick="openModal()">조직 찾기</button>
             <button type="button" id="createOrganizationButton" class="create-organization-button"
                     onclick="openCreateModal()" style="display: none;">
@@ -260,7 +260,8 @@
         <h2>조직 찾기</h2>
 
         <!-- 검색 창 추가 -->
-        <label for="organizationSearchInput"></label><input type="number" id="organizationSearchInput" placeholder="조직 초대 코드 입력">
+        <label for="organizationSearchInput"></label>
+        <input type="number" id="organizationSearchInput" placeholder="조직 초대 코드 입력"/>
         <button type="button" class="search-button" onclick="searchOrganization()">검색</button>
 
         <ul class="organization-list" id="searchResults">

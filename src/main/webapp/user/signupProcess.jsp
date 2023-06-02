@@ -5,7 +5,7 @@
 <%
     String name = request.getParameter("name");
     int age = Integer.parseInt(request.getParameter("age"));
-    boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+    int gender = Integer.parseInt(request.getParameter("gender"));
     City city = City.valueOf(request.getParameter("city"));
     String email = request.getParameter("email");
     String password = request.getParameter("password");
@@ -18,8 +18,7 @@
     UserService userService = new UserService();
     try {
         userService.save(user);
-
-        response.sendRedirect("../index.jsp");
+        response.sendRedirect("/user/login.jsp");
     } catch (Exception e) {
         String errorMessage = "이미 중복되는 이메일이 있습니다.";
         request.setAttribute("errorMessage", errorMessage);

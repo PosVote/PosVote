@@ -17,12 +17,12 @@
         for(String i: options){
             voteUserService.save(new VoteUser(
                     Long.parseLong(voteId),
-                    Long.parseLong((String)session.getAttribute("userId")),
+                    Long.parseLong(session.getAttribute("userId").toString()),
                     Long.parseLong(i)));
         }
     %>
 
     <p>투표가 완료됐습니다</p>
-    <a class="button" href="index.jsp">메인으로</a>
+    <a class="button" href="../index.jsp">메인으로</a>
 </body>
 </html>
