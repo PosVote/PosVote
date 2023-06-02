@@ -29,7 +29,7 @@ public class PostRepository {
         String sql = "insert into post (user_id, title, description, date) values(?,?,?,?)";
         try {
             conn = ConnectionManager.getConnection();
-            pstmt = conn.prepareStatement(sql,RETURN_GENERATED_KEYS);
+            pstmt = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
 
             pstmt.setLong(1, post.getUserId());
             pstmt.setString(2, post.getTitle());
@@ -39,7 +39,7 @@ public class PostRepository {
             pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();
             Long post_pk = -1l;
-            if(rs.next()) post_pk = rs.getLong(1);
+            if (rs.next()) post_pk = rs.getLong(1);
             conn.close();
             pstmt.close();
             rs.close();
@@ -61,6 +61,7 @@ public class PostRepository {
             throw new RuntimeException(e);
         }
     }
+
     public List<Post> findByTitle(Long title) {
         String sql = "select * from post where title like ?";
 
@@ -139,13 +140,33 @@ public class PostRepository {
         }
     }
 
+    public List<Post> findByMyVote(Long id) {
+        String sql = "select PS.* " +
+                "from vote_user VS " +
+                "join vote VT on VS.vote_id = VT.vote_id " +
+                "join post PS on VT.post_id = PS.post_id " +
+                "where VS.user_id = ?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1,id);
+
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<Post> executeQuery(PreparedStatement pstmt) {
         List<Post> postList = new ArrayList<>();
         ResultSet rs = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
+            System.out.println(pstmt);
             rs = pstmt.executeQuery();
-
+            System.out.println(Objects.isNull(rs));
             while (rs.next()) {
                 postList.add(new Post(rs.getLong(1),
                         rs.getLong(2),

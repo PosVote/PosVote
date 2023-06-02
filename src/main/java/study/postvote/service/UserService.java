@@ -48,8 +48,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<User> findByMyVote(Long id) { return userRepository.findByMyVote(id);}
-
     public void deleteById(Long id) {
         User findUser = userRepository.findById(id);
         userRepository.deleteById(findUser.getUserId());

@@ -1,6 +1,7 @@
 package study.postvote.service;
 
 import study.postvote.domain.Post;
+import study.postvote.domain.User;
 import study.postvote.dto.post.response.PostListResponse;
 import study.postvote.respository.PostRepository;
 
@@ -18,7 +19,7 @@ public class PostService {
     public List<Post> findByTitle(Long title) {
         return postRepository.findByTitle(title);
     }
-
+    public List<Post> findByMyVote(Long id) { return postRepository.findByMyVote(id);}
     public void deleteById(Long post_Id) {
         postRepository.deleteById(post_Id);
     }

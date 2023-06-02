@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>마이페이지</title>
     <style>
         .my-page {
@@ -38,7 +37,9 @@
     System.out.println("Username: " + userid);
     UserService userService = new UserService();
     User user = userService.findById(userid);
-    List<User> listUser = userService.findByMyVote(userid);
+
+    PostService postService = new PostService();
+    List<Post> postList = postService.findByMyVote(userid);
 %>
 
 <body>
@@ -52,10 +53,11 @@
         <input class="button" type="submit" value="개인정보 수정">
     </form>
 </div>
+<% for (Post post : postList) {
+    out.println(post.getTitle());
+}
+%>
 
-<div>
-
-</div>
 
 </body>
 </html>
