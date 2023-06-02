@@ -6,6 +6,7 @@
 <%@ page import="study.postvote.service.OrganizationService" %>
 
 <%
+    request.setCharacterEncoding("UTF8");
     String name = request.getParameter("name");
     int age = Integer.parseInt(request.getParameter("age"));
     int gender = Integer.parseInt(request.getParameter("gender"));

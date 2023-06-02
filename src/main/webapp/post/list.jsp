@@ -3,6 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="study.postvote.dto.post.response.PostListResponse" %>
 <%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %>
+<%@ page import="study.postvote.domain.type.Status" %>
+<%@ page import="study.postvote.domain.type.Role" %>
 
 <!DOCTYPE html>
 <html>
@@ -92,17 +94,18 @@
 <body>
 <%
     request.setCharacterEncoding("utf-8");
-    String status = (String) session.getAttribute("status");
+    String role = (String) session.getAttribute("role");
     Long orgId = (Long) session.getAttribute("orgId");
+    String status = (String) session.getAttribute("status");
 
-    if ("ACCEPT".equals(status)) {
+    if (role.equals(Role.OWNER.toString())) {
         out.println("<button class='copy-button' onclick='copyText()'>초대 코드 복사</button>");
     }
 
     out.println("<div class=\"container\">");
     out.println("<h1>게시판</h1>");
 
-    if ("ACCEPT".equals(status)) {
+    if (status.equals(Status.ACCEPT.toString())) {
         PostService postService = new PostService();
         List<PostListResponse> postList = postService.findAllPostListResponse();
 
@@ -117,7 +120,7 @@
             }
         }
 
-        out.println("<input type='text' style='display: none;' id='copyText' value='" + SERVER_IP + "/signupUser.jsp?orgId=" + orgId + "' readonly>");
+        out.println("<input type='text' style='display: none;' id='copyText' value='" + SERVER_IP + "/user/signupUser.jsp?orgId=" + orgId + "' readonly>");
     } else {
         out.println("<p class=\"no-posts\">승인되지 않거나 권한이 없습니다.</p>");
     }
