@@ -7,11 +7,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%
-        Long orgId = Long.parseLong(request.getParameter("orgId"));
-        OrganizationService organizationService = new OrganizationService();
-        Organization organization = organizationService.findById(orgId);
-    %>
     <meta charset="utf-8">
     <title>조직 생성</title>
     <style>
@@ -172,6 +167,17 @@
     </style>
 </head>
 <body>
+
+<%
+    Long orgId = Long.parseLong(request.getParameter("orgId"));
+    OrganizationService organizationService = new OrganizationService();
+    Organization organization = organizationService.findById(orgId);
+
+    if (organization == null) {
+        response.sendRedirect("../post/list.jsp");
+    }
+%>
+
 <div class="container">
     <h1>조직 생성</h1>
     <form method="post" action="signupProcess.jsp">
@@ -242,10 +248,11 @@
         <div>
             <label for="orgName">조직 이름: </label>
             <input type="text" id="orgName" name="orgName"
-                   value="<%=Objects.requireNonNull(organization).getOrgName()%>" disabled>
+                   value="<%=organization == null ? "" : organization.getOrgName()%>"
+                   disabled>
         </div>
 
-        <input type="hidden" id="orgId" name="orgId" value="<%=organization.getOrgId()%>">
+        <input type="hidden" id="orgId" name="orgId" value="<%=organization == null ? "" : organization.getOrgId()%>">
 
         <input type="hidden" id="role" name="role" value=<%=Role.USER%>>
 
