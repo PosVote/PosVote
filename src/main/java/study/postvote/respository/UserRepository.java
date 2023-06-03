@@ -211,14 +211,14 @@ public class UserRepository {
 
     public List<User> findByMyVote(Long id) {
         String sql = "select PS.* " +
-                "from user US " +
-                "join vote_user VS on US.user_id = VS.user_id" +
-                "join vote VT on VS.vote_id = VT.vote_id" +
-                "join post PS on VT.post_id = PS.post_id";
+                "from vote_user VS " +
+                "join vote VT on VS.vote_id = VT.vote_id " +
+                "join post PS on VT.post_id = PS.post_id WHERE VS.user_id = ?";
 
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1,id);
 
             return executeQuery(pstmt);
         } catch (SQLException e) {
