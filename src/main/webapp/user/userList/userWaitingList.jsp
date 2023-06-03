@@ -95,11 +95,11 @@
     </style>
     <script>
         function acceptUser(userId) {
-            location.href = "../acceptUserOrg.jsp?userId=" + userId + "&type=accept";
+            location.href = "../acceptOrg.jsp?userId=" + userId + "&type=accept";
         }
 
         function rejectUser(userId) {
-            location.href = "../acceptUserOrg.jsp?userId=" + userId + "&type=reject";
+            location.href = "../acceptOrg.jsp?userId=" + userId + "&type=reject";
         }
     </script>
 </head>
