@@ -1,3 +1,4 @@
+<%@ page import="study.postvote.domain.type.Role" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <!DOCTYPE html>
@@ -45,9 +46,12 @@
 </head>
 <body>
 <%
-    Long orgId = (Long) session.getAttribute("orgId");
-    if (orgId != null) {
-        response.sendRedirect("/post/list.jsp");
+    Role role = (Role) session.getAttribute("role");
+    if (role != null) {
+        if (role.equals(Role.ADMIN))
+            response.sendRedirect("/adminView/adminPage.jsp");
+        else
+            response.sendRedirect("/post/list.jsp");
     }
 %>
 <div class="container">
