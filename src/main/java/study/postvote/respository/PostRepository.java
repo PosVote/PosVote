@@ -177,21 +177,7 @@ public class PostRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            try {
-                Objects.requireNonNull(rs).close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                Objects.requireNonNull(pstmt).close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            OrganizationRepository.connclose(pstmt, rs, conn);
         }
 
         return postList;
@@ -214,21 +200,7 @@ public class PostRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            try {
-                Objects.requireNonNull(rs).close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                Objects.requireNonNull(pstmt).close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            OrganizationRepository.connclose(pstmt, rs, conn);
         }
 
         return postListResponses;

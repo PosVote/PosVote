@@ -68,7 +68,7 @@
         }
 
 
-        .copyButton, .make-button {
+        .orgWaitingButton, .make-button {
             position: absolute;
             top: 10px;
             right: 10px;

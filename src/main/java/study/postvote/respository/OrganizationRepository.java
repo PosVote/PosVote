@@ -1,6 +1,7 @@
 package study.postvote.respository;
 
 import study.postvote.domain.Organization;
+import study.postvote.dto.organization.response.OrganizationAdminViewResponse;
 import study.postvote.respository.db.ConnectionManager;
 
 import java.sql.Connection;
@@ -54,6 +55,36 @@ public class OrganizationRepository {
         }
     }
 
+    public List<Organization> findAll() {
+        String sql = "select * from organization";
+        try {
+            conn = ConnectionManager.getConnection();
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            return executeQuery(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<OrganizationAdminViewResponse> findAllOrgAdminView() {
+        String sql = "SELECT org.org_id, org.org_name, user.user_id, user.email, COUNT(*) AS orgMemberCount " +
+                "FROM organization org " +
+                "JOIN user ON org.org_id = user.org_id " +
+                "WHERE user.role = 'Owner' " +
+                "GROUP BY org.org_id, org.org_name, user.user_id, user.email";
+        try {
+            conn = ConnectionManager.getConnection();
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            return executeQueryAdminView(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void deleteById(Long id) {
         String sql = "delete from organization where org_id = ?";
         try {
@@ -97,5 +128,47 @@ public class OrganizationRepository {
         }
 
         return organizations;
+    }
+
+    private List<OrganizationAdminViewResponse> executeQueryAdminView(PreparedStatement pstmt) {
+        List<OrganizationAdminViewResponse> organizations = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                organizations.add(
+                        new OrganizationAdminViewResponse(
+                                rs.getLong(1),
+                                rs.getString(2),
+                                rs.getLong(3),
+                                rs.getString(4),
+                                rs.getInt(5)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connclose(pstmt, rs, conn);
+        }
+
+        return organizations;
+    }
+
+    static void connclose(PreparedStatement pstmt, ResultSet rs, Connection conn) {
+        try {
+            Objects.requireNonNull(rs).close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            Objects.requireNonNull(pstmt).close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

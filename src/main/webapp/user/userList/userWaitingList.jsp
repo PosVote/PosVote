@@ -32,7 +32,7 @@
             text-align: center;
         }
 
-        .user {
+        .org {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -43,12 +43,12 @@
             background-color: #f9f9f9;
         }
 
-        .user-info {
+        .org-info {
             display: flex;
             align-items: center;
         }
 
-        .user-name {
+        .org-name {
             font-size: 16px;
             font-weight: bold;
             margin-right: 10px;
