@@ -131,6 +131,26 @@ public class UserRepository {
         }
     }
 
+
+    public void deleteByOrdId(Long id) {
+        String sql = "delete from user where org_id = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+            pstmt.executeUpdate();
+        } catch (Exception ignored) {
+
+        } finally {
+            try {
+                conn.close();
+                pstmt.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public void updateUser(User user) {
         String sql = "update user set " +
                 "name = ?, age = ?, gender = ?, city = ?, email = ?, password = ?, mbti = ?, role = ?, org_id = ?, status = ? where user_id = ?";
@@ -218,7 +238,7 @@ public class UserRepository {
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1,id);
+            pstmt.setLong(1, id);
 
             return executeQuery(pstmt);
         } catch (SQLException e) {

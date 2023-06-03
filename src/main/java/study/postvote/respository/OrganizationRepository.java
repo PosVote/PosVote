@@ -68,11 +68,28 @@ public class OrganizationRepository {
         }
     }
 
+    public List<OrganizationAdminViewResponse> findAllWaitingOrg() {
+        String sql = "SELECT org.org_id, org.org_name, user.user_id, user.name, user.email, COUNT(*) AS orgMemberCount " +
+                "                FROM organization org " +
+                "                JOIN user ON org.org_id = user.org_id " +
+                "                WHERE user.role = 'owner' AND user.status = 'waiting' " +
+                "                GROUP BY org.org_id, org.org_name, user.user_id, user.email";
+        try {
+            conn = ConnectionManager.getConnection();
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            return executeQueryAdminView(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<OrganizationAdminViewResponse> findAllOrgAdminView() {
-        String sql = "SELECT org.org_id, org.org_name, user.user_id, user.email, COUNT(*) AS orgMemberCount " +
+        String sql = "SELECT org.org_id, org.org_name, user.user_id, user.name, user.email, COUNT(*) AS orgMemberCount " +
                 "FROM organization org " +
                 "JOIN user ON org.org_id = user.org_id " +
-                "WHERE user.role = 'Owner' " +
+                "WHERE user.role = 'Owner' AND user.status = 'ACCEPT' " +
                 "GROUP BY org.org_id, org.org_name, user.user_id, user.email";
         try {
             conn = ConnectionManager.getConnection();
@@ -143,7 +160,8 @@ public class OrganizationRepository {
                                 rs.getString(2),
                                 rs.getLong(3),
                                 rs.getString(4),
-                                rs.getInt(5)));
+                                rs.getString(5),
+                                rs.getInt(6)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

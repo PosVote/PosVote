@@ -5,13 +5,20 @@
 <%@ page import="study.postvote.service.OrganizationService" %>
 
 <%
+    Long userId = Long.valueOf(request.getParameter("userId"));
     Long orgId = Long.valueOf(request.getParameter("orgId"));
+    String type = request.getParameter("type");
     UserService userService = new UserService();
     OrganizationService organizationService = new OrganizationService();
 
-    userService.deleteByOrdId(orgId);
-    organizationService.deleteById(orgId);
+    User user = userService.findById(userId);
 
+    if (type.equals("accept")) {
+        userService.updateStatus(user, Status.ACCEPT);
+    } else {
+        userService.deleteById(user.getUserId());
+        organizationService.deleteById(orgId);
+    }
     String redirectUrl = request.getHeader("referer");
 
     response.sendRedirect(redirectUrl);

@@ -141,7 +141,7 @@
     <div class="org">
         <div class="org-info">
             <span class="org-name">조직 이름: <%= org.getOrgName() %> </span>
-            <span class="org-name">조직장: <%= org.getOwnerId() %></span>
+            <span class="org-name">조직장: <%= org.getOwnerName() %></span>
             <span class="org-name">이메일: <%= org.getEmail() %></span>
             <span class="org-name">인원: <%= org.getOrgMemberCount() %>명</span>
         </div>

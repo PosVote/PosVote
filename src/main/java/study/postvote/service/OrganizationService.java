@@ -29,6 +29,10 @@ public class OrganizationService {
         return organizationRepository.findAllOrgAdminView();
     }
 
+    public List<OrganizationAdminViewResponse> findAllWaitingOrg() {
+        return organizationRepository.findAllWaitingOrg();
+    }
+
     public void deleteById(Long id) {
         organizationRepository.deleteById(id);
     }
