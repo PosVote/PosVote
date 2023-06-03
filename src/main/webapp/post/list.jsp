@@ -121,6 +121,31 @@
             cursor: pointer;
             border-radius: 4px;
         }
+        .search-form {
+            text-align: right;
+        }
+
+        .search-input {
+            display: inline-block;
+            width: 200px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
     <script>
         function copyText() {
@@ -147,7 +172,7 @@
     if (Status.ACCEPT.equals(status) && Role.OWNER.equals(role)) {
         out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>"
                 + "<button class='userListButton' onclick=\"location.href='/user/userList/userAcceptList.jsp'\">유저 목록</button>"
-                + "<button class='requestListButton' onclick=\"location.href='/user/userWaitingList.jsp'\">가입 신청 목록</button>"
+                + "<button class='requestListButton' onclick=\"location.href='/user/userList/userWaitingList.jsp'\">가입 신청 목록</button>"
                 + "<button class='make-button' onclick='makeVote()'>투표 생성하기</button>");
     }
 
@@ -161,6 +186,12 @@
         if (postList.isEmpty()) {
             out.println("<p class=\"no-posts\">등록된 게시물이 없습니다.</p>");
         } else {
+            out.println("<div class=\"search-form\">");
+            out.println("<form action=\"searchedPost.jsp\" method=\"get\">");
+            out.println("<input type=\"text\" name=\"title\" class=\"search-input\" placeholder=\"제목을 입력하세요\">");
+            out.println("<input type=\"submit\" value=\"검색\" class=\"search-button\">");
+            out.println("</form>");
+            out.println("</div>");
             for (PostListResponse post : postList) {
                 out.println("<div class=\"post\">");
                 out.println("<a class=\"post-title\" href=\"postView.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a>");

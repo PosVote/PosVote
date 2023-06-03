@@ -63,7 +63,7 @@ public class PostRepository {
         }
     }
 
-    public List<Post> findByTitle(Long title) {
+    public List<Post> findByTitle(String title) {
         String sql = "select * from post where title like ?";
 
         try {
@@ -193,7 +193,7 @@ public class PostRepository {
                 e.printStackTrace();
             }
         }
-
+        System.out.println(postList);
         return postList;
     }
 
