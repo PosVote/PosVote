@@ -4,6 +4,7 @@
 <%@ page import="study.postvote.dto.voteResult.response.MBTIStatistics" %>
 <%@ page import="study.postvote.dto.voteResult.response.UserSelection" %>
 <%@ page import="study.postvote.dto.voteResult.response.VoteResult" %>
+<%@ page import="study.postvote.service.PostService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -110,6 +111,10 @@
     <% } %>
 </table>
 
+<%
+    PostService postService = new PostService();
+    if (postService.isAnonymous(postId) == 1) {
+%>
 <h2>사용자 선택 통계</h2>
 <table>
     <tr>
@@ -126,7 +131,10 @@
         <td><%= userSel.getLabel() %>
         </td>
     </tr>
-    <% } %>
+    <%
+            }
+        }
+    %>
 </table>
 
 </body>

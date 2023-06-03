@@ -93,6 +93,29 @@ public class PostRepository {
         }
     }
 
+    public int isAnonymous(Long postId) {
+        String sql = "SELECT is_anonymous FROM vote WHERE post_id = ?;";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, postId);
+            ResultSet rs = null;
+            try {
+                System.out.println(pstmt);
+                rs = pstmt.executeQuery();
+                rs.next();
+                return rs.getInt(1);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } finally {
+                OrganizationRepository.connclose(pstmt, rs, conn);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void updatePost(Post post) {
         String sql = "update user set " + "title = ?, description = ?, date = ?";
 
@@ -125,6 +148,7 @@ public class PostRepository {
             throw new RuntimeException(e);
         }
     }
+
     public List<PostListResponse> findAllPostListResponse() {
 //        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id ORDER BY p.date DESC LIMIT ? OFFSET ?;";
         String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id;";
@@ -150,7 +174,7 @@ public class PostRepository {
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1,id);
+            pstmt.setLong(1, id);
 
             return executeQuery(pstmt);
         } catch (SQLException e) {
