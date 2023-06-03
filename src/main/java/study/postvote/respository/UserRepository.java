@@ -209,8 +209,6 @@ public class UserRepository {
         }
     }
 
-<<<<<<< HEAD
-=======
     public List<User> findByMyVote(Long id) {
         String sql = "select PS.* " +
                 "from user US " +
@@ -230,8 +228,6 @@ public class UserRepository {
 
     }
 
-
->>>>>>> 14d34cc6fbaea5071aaf4928ce62147db2c312b1
     private List<User> executeQuery(PreparedStatement pstmt) {
         List<User> userList = new ArrayList<>();
         ResultSet rs = null;
