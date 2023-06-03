@@ -32,4 +32,8 @@ public enum City {
     City(String description) {
         this.description = description;
     }
+
+    String getDescription(){
+        return description;
+    }
 }

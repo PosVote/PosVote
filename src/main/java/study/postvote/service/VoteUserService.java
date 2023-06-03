@@ -1,6 +1,10 @@
 package study.postvote.service;
 
 import study.postvote.domain.VoteUser;
+import study.postvote.dto.voteResult.response.CityStatistics;
+import study.postvote.dto.voteResult.response.MBTIStatistics;
+import study.postvote.dto.voteResult.response.UserSelection;
+import study.postvote.dto.voteResult.response.VoteResult;
 import study.postvote.respository.VoteUserRepository;
 
 import java.util.List;
@@ -53,4 +57,12 @@ public class VoteUserService {
     public int findByAvgAge(int optionId) {
         return voteUserRepository.findByAvgAge(optionId);
     }
+
+    public List<CityStatistics> findCityStatistics(Long post_id){return voteUserRepository.findCityStatistics(post_id);}
+
+    public List<MBTIStatistics> findMbtiStatistics(Long post_id){return voteUserRepository.findMbtiStatistics(post_id);}
+
+    public List<UserSelection> findUserSelection(Long post_id){return voteUserRepository.findUserSelection(post_id);}
+
+    public List<VoteResult> findVoteResult(long post_id){return voteUserRepository.findVoteResult(post_id);}
 }
