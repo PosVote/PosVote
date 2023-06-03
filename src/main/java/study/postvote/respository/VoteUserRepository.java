@@ -1,7 +1,9 @@
 package study.postvote.respository;
 
 import study.postvote.domain.*;
+import study.postvote.domain.type.City;
 import study.postvote.domain.type.CityMapper;
+import study.postvote.domain.type.Mbti;
 import study.postvote.domain.type.MbtiMapper;
 import study.postvote.dto.voteResult.response.CityStatistics;
 import study.postvote.dto.voteResult.response.MBTIStatistics;
@@ -197,10 +199,10 @@ public class VoteUserRepository {
         return null;
     }
 
-    public List<CityStatistics> findCityStatistics(Long post_id){
+    public List<CityStatistics> findCityStatistics(Long post_id) {
         /*
-        * 도시별로 groupby 한 것들이 가장 많이 선택한 옵션 수능로 CityStatistics 객체가 반환된다.
-        * */
+         * 도시별로 groupby 한 것들이 가장 많이 선택한 옵션 수능로 CityStatistics 객체가 반환된다.
+         * */
         List<CityStatistics> cityStatistics = new ArrayList<>();
 
         String sql = "select  user.city, vote_user.option_id,vote_option.label, count(*) as count\n" +
@@ -213,25 +215,25 @@ public class VoteUserRepository {
                 "group by user.city, vote_user.option_id, vote_option.label\n" +
                 "order by count desc;";
 
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setLong(1,post_id);
+            ps.setLong(1, post_id);
             rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 cityStatistics.add(new CityStatistics(
-                        CityMapper.mapStringToCity(rs.getString("city")),
+                        City.valueOf(rs.getString("city")),
                         rs.getLong("option_id"),
                         rs.getString("label"),
                         rs.getInt("count")
                 ));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
                 rs.close();
@@ -243,7 +245,7 @@ public class VoteUserRepository {
     }
 
 
-    public List<MBTIStatistics> findMbtiStatistics(Long post_id){
+    public List<MBTIStatistics> findMbtiStatistics(Long post_id) {
         /*
          * MBTI groupby 한 것들이 가장 많이 선택한 옵션 수능로 MBTIStatistics 객체가 반환된다.
          * */
@@ -258,25 +260,25 @@ public class VoteUserRepository {
                 "and vote.post_id = ?\n" +
                 "group by user.mbti, vote_user.option_id, vote_option.label\n" +
                 "order by count desc;";
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setLong(1,post_id);
+            ps.setLong(1, post_id);
             rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 mbtiStatisticsList.add(new MBTIStatistics(
-                        MbtiMapper.mapStringToMbti(rs.getString("mbti")),
+                        Mbti.valueOf(rs.getString("mbti")),
                         rs.getLong("option_id"),
                         rs.getString("label"),
                         rs.getInt("count")
                 ));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
                 rs.close();
@@ -288,12 +290,12 @@ public class VoteUserRepository {
 
     }
 
-    public List<UserSelection> findUserSelection(Long post_id){
+    public List<UserSelection> findUserSelection(Long post_id) {
         /*
-        * 옵션
-        * */
+         * 옵션
+         * */
         List<UserSelection> userSelectionList = new ArrayList<>();
-        String sql = "select  user.user_id, user.name, vote_user.option_id, vote_option.label\n" +
+        String sql = "select  user.user_id, user.name, user.email, vote_user.option_id, vote_option.label\n" +
                 "from vote_user, user, vote_option, vote\n" +
                 "where vote_user.user_id = user.user_id\n" +
                 "and vote_user.option_id = vote_option.option_id\n" +
@@ -301,25 +303,26 @@ public class VoteUserRepository {
                 "and vote_user.vote_id = vote.vote_id\n" +
                 "and vote.post_id = ?\n" +
                 "order by option_id asc;";
-        try{
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setLong(1,post_id);
+            ps.setLong(1, post_id);
             rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 userSelectionList.add(new UserSelection(
                         rs.getLong("user_id"),
                         rs.getString("name"),
+                        rs.getString("email"),
                         rs.getLong("option_id"),
                         rs.getString("label")
                 ));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
                 rs.close();
@@ -330,35 +333,35 @@ public class VoteUserRepository {
         return userSelectionList;
     }
 
-    public List<VoteResult> findVoteResult(long post_id){
+    public List<VoteResult> findVoteResult(long post_id) {
         List<VoteResult> voteResultList = new ArrayList<>();
 
         String sql = "SELECT vote_user.option_id, vote_option.label, count(*) count\n" +
-            "from vote,vote_user, vote_option\n" +
-            "where vote.vote_id = vote_user.vote_id\n" +
-            "and vote.vote_id = vote_option.vote_id\n" +
-            "and vote_user.option_id = vote_option.option_id\n" +
-            "and vote.post_id = ?\n" +
-            "group by vote_user.option_id, vote_option.label\n" +
-            "order by count desc;\n";
-        try{
+                "from vote,vote_user, vote_option\n" +
+                "where vote.vote_id = vote_user.vote_id\n" +
+                "and vote.vote_id = vote_option.vote_id\n" +
+                "and vote_user.option_id = vote_option.option_id\n" +
+                "and vote.post_id = ?\n" +
+                "group by vote_user.option_id, vote_option.label\n" +
+                "order by count desc;\n";
+        try {
             conn = ConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setLong(1,post_id);
+            ps.setLong(1, post_id);
             rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 voteResultList.add(new VoteResult(
                         rs.getLong("option_id"),
                         rs.getString("label"),
                         rs.getInt("count")
                 ));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }finally {
-            try{
+        } finally {
+            try {
                 conn.close();
                 ps.close();
                 rs.close();
@@ -369,7 +372,6 @@ public class VoteUserRepository {
         return voteResultList;
 
     }
-
 
 
     public void updateVoteUser(VoteUser voteUser) {

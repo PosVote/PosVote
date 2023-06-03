@@ -1,25 +1,133 @@
-<!DOCTYPE html>
+<%@ page import="java.util.List" %>
+<%@ page import="study.postvote.service.VoteUserService" %>
+<%@ page import="study.postvote.dto.voteResult.response.CityStatistics" %>
+<%@ page import="study.postvote.dto.voteResult.response.MBTIStatistics" %>
+<%@ page import="study.postvote.dto.voteResult.response.UserSelection" %>
+<%@ page import="study.postvote.dto.voteResult.response.VoteResult" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>투표 통계</title>
-  <style>
-    /* CSS 스타일 설정 */
-  </style>
-  <script>
-    // JavaScript 코드
-  </script>
+    <title>투표 통계</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
+<%
+    VoteUserService voteUserService = new VoteUserService();
+    Long postId = Long.parseLong(request.getParameter("postId"));
+
+    List<CityStatistics> cityStatistics = voteUserService.findCityStatistics(postId);
+    List<MBTIStatistics> mbtiStatistics = voteUserService.findMbtiStatistics(postId);
+    List<UserSelection> userSelection = voteUserService.findUserSelection(postId);
+    List<VoteResult> voteResult = voteUserService.findVoteResult(postId);
+%>
+
 <h1>투표 통계</h1>
 
-<div id="ageChart"></div>
-<div id="genderChart"></div>
-<div id="regionChart"></div>
-<div id="mbtiChart"></div>
+<h2>투표 결과</h2>
+<table>
+    <tr>
+        <th>투표 옵션</th>
+        <th>투표 수</th>
+    </tr>
+    <% for (VoteResult result : voteResult) { %>
+    <tr>
+        <td><%= result.getLabel() %>
+        </td>
+        <td><%= result.getCount() %>
+        </td>
+    </tr>
+    <% } %>
+</table>
 
-<script>
-  // JavaScript 코드를 사용하여 통계 계산 및 차트 생성
-</script>
+<h2>도시별 통계</h2>
+<table>
+    <tr>
+        <th>도시</th>
+        <th>투표 옵션</th>
+        <th>투표 수</th>
+    </tr>
+    <% for (CityStatistics cityStat : cityStatistics) { %>
+    <tr>
+        <td><%= cityStat.getCity().getDescription() %>
+        </td>
+        <td><%= cityStat.getLabel() %>
+        </td>
+        <td><%= cityStat.getCount() %>
+        </td>
+    </tr>
+    <% } %>
+</table>
+
+<h2>MBTI 통계</h2>
+<table>
+    <tr>
+        <th>MBTI</th>
+        <th>투표 옵션</th>
+        <th>투표 수</th>
+    </tr>
+    <% for (MBTIStatistics mbtiStat : mbtiStatistics) { %>
+    <tr>
+        <td><%= mbtiStat.getMbti().toString() %>
+        </td>
+        <td><%= mbtiStat.getLabel() %>
+        </td>
+        <td><%= mbtiStat.getCount() %>
+        </td>
+    </tr>
+    <% } %>
+</table>
+
+<h2>사용자 선택 통계</h2>
+<table>
+    <tr>
+        <th>이메일</th>
+        <th>이름</th>
+        <th>투표 옵션</th>
+    </tr>
+    <% for (UserSelection userSel : userSelection) { %>
+    <tr>
+        <td><%= userSel.getEmail() %>
+        </td>
+        <td><%= userSel.getName() %>
+        </td>
+        <td><%= userSel.getLabel() %>
+        </td>
+    </tr>
+    <% } %>
+</table>
+
 </body>
 </html>

@@ -9,6 +9,7 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="study.postvote.service.VoteUserService" %>
 <%@ page import="study.postvote.domain.VoteUser" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -62,7 +63,7 @@
             text-align: center;
         }
 
-        .input_vote{
+        .input_vote {
             padding: 10px;
         }
     </style>
@@ -84,10 +85,10 @@
 
         Boolean voteAble = true;
         List<VoteUser> voteUsers = new VoteUserService().findVoteUserByUserId(userId);
-        if(!voteUsers.isEmpty()){
-            for (VoteUser voteUser: voteUsers) {
+        if (!voteUsers.isEmpty()) {
+            for (VoteUser voteUser : voteUsers) {
                 Long voteId = voteUser.getVoteId();
-                if(v.getVoteId().equals(voteId)){
+                if (v.getVoteId().equals(voteId)) {
                     voteAble = false;
                     break;
                 }
@@ -97,7 +98,7 @@
     %>
 
     <%
-        if(new UserService().findById(userId) == null){
+        if (new UserService().findById(userId) == null) {
     %>
     <h3 class="error-message">!로그인이 필요합니다!</h3>
     <%
@@ -105,9 +106,10 @@
     %>
 
     <form action="/vote/voteOk.jsp" method="post">
-        <p>투표 마감: <%=v.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%></p>
+        <p>투표 마감: <%=v.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
+        </p>
         <%
-            for (Option option: optionList) {
+            for (Option option : optionList) {
         %>
         <div class="vote_contents">
             <input
@@ -117,22 +119,30 @@
                     class="input_vote"
             /><%=option.getLabel()%>
             <br/>
-        <%
-            }
-        %>
+            <%
+                }
+            %>
             <input type="hidden" name="voteId" value="<%=v.getVoteId()%>"/>
-        <%
-            if(!voteAble){
-        %>
+            <%
+                if (!voteAble) {
+            %>
             <p>이미 투표하셨습니다</p>
-        <%
-            }else{
-        %>
+            <%
+            } else {
+            %>
             <input type="submit" value="투표하기">
-        <%}%>
+            <%}%>
         </div>
     </form>
+
+    <a href="../vote/voteStatistics.jsp?postId=<%=v.getPostId()%>">결과 보기</a>
+
+    <% if (role.equals(Role.OWNER) && v.getEndTime().isAfter(LocalDateTime.now())) { %>
+    <a href="../vote/voteEndProcess.jsp?voteId=<%=v.getVoteId()%>">투표 마감하기</a>
+    <% } %>
+
     <%}%>
 </div>
 </body>
 </html>
+
