@@ -129,9 +129,13 @@
             <p>이미 투표하셨습니다</p>
             <%
             } else {
+                if (v.getEndTime().isAfter(LocalDateTime.now())) {
             %>
             <input type="submit" value="투표하기">
-            <%}%>
+            <%
+                    }
+                }
+            %>
         </div>
     </form>
 

@@ -73,7 +73,6 @@
         color: #888;
     }
 
-
     .copyButton, .make-button {
         position: absolute;
         top: 10px;
@@ -127,6 +126,7 @@
         cursor: pointer;
         border-radius: 4px;
     }
+
     .search-form {
         text-align: right;
     }
@@ -152,7 +152,21 @@
         cursor: pointer;
         border-radius: 4px;
     }
+
+    .list-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
 </style>
+
 <body>
 <%
     request.setCharacterEncoding("utf-8");
@@ -161,7 +175,7 @@
     Role role = (Role) session.getAttribute("role");
     String searchTitle = request.getParameter("title");
     out.println("<div class=\"container\">");
-    out.println("<h1>투표 게시판</h1>");
+    out.println("<h1>검색 결과</h1>");
 
     if (Status.ACCEPT.equals(status)) {
         PostService postService = new PostService();
@@ -191,5 +205,8 @@
         out.println("<p class=\"no-posts\">승인되지 않거나 권한이 없습니다.</p>");
     }
 %>
+
+<button class="list-button" onclick="location.href='./list.jsp'">목록으로</button>
+
 </body>
 </html>

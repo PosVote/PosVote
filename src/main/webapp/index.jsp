@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>투커</title>
+    <title>투브</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,9 +51,8 @@
     }
 %>
 <div class="container">
-    <h1>투표 커뮤니티</h1>
-    <h1 style="font-weight: bold; color: #4CAF50;">'투커'</h1>
-    <p style="font-size: 18px; margin-bottom: 30px;">투표 커뮤니티에 오신 것을 환영합니다!</p>
+    <h1>VoteHub</h1>
+    <p style="font-size: 18px; margin-bottom: 30px;">보트 허브에 오신 것을 환영합니다!</p>
     <a class="button" href="user/login.jsp">로그인</a>
     <a class="button" href="user/signup.jsp">조직 생성</a>
 </div>

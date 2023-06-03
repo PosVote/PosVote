@@ -97,7 +97,7 @@
             <input type="password" id="password" name="password" required>
         </div>
 
-        <input type="submit" value="Login" class="button">
+        <input type="submit" value="로그인" class="button">
 
         <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
         <% if (errorMessage != null && !errorMessage.isEmpty()) { %>
