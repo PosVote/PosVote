@@ -139,13 +139,27 @@
         </div>
     </form>
 
-    <a href="../vote/voteStatistics.jsp?postId=<%=v.getPostId()%>">결과 보기</a>
+    <a href="../vote/voteStatistics.jsp?postId=<%=v.getPostId()%>" style="background-color: green; color: white">결과
+        보기</a>
 
-    <% if (role.equals(Role.OWNER) && v.getEndTime().isAfter(LocalDateTime.now())) { %>
-    <a href="../vote/voteEndProcess.jsp?voteId=<%=v.getVoteId()%>">투표 마감하기</a>
-    <% } %>
-
-    <%}%>
+    <% if (role.equals(Role.OWNER)) { %>
+    <a href="../vote/voteDeleteProcess.jsp?voteId=<%=v.getVoteId()%>&postId=<%=post.getPostId()%>"
+       style="background-color: red; color: white">투표 삭제하기</a>
+    <%
+        if (v.getEndTime().isAfter(LocalDateTime.now().plusMinutes(1))) {
+    %>
+    <a href="../vote/voteEndProcess.jsp?voteId=<%=v.getVoteId()%>" style="background-color: blue; color: white">투표
+        마감하기</a>
+    <%
+        }
+    %>
+    <% } else if (v.getEndTime().isBefore(LocalDateTime.now())) {
+    %>
+    <h4>투표가 마감되었습니다.</h4>
+    <%
+            }
+        }
+    %>
 </div>
 </body>
 </html>

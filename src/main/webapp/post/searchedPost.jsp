@@ -179,7 +179,7 @@
 
     if (Status.ACCEPT.equals(status)) {
         PostService postService = new PostService();
-        List<Post> postList = postService.findByTitle(searchTitle);
+        List<Post> postList = postService.findByTitle(searchTitle, orgId);
         if (postList.isEmpty()) {
             out.println("<p class=\"no-posts\">등록된 게시물이 없습니다.</p>");
         } else {

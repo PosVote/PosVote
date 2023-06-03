@@ -4,7 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>글 상세 페이지</title>
+    <title>투표 상세 페이지</title>
     <style>
         body {
             font-family: Arial, sans-serif;

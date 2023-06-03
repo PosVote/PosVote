@@ -173,7 +173,7 @@
     <%
         if (Status.ACCEPT.equals(status)) {
             PostService postService = new PostService();
-            List<PostListResponse> postList = postService.findAllPostListResponse();
+            List<PostListResponse> postList = postService.findAllPostListResponse(orgId);
             //        int count = new VoteService().countVote();
             if (postList.isEmpty()) {
     %>

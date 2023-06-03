@@ -1,20 +1,13 @@
 package study.postvote.respository;
 
 import study.postvote.domain.Post;
-import study.postvote.domain.User;
-import study.postvote.domain.Vote;
-import study.postvote.domain.type.City;
-import study.postvote.domain.type.Mbti;
-import study.postvote.domain.type.Role;
 import study.postvote.dto.post.response.PostListResponse;
 import study.postvote.respository.db.ConnectionManager;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,27 +56,28 @@ public class PostRepository {
         }
     }
 
-    public List<Post> findByTitle(String title) {
-        String sql = "select * from post where title like ?";
+    public List<Post> findByTitle(String title, Long orgId) {
+        String sql = "select * from post join user on post.user_id = user.user_id where title like ? and user.org_id = ? ORDER BY post.date DESC";
 
         try {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + title + "%");
+            pstmt.setLong(2, orgId);
             return executeQuery(pstmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void deleteById(Long post_id) {
-        String sql = "delte from post where post_id = ?";
+    public void deleteById(Long postId) {
+        String sql = "delete from post where post_id = ?";
         PreparedStatement pstmt = null;
 
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1, post_id);
+            pstmt.setLong(1, postId);
             pstmt.executeUpdate();
 
             conn.close();
@@ -149,14 +143,15 @@ public class PostRepository {
         }
     }
 
-    public List<PostListResponse> findAllPostListResponse() {
-//        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id ORDER BY p.date DESC LIMIT ? OFFSET ?;";
-        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id;";
+    public List<PostListResponse> findAllPostListResponse(Long orgId) {
+        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id where u.org_id = ? ORDER BY p.date DESC";
 
         PreparedStatement pstmt = null;
         try {
             conn = ConnectionManager.getConnection();
             pstmt = conn.prepareStatement(sql);
+
+            pstmt.setLong(1, orgId);
 
             return executeQueryPostListResponse(pstmt);
         } catch (SQLException e) {

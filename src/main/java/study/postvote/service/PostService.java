@@ -1,17 +1,19 @@
 package study.postvote.service;
 
 import study.postvote.domain.Post;
-import study.postvote.domain.User;
 import study.postvote.dto.post.response.PostListResponse;
 import study.postvote.respository.PostRepository;
+import study.postvote.respository.VoteRepository;
 
 import java.util.List;
 
 public class PostService {
     private final PostRepository postRepository;
+    private final VoteRepository voteRepository;
 
     public PostService() {
         this.postRepository = new PostRepository();
+        this.voteRepository = new VoteRepository();
     }
 
     public Long save(Post post) {
@@ -22,16 +24,17 @@ public class PostService {
         return postRepository.findByPostId(postId);
     }
 
-    public List<Post> findByTitle(String title) {
-        return postRepository.findByTitle(title);
+    public List<Post> findByTitle(String title, Long orgId) {
+        return postRepository.findByTitle(title, orgId);
     }
 
     public List<Post> findByMyVote(Long id) {
         return postRepository.findByMyVote(id);
     }
 
-    public void deleteById(Long post_Id) {
-        postRepository.deleteById(post_Id);
+    public void deleteById(Long postId, Long voteId) {
+        voteRepository.deleteById(voteId);
+        postRepository.deleteById(postId);
     }
 
     public void updatePost(Post updatePost) {
@@ -46,7 +49,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<PostListResponse> findAllPostListResponse() {
-        return postRepository.findAllPostListResponse();
+    public List<PostListResponse> findAllPostListResponse(Long orgId) {
+        return postRepository.findAllPostListResponse(orgId);
     }
 }

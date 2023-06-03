@@ -73,69 +73,78 @@
     <% } %>
 </table>
 
-<h2>도시별 통계</h2>
-<table>
-    <tr>
-        <th>도시</th>
-        <th>투표 옵션</th>
-        <th>투표 수</th>
-    </tr>
-    <% for (CityStatistics cityStat : cityStatistics) { %>
-    <tr>
-        <td><%= cityStat.getCity().getDescription() %>
-        </td>
-        <td><%= cityStat.getLabel() %>
-        </td>
-        <td><%= cityStat.getCount() %>
-        </td>
-    </tr>
-    <% } %>
-</table>
+<details>
+    <summary>도시별 통계</summary>
+    <h2>도시별 통계</h2>
+    <table>
+        <tr>
+            <th>도시</th>
+            <th>투표 옵션</th>
+            <th>투표 수</th>
+        </tr>
+        <% for (CityStatistics cityStat : cityStatistics) { %>
+        <tr>
+            <td><%= cityStat.getCity().getDescription() %>
+            </td>
+            <td><%= cityStat.getLabel() %>
+            </td>
+            <td><%= cityStat.getCount() %>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</details>
 
-<h2>MBTI 통계</h2>
-<table>
-    <tr>
-        <th>MBTI</th>
-        <th>투표 옵션</th>
-        <th>투표 수</th>
-    </tr>
-    <% for (MBTIStatistics mbtiStat : mbtiStatistics) { %>
-    <tr>
-        <td><%= mbtiStat.getMbti().toString() %>
-        </td>
-        <td><%= mbtiStat.getLabel() %>
-        </td>
-        <td><%= mbtiStat.getCount() %>
-        </td>
-    </tr>
-    <% } %>
-</table>
+<details>
+    <summary>MBTI 통계</summary>
+    <h2>MBTI 통계</h2>
+    <table>
+        <tr>
+            <th>MBTI</th>
+            <th>투표 옵션</th>
+            <th>투표 수</th>
+        </tr>
+        <% for (MBTIStatistics mbtiStat : mbtiStatistics) { %>
+        <tr>
+            <td><%= mbtiStat.getMbti().toString() %>
+            </td>
+            <td><%= mbtiStat.getLabel() %>
+            </td>
+            <td><%= mbtiStat.getCount() %>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</details>
 
 <%
     PostService postService = new PostService();
     if (postService.isAnonymous(postId) == 1) {
 %>
-<h2>사용자 선택 통계</h2>
-<table>
-    <tr>
-        <th>이메일</th>
-        <th>이름</th>
-        <th>투표 옵션</th>
-    </tr>
-    <% for (UserSelection userSel : userSelection) { %>
-    <tr>
-        <td><%= userSel.getEmail() %>
-        </td>
-        <td><%= userSel.getName() %>
-        </td>
-        <td><%= userSel.getLabel() %>
-        </td>
-    </tr>
-    <%
+<details>
+    <summary>사용자 선택 결과</summary>
+    <h2>사용자 선택 결과</h2>
+    <table>
+        <tr>
+            <th>이메일</th>
+            <th>이름</th>
+            <th>투표 옵션</th>
+        </tr>
+        <% for (UserSelection userSel : userSelection) { %>
+        <tr>
+            <td><%= userSel.getEmail() %>
+            </td>
+            <td><%= userSel.getName() %>
+            </td>
+            <td><%= userSel.getLabel() %>
+            </td>
+        </tr>
+        <%
+                }
             }
-        }
-    %>
-</table>
+        %>
+    </table>
+</details>
 
 </body>
 </html>

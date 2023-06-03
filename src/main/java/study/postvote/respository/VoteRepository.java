@@ -154,5 +154,22 @@ public class VoteRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteById(Long voteId) {
+        String sql = "delete from vote where vote_id = ?";
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, voteId);
+            pstmt.executeUpdate();
+
+            conn.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
