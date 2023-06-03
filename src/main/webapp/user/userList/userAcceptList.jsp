@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>가입 신청 목록</title>
+    <title>유저 목록</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -100,7 +100,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>가입 신청 목록</h1>
+    <h1>유저 목록</h1>
     <%
         request.setCharacterEncoding("utf-8");
         Status status = (Status) session.getAttribute("status");
@@ -112,7 +112,7 @@
 
             if (userList.isEmpty()) {
     %>
-    <p class="no-users">가입 신청한 유저가 없습니다.</p>
+    <p class="no-users">가입된 유저가 없습니다.</p>
     <%
     } else {
         for (User user : userList) {
