@@ -19,6 +19,38 @@
             padding: 0;
         }
 
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #ccc;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-button {
+            margin-left: 10px;
+            padding: 8px 12px;
+            background-color: #ff0606;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -62,7 +94,7 @@
             align-items: center;
         }
 
-        .exileUserButton {
+        .exileOrgButton {
             margin-left: 10px;
             padding: 8px 12px;
             background-color: #ff0606;
@@ -91,17 +123,15 @@
         }
 
         .orgWaitingButton {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            margin-top: 20px;
             background-color: #4CAF50;
             border: none;
             color: white;
-            padding: 8px 12px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 14px;
+            padding: 8px 12px;
             cursor: pointer;
             border-radius: 4px;
         }
@@ -114,11 +144,20 @@
         function exileOrg(orgId) {
             location.href = "./orgExileProcess.jsp?orgId=" + orgId;
         }
+
+        function logout() {
+            location.href = '../user/logout.jsp';
+        }
     </script>
 </head>
 <body>
+<div class="header">
+    <h1 class="header-title">조직 목록</h1>
+    <div class="header-buttons">
+        <button class="logout-button" onclick="logout()">로그아웃</button>
+    </div>
+</div>
 <div class="container">
-    <h1>조직 목록</h1>
     <button class='orgWaitingButton' onclick='orgWaiting()'>대기 조직 목록</button>
     <%
         request.setCharacterEncoding("utf-8");
@@ -146,7 +185,7 @@
             <span class="org-name">인원: <%= org.getOrgMemberCount() %>명</span>
         </div>
         <div class="action-buttons">
-            <button class="exileUserButton" onclick="exileOrg(<%= org.getOrgId() %>)">추방</button>
+            <button class="exileOrgButton" onclick="exileOrg(<%= org.getOrgId() %>)">추방</button>
         </div>
     </div>
     <%

@@ -10,6 +10,7 @@
 <%@ page import="study.postvote.domain.Organization" %>
 
 <%
+    session = request.getSession(false);
     String email = request.getParameter("email");
     String password = request.getParameter("password");
 
@@ -30,27 +31,34 @@
 
     User user = userService.login(email, password);
 
-    if (user.getRole().equals(Role.ADMIN)) {
-        session.setAttribute("userId", user.getUserId());
-        session.setAttribute("role", user.getRole());
-        response.sendRedirect("../adminView/adminPage.jsp");
-        return;
-    }
+    try {
+        if (user.getRole().equals(Role.ADMIN)) {
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("role", user.getRole());
+            response.sendRedirect("../adminView/adminPage.jsp");
+            return;
+        }
 
-
-    if (user != null) {
-        if (user.getStatus().toString().equals("WAITING")) {
-            String errorMessage = "현재 승인 대기중입니다. 웹 관리자, 혹은 회사 담당자에게 연락하세요";
+        if (user != null) {
+            if (user.getStatus().toString().equals("WAITING")) {
+                String errorMessage = "현재 승인 대기중입니다. 웹 관리자, 혹은 회사 담당자에게 연락하세요";
+                request.setAttribute("errorMessage", errorMessage);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+                dispatcher.forward(request, response);
+            }
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("status", user.getStatus());
+            session.setAttribute("role", user.getRole());
+            session.setAttribute("orgId", user.getOrgId());
+            response.sendRedirect("../post/list.jsp");
+        } else {
+            String errorMessage = "유효하지 않은 이메일 또는 비밀번호입니다.";
             request.setAttribute("errorMessage", errorMessage);
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);
         }
-        session.setAttribute("userId", user.getUserId());
-        session.setAttribute("status", user.getStatus());
-        session.setAttribute("role", user.getRole());
-        session.setAttribute("orgId", user.getOrgId());
-        response.sendRedirect("../post/list.jsp");
-    } else {
+    } catch (Exception e) {
+        e.printStackTrace();
         String errorMessage = "유효하지 않은 이메일 또는 비밀번호입니다.";
         request.setAttribute("errorMessage", errorMessage);
         RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");

@@ -32,7 +32,7 @@
             text-align: center;
         }
 
-        .org {
+        .user {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -43,20 +43,24 @@
             background-color: #f9f9f9;
         }
 
-        .org-info {
+        .user-info {
             display: flex;
             align-items: center;
+            flex-grow: 1;
         }
 
-        .org-name {
+        .user-name {
             font-size: 16px;
             font-weight: bold;
             margin-right: 10px;
         }
 
-        .user-status {
+        .user-age,
+        .user-gender,
+        .user-email {
             font-size: 14px;
             color: #888;
+            margin-right: 10px;
         }
 
         .action-buttons {
@@ -120,9 +124,9 @@
     <div class="user">
         <div class="user-info">
             <span class="user-name">이름: <%= user.getName() %> </span>
-            <span class="user-name">나이: <%= user.getAge() %></span>
-            <span class="user-name">성별: <%= user.getGender() == 0 ? "남자" : "여자" %></span>
-            <span class="user-name">이메일: <%= user.getEmail() %></span>
+            <span class="user-age">나이: <%= user.getAge() %></span>
+            <span class="user-gender">성별: <%= user.getGender() == 0 ? "남자" : "여자" %></span>
+            <span class="user-email">이메일: <%= user.getEmail() %></span>
         </div>
         <div class="action-buttons">
             <button class="exileUserButton" onclick="exileUser(<%= user.getUserId() %>)">추방</button>

@@ -2,6 +2,7 @@
 <%@ page import="study.postvote.domain.User, study.postvote.service.UserService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="study.postvote.domain.type.Status" %>
+<%@ page import="study.postvote.domain.type.Role" %>
 
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,7 @@
             text-align: center;
         }
 
-        .org {
+        .user {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -43,18 +44,21 @@
             background-color: #f9f9f9;
         }
 
-        .org-info {
+        .user-info {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            flex-grow: 1;
         }
 
-        .org-name {
+        .user-name {
             font-size: 16px;
             font-weight: bold;
             margin-right: 10px;
         }
 
-        .user-status {
+        .user-age,
+        .user-email {
             font-size: 14px;
             color: #888;
         }
@@ -95,11 +99,11 @@
     </style>
     <script>
         function acceptUser(userId) {
-            location.href = "../acceptOrg.jsp?userId=" + userId + "&type=accept";
+            location.href = "../acceptUserOrg.jsp?userId=" + userId + "&type=accept";
         }
 
         function rejectUser(userId) {
-            location.href = "../acceptOrg.jsp?userId=" + userId + "&type=reject";
+            location.href = "../acceptUserOrg.jsp?userId=" + userId + "&type=reject";
         }
     </script>
 </head>
@@ -110,8 +114,9 @@
         request.setCharacterEncoding("utf-8");
         Status status = (Status) session.getAttribute("status");
         Long orgId = (Long) session.getAttribute("orgId");
+        Role role = (Role) session.getAttribute("role");
 
-        if (Status.ACCEPT.equals(status)) {
+        if (Status.ACCEPT.equals(status) && role.equals(Role.OWNER)) {
             UserService userService = new UserService();
             List<User> userList = userService.findUserOfOrgWaitingByOrgIdAndStatus(orgId);
 
@@ -124,13 +129,15 @@
     %>
     <div class="user">
         <div class="user-info">
-            <span class="user-name">이름: <%= user.getName() %> </span>
-            <span class="user-name">나이: <%= user.getAge() %></span>
-            <span class="user-name">이메일: <%= user.getEmail() %></span>
-        </div>
-        <div class="action-buttons">
-            <button class="accept-button" onclick="acceptUser(<%= user.getUserId() %>)">수락</button>
-            <button class="reject-button" onclick="rejectUser(<%= user.getUserId() %>)">거절</button>
+            <div>
+                <span class="user-name">이름: <%= user.getName() %> </span>
+                <span class="user-age">나이: <%= user.getAge() %></span>
+                <span class="user-email">이메일: <%= user.getEmail() %></span>
+            </div>
+            <div class="action-buttons">
+                <button class="accept-button" onclick="acceptUser(<%= user.getUserId() %>)">수락</button>
+                <button class="reject-button" onclick="rejectUser(<%= user.getUserId() %>)">거절</button>
+            </div>
         </div>
     </div>
     <%

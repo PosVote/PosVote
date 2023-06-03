@@ -67,11 +67,14 @@
             color: #888;
         }
 
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-        .copyButton, .make-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        .header button {
             background-color: #4CAF50;
             border: none;
             color: white;
@@ -82,45 +85,17 @@
             font-size: 14px;
             cursor: pointer;
             border-radius: 4px;
+            margin-left: 10px;
         }
 
-        .make-button {
-            right: 10px;
-            top: 50px;
+        .header .copy-button {
             background-color: #0033ff;
         }
 
-        .requestListButton {
-            position: absolute;
-            top: 10px;
-            right: 130px;
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 4px;
+        .header .logout-button {
+            background-color: #ff3333;
         }
 
-        .userListButton {
-            position: absolute;
-            top: 10px;
-            right: 250px;
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
         .search-form {
             text-align: right;
         }
@@ -159,6 +134,10 @@
         const makeVote = () => {
             window.location.href = "/post/post.jsp";
         }
+
+        const logout = () => {
+            window.location.href = "/user/logout.jsp";
+        }
     </script>
 </head>
 <body>
@@ -169,44 +148,71 @@
     Role role = (Role) session.getAttribute("role");
 
 
-    if (Status.ACCEPT.equals(status) && Role.OWNER.equals(role)) {
-        out.println("<button class='copyButton' onclick='copyText()'>초대 코드 복사</button>"
-                + "<button class='userListButton' onclick=\"location.href='/user/userList/userAcceptList.jsp'\">유저 목록</button>"
-                + "<button class='requestListButton' onclick=\"location.href='/user/userList/userWaitingList.jsp'\">가입 신청 목록</button>"
-                + "<button class='make-button' onclick='makeVote()'>투표 생성하기</button>");
+    if (Status.ACCEPT.equals(status)) {
+%>
+<div class="header">
+    <%
+        if (Role.OWNER.equals(role)) {
+    %>
+    <button onclick="location.href='/user/userList/userAcceptList.jsp'">유저 목록</button>
+    <button onclick="location.href='/user/userList/userWaitingList.jsp'">가입 신청 목록</button>
+    <button onclick="makeVote()">투표 생성하기</button>
+    <button class="copy-button" onclick="copyText()">초대 코드 복사</button>
+    <%
+        }
+    %>
+    <button class="logout-button" onclick="logout()">로그아웃</button>
+</div>
+<%
     }
 
-    out.println("<div class=\"container\">");
-    out.println("<h1>투표 게시판</h1>");
+%>
+<div class="container">
+    <h1>투표 게시판</h1>
 
-    if (Status.ACCEPT.equals(status)) {
-        PostService postService = new PostService();
-        List<PostListResponse> postList = postService.findAllPostListResponse();
-//        int count = new VoteService().countVote();
-        if (postList.isEmpty()) {
-            out.println("<p class=\"no-posts\">등록된 게시물이 없습니다.</p>");
-        } else {
-            out.println("<div class=\"search-form\">");
-            out.println("<form action=\"searchedPost.jsp\" method=\"get\">");
-            out.println("<input type=\"text\" name=\"title\" class=\"search-input\" placeholder=\"제목을 입력하세요\">");
-            out.println("<input type=\"submit\" value=\"검색\" class=\"search-button\">");
-            out.println("</form>");
-            out.println("</div>");
-            for (PostListResponse post : postList) {
-                out.println("<div class=\"post\">");
-                out.println("<a class=\"post-title\" href=\"postView.jsp?id=" + post.getPostId() + "\">" + post.getTitle() + "</a>");
-                out.println("<p class=\"post-meta\">작성자: " + post.getName() +
-                        " 작성일: " + post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) +
-                        " 총 투표 수: " + new VoteService().countVote(post.getPostId()) +
-                        "</p>");
-                out.println("</div>");
+    <%
+        if (Status.ACCEPT.equals(status)) {
+            PostService postService = new PostService();
+            List<PostListResponse> postList = postService.findAllPostListResponse();
+            //        int count = new VoteService().countVote();
+            if (postList.isEmpty()) {
+    %>
+    <p class="no-posts">등록된 게시물이 없습니다.</p>
+    <%
+    } else {
+    %>
+    <div class="search-form">
+        <form action="searchedPost.jsp" method="get">
+            <input type="text" name="title" class="search-input" placeholder="제목을 입력하세요">
+            <input type="submit" value="검색" class="search-button">
+        </form>
+    </div>
+    <%
+        for (PostListResponse post : postList) {
+    %>
+    <div class="post">
+        <a class="post-title" href="postView.jsp?id=<%=post.getPostId()%>"><%=post.getTitle()%>
+        </a>
+        <p class="post-meta">
+            작성자: <%=post.getName()%>
+            작성일: <%=post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
+            총 투표 수: <%=new VoteService().countVote(post.getPostId())%>
+        </p>
+    </div>
+    <%
             }
         }
 
-        out.println("<input type='text' style='display: none;' id='copyText' value='" + SERVER_IP + "/user/signupUser.jsp?orgId=" + orgId + "' readonly>");
+    %>
+    <input type='text' style='display: none;' id='copyText' value='<%=SERVER_IP%>/user/signupUser.jsp?orgId=<%=orgId%>'
+           readonly>
+    <%
     } else {
-        out.println("<p class=\"no-posts\">승인되지 않거나 권한이 없습니다.</p>");
-    }
-%>
+    %>
+    <p class="no-posts">승인되지 않거나 권한이 없습니다.</p>
+    <%
+        }
+    %>
+</div>
 </body>
 </html>
