@@ -428,7 +428,7 @@ public class VoteUserRepository {
         String sql = "delete from vote_user where user_id = ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setLong(1, userId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -449,7 +449,7 @@ public class VoteUserRepository {
         String sql = "delete from vote_user where user_id = ? and vote_id = ?";
         try {
             conn = ConnectionManager.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setLong(1, userId);
             ps.setLong(2, voteId);
             ps.executeUpdate();
@@ -469,8 +469,28 @@ public class VoteUserRepository {
 
 
 // 제작 보류
-//    void deleteVoteUserByVoteId(long voteId){
-//    }
+    public void deleteVoteUserByVoteId(long voteId){
+        String sql = "DELETE FROM vote_user where vote_id = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, voteId);
+            System.out.println(ps);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("ERROR in deleteVoteUserByVoteId");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                conn.close();
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     private List<Integer> executeQueryInteger(PreparedStatement pstmt) {
         List<Integer> integers = new ArrayList<>();

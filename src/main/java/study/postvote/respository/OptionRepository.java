@@ -195,7 +195,7 @@ public class OptionRepository {
         String sql = "delete from vote_option where vote_id = ?";
         try{
             conn = ConnectionManager.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
