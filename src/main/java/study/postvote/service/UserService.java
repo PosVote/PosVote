@@ -57,8 +57,14 @@ public class UserService {
         userRepository.deleteById(findUser.getUserId());
     }
 
-    public void updateUser(User updateUser) {
-        userRepository.updateUser(updateUser);
+    public void updateUser(User updateUser) throws Exception {
+        User findUser = userRepository.findByEmail(updateUser.getEmail());
+        if (findUser == null) {
+            userRepository.updateUser(updateUser);
+        }
+        else {
+            throw new Exception();
+        }
     }
 
     public void updateStatus(User user, Status status) {
@@ -69,7 +75,7 @@ public class UserService {
         User findUser = userRepository.findById(id);
         if (findUser != null) {
             userRepository.updateRole(findUser, Role.USER);
-        } else {
+        }  else {
             throw new Exception();
         }
     }

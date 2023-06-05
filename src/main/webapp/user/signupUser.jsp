@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>조직 생성</title>
+    <title>사용자 가입</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -185,7 +185,7 @@
 %>
 
 <div class="container">
-    <h1>조직 생성</h1>
+    <h1>사용자 가입</h1>
     <form method="post" action="signupProcess.jsp">
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" required><br>

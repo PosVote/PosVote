@@ -96,6 +96,10 @@
             background-color: #ff3333;
         }
 
+        .header .editUser-button{
+            background-color: #4CAF50;
+        }
+
         .search-form {
             text-align: right;
         }
@@ -138,6 +142,11 @@
         const logout = () => {
             window.location.href = "/user/logout.jsp";
         }
+
+        const editUser = () => {
+            window.location.href = "/user/editUser.jsp";
+        }
+
     </script>
 </head>
 <body>
@@ -161,6 +170,7 @@
     <%
         }
     %>
+    <button class="editUser-button" onclick="editUser()">내 정보 수정하기</button>
     <button class="logout-button" onclick="logout()">로그아웃</button>
 </div>
 <%
