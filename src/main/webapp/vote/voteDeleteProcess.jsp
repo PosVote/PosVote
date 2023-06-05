@@ -13,5 +13,5 @@
     postService.deleteById(postId, voteId);
   }
 
-  response.setHeader("Refresh", "0; URL=../post/list.jsp");
+  response.setHeader("Refresh", "0; URL=../post/list.jsp?page=1");
 %>

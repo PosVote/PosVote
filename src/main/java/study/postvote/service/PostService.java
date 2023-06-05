@@ -59,7 +59,11 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<PostListResponse> findAllPostListResponse(Long orgId) {
-        return postRepository.findAllPostListResponse(orgId);
+    public List<PostListResponse> findAllPostListResponse(Long orgId, int currentPage) {
+        return postRepository.findAllPostListResponse(orgId, currentPage);
+    }
+
+    public int findAllPostCount(Long orgId){
+        return postRepository.findAllPostCount(orgId);
     }
 }

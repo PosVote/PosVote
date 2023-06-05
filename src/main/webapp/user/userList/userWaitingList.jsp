@@ -144,7 +144,7 @@
             }
         }
     %>
-    <button class="back-button" onclick="location.href='../../post/list.jsp'">뒤로 가기</button>
+    <button class="back-button" onclick="location.href='../../post/list.jsp?page=1'">뒤로 가기</button>
 </div>
 <%
     }

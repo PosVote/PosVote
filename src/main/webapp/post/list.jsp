@@ -7,6 +7,7 @@
 <%@ page import="study.postvote.domain.type.Role" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="study.postvote.service.VoteService" %>
+<%@ page import="static study.postvote.util.StaticStr.POSTPERPAGE" %>
 
 <!DOCTYPE html>
 <html>
@@ -125,6 +126,41 @@
             cursor: pointer;
             border-radius: 4px;
         }
+
+        .pagination {
+            margin-top: 20px;
+        }
+
+        .pagination ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination li {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .pagination a, .pagination strong {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            color: #333;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+
+        .pagination strong {
+            background-color: #999;
+            color: #fff;
+        }
     </style>
     <script>
         function copyText() {
@@ -158,6 +194,7 @@
 
 
     if (Status.ACCEPT.equals(status)) {
+
 %>
 <div class="header">
     <%
@@ -182,14 +219,20 @@
 
     <%
         if (Status.ACCEPT.equals(status)) {
+            int currentPage = Integer.parseInt(request.getParameter("page"));
             PostService postService = new PostService();
-            List<PostListResponse> postList = postService.findAllPostListResponse(orgId);
+            List<PostListResponse> postList = postService.findAllPostListResponse(orgId, currentPage);
             //        int count = new VoteService().countVote();
             if (postList.isEmpty()) {
     %>
     <p class="no-posts">등록된 게시물이 없습니다.</p>
     <%
     } else {
+        int totalPost=  postService.findAllPostCount(orgId);
+        int lastPage = totalPost / POSTPERPAGE + 1;
+
+        if(totalPost % POSTPERPAGE == 0) lastPage--;
+
     %>
     <div class="search-form">
         <form action="searchedPost.jsp" method="get">
@@ -210,8 +253,27 @@
         </p>
     </div>
     <%
-            }
-        }
+            }%>
+    <div class="pagination">
+        <ul>
+            <!-- 이전 페이지 링크 -->
+            <li><a href="/post/list.jsp?page=<%=currentPage - 1%>">이전</a></li>
+
+            <!-- 페이지 번호 링크 -->
+            <% for (int i = 1; i <= lastPage; i++) { %>
+            <% if (i == currentPage) { %>
+            <li><strong><%=i%></strong></li> <!-- 현재 페이지 강조 -->
+            <% } else { %>
+            <li><a href="/post/list.jsp?page=<%=i%>"><%=i%></a></li>
+            <% } %>
+            <% } %>
+
+            <!-- 다음 페이지 링크 -->
+            <li><a href="/post/list.jsp?page=<%=currentPage + 1%>">다음</a></li>
+        </ul>
+    </div>
+
+       <% }
 
     %>
     <input type='text' style='display: none;' id='copyText' value='<%=SERVER_IP%>/user/signupUser.jsp?orgId=<%=orgId%>'
@@ -220,9 +282,14 @@
     } else {
     %>
     <p class="no-posts">승인되지 않거나 권한이 없습니다.</p>
+    <script>
+        window.location.herf = "/index.jsp";
+    </script>
     <%
+
         }
     %>
 </div>
+
 </body>
 </html>

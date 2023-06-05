@@ -66,6 +66,6 @@
     Long vote_id = voteService.insert(vote);
     for(String label: labels) optionList.add(new Option(label, vote_id));
     optionService.saveList(optionList);
-    response.sendRedirect("./list.jsp");
+    response.sendRedirect("./list.jsp?page=1");
 
 %>

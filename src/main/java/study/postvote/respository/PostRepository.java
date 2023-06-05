@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
+import static study.postvote.util.StaticStr.POSTPERPAGE;
 
 public class PostRepository {
     Connection conn = null;
@@ -143,8 +144,8 @@ public class PostRepository {
         }
     }
 
-    public List<PostListResponse> findAllPostListResponse(Long orgId) {
-        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id where u.org_id = ? ORDER BY p.date DESC";
+    public List<PostListResponse> findAllPostListResponse(Long orgId, int currentPage) {
+        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id where u.org_id = ? ORDER BY p.date DESC LIMIT ? OFFSET ?";
 
         PreparedStatement pstmt = null;
         try {
@@ -152,11 +153,43 @@ public class PostRepository {
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setLong(1, orgId);
+            pstmt.setInt(2, POSTPERPAGE);
+            pstmt.setInt(3, POSTPERPAGE * (currentPage - 1));
 
             return executeQueryPostListResponse(pstmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int findAllPostCount(Long orgId) {
+        String sql = "SELECT COUNT(*) count FROM post p join user u on p.user_id = u.user_id where u.org_id = ? ORDER BY p.date DESC";
+
+        pstmt = null;
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setLong(1, orgId);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()) return rs.getInt("count");
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            try{
+                conn.close();
+                pstmt.close();
+                rs.close();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+
+        return -1;
     }
 
     public List<Post> findByMyVote(Long id) {
