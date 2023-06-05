@@ -108,6 +108,7 @@ public class OrganizationRepository {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, id);
+            System.out.println(pstmt);
             pstmt.executeUpdate();
         } catch (Exception ignored) {
 
