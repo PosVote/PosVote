@@ -29,7 +29,23 @@
             color: #fff;
             border-radius: 4px;
             transition: background-color 0.3s ease;
+            margin-bottom: 30px;
         }
+        .post-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .post-description {
+            font-size: 14px;
+        }
+
     </style>
 </head>
 <%
@@ -53,11 +69,16 @@
         <input class="button" type="submit" value="개인정보 수정">
     </form>
 </div>
+<h2>내가 투표한 글</h2>
 <% for (Post post : postList) {
-    out.println(post.getTitle());
-}
 %>
+<div class="post-box">
+    <h3 class="post-title"> 제목 : <%= post.getTitle() %></h3>
+    <p class="post-description"> 내용 : <%= post.getDescription() %></p>
+</div>
 
-
+<%
+    }
+%>
 </body>
 </html>

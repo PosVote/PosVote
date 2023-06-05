@@ -183,6 +183,10 @@
             window.location.href = "/user/editUser.jsp";
         }
 
+        const mypage = () => {
+            window.location.href = "/mypage/myPage.jsp";
+        }
+
     </script>
 </head>
 <body>
@@ -207,6 +211,7 @@
     <%
         }
     %>
+    <button class="editUser-button" onclick="mypage()">마이페이지</button>
     <button class="editUser-button" onclick="editUser()">내 정보 수정하기</button>
     <button class="logout-button" onclick="logout()">로그아웃</button>
 </div>
