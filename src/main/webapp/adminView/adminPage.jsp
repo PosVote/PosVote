@@ -24,12 +24,15 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px;
-            background-color: #ccc;
+            border-bottom: 2px solid black;
+            width: 80%;
+            margin: auto;
         }
 
         .header-title {
             font-size: 20px;
             font-weight: bold;
+            text-align: center;
         }
 
         .header-buttons {
@@ -123,7 +126,7 @@
         }
 
         .orgWaitingButton {
-            margin-top: 20px;
+            margin: 20px auto;
             background-color: #4CAF50;
             border: none;
             color: white;

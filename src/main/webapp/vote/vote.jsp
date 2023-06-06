@@ -50,7 +50,7 @@
 
         .vote_contents {
             display: block;
-            margin: 0 auto;
+            margin: auto;
             text-align: left;
         }
 
@@ -58,10 +58,16 @@
             text-align: center;
         }
 
-        input[type="submit"], .a-button {
+        .vote_contents > form > div {
+            display: block;
+            margin: auto;
+            /*border: 1px solid red;*/
+        }
+        input[type="submit"] {
             padding: 10px 20px;
             background-color: #4CAF50;
             border: none;
+            border-radius: 8px;
             color: #ffffff;
             font-weight: bold;
             cursor: pointer;
@@ -72,7 +78,9 @@
             background-color: #117115;
             transition: 0.3s ease-in;
         }
-
+        .vote-btn{
+            text-align: center;
+        }
         .error-message {
             color: red;
             text-align: center;
@@ -84,8 +92,17 @@
         }
 
         .a-button {
-            display: block;
-            margin: 10px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+        }
+        .a-button > a{
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            margin: 20px 10px;
         }
 
         .result {
@@ -93,11 +110,11 @@
         }
 
         .delete {
-            background-color: red
+            background-color: red;
         }
 
         .end {
-            background-color: #0033ff
+            background-color: #0033ff;
         }
     </style>
 </head>
@@ -201,7 +218,7 @@
                     if (v.getEndTime().isAfter(LocalDateTime.now())) {
                         String checkFunction = type.equals("radio") ? "return validateRadioBoxes()" : "return validateCheckboxes()";
                 %>
-                <input type="submit" value="투표하기" onclick="<%=checkFunction%>">
+                <div class="vote-btn"><input type="submit" value="투표하기" onclick="<%=checkFunction%>"></div>
                 <%
                         }
                     }
@@ -210,22 +227,24 @@
         </form>
     </div>
 
-    <a href="../vote/voteStatistics.jsp?postId=<%=v.getPostId()%>"
-       class="a-button result">
-        결과 보기
-    </a>
+    <div class="a-button">
+        <a href="../vote/voteStatistics.jsp?postId=<%=v.getPostId()%>"
+           class="result">
+            결과 보기
+        </a>
 
-    <% if (role.equals(Role.OWNER)) { %>
-    <a href="../vote/voteDeleteProcess.jsp?voteId=<%=v.getVoteId()%>&postId=<%=post.getPostId()%>"
-       class="a-button delete">
-        투표 삭제하기
-    </a>
-    <%
-        if (v.getEndTime().isAfter(LocalDateTime.now().plusMinutes(1))) {
-    %>
-    <a href="../vote/voteEndProcess.jsp?voteId=<%=v.getVoteId()%>" class="a-button end">
-        투표 마감하기
-    </a>
+        <% if (role.equals(Role.OWNER)) { %>
+        <a href="../vote/voteDeleteProcess.jsp?voteId=<%=v.getVoteId()%>&postId=<%=post.getPostId()%>"
+           class="delete">
+            투표 삭제하기
+        </a>
+        <%
+            if (v.getEndTime().isAfter(LocalDateTime.now().plusMinutes(1))) {
+        %>
+        <a href="../vote/voteEndProcess.jsp?voteId=<%=v.getVoteId()%>" class="end">
+            투표 마감하기
+        </a>
+    </div>
     <%
         }
     %>

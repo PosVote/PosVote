@@ -100,6 +100,7 @@
             color: white;
             transition: 0.3s ease-in;
         }
+        .no-users{text-align: center}
     </style>
     <script>
         function exileUser(userId) {

@@ -20,10 +20,28 @@
         const validateForm = () => {
             const isAnonymousSelected = document.querySelector('input[name="isAnonymous"]:checked');
             const inputTypeSelected = document.querySelector('input[name="inputType"]:checked');
+            const labels = document.querySelectorAll('input[name="labels"]');
 
+            console.log("라벨: "+labels);
             if (!isAnonymousSelected || !inputTypeSelected) {
                 alert("익명/NO익명과 다중 선택/단일 선택을 선택해야 합니다.");
                 return false;
+            }
+            if(labels === null){
+                alert("투표 항목을 입력하세요");
+                return false;
+            }
+            if(labels.length < 2){
+                alert("투표 항목은 2개 이상이어야 합니다");
+                return false;
+            }
+            else if(labels.length > 0){
+                for (let i = 0; i < labels.length; i++) {
+                    if (labels[i].value.trim() === '') {
+                        alert("투표 항목은 반드시 입력되어야 합니다.");
+                        return false;
+                    }
+                }
             }
         }
     </script>
@@ -117,7 +135,7 @@
         </div>
         <div>
             <label for="end_day">마감 기한</label><br/>
-            <input type="datetime-local" id="end_day" min="<%=simpleDateFormat.format(date)%>" name="end_time">
+            <input type="datetime-local" id="end_day" min="<%=simpleDateFormat.format(date)%>" name="end_time" required>
         </div>
         <div>
             <label for="description">내용</label>
