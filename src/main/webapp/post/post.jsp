@@ -64,11 +64,12 @@
         h1 {
             text-align: center;
             margin-top: 0;
+            font-size: 24px;
         }
 
         label {
             font-weight: bold;
-            margin-bottom: 15px;
+            padding-bottom: 15px;
         }
 
         input[type="text"],

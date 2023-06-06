@@ -13,7 +13,6 @@
             text-decoration: none;
             outline: none;
             color: black;
-            font-weight: 70;
         }
         a:hover{
             transition: 0.3s ease-in;
@@ -105,7 +104,7 @@
 %>
 <div class="page">
     <header>
-        <h2>VoteHub</h2>
+        <a href="/post/list.jsp?page=1"><h2>VoteHub</h2></a>
         <nav>
             <ul>
                 <%

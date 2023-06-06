@@ -83,6 +83,8 @@
         }
 
         .back-button {
+            text-align: center;
+            margin: auto;
             margin-top: 20px;
             background-color: #ccc;
             border: none;
@@ -94,6 +96,11 @@
             padding: 8px 12px;
             cursor: pointer;
             border-radius: 4px;
+        }
+        .back-button:hover{
+            background-color: #0033ff;
+            color: white;
+            transition: 0.3s ease-in;
         }
     </style>
     <script>

@@ -13,14 +13,19 @@
         }
 
         .container {
-            max-width: 400px;
+            width: 400px;
             margin: 0 auto;
             padding: 40px;
             text-align: center;
             background-color: #fff;
             border-radius: 4px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
+
 
         h1 {
             color: #333;
@@ -55,10 +60,12 @@
             color: #fff;
             border-radius: 4px;
             transition: background-color 0.3s ease;
+            border: none;
         }
 
         .button:hover {
-            background-color: #45a049;
+            background-color: #2f7c33;
+            cursor: pointer;
         }
 
         .error-message {
@@ -89,11 +96,11 @@
     <h1>로그인</h1>
     <form method="post" action="loginProcess.jsp">
         <div class="form-row">
-            <label for="email">이메일:</label>
+            <label for="email">이메일</label>
             <input type="email" id="email" name="email" required>
         </div>
         <div class="form-row">
-            <label for="password">비밀번호:</label>
+            <label for="password">비밀번호</label>
             <input type="password" id="password" name="password" required>
         </div>
 

@@ -70,6 +70,8 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto;
         }
 
         .submit-button:hover {
@@ -169,7 +171,7 @@
 <div class="container">
     <h1>조직 생성</h1>
     <form method="post" action="signupProcess.jsp">
-        <label for="email">이메일:</label>
+        <label for="email">이메일</label>
         <input type="email" id="email" name="email" required><br>
         <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
         <% if (errorMessage != null && !errorMessage.isEmpty()) { %>
@@ -177,17 +179,17 @@
         </p>
         <% } %>
 
-        <label for="password">비밀번호:</label>
+        <label for="password">비밀번호</label>
         <input type="password" id="password" name="password" required><br>
 
-        <label for="name">이름:</label>
+        <label for="name">이름</label>
         <input type="text" id="name" name="name" required><br>
 
-        <label for="age">나이:</label>
+        <label for="age">나이</label>
         <input type="number" id="age" name="age" required><br>
 
         <div class="checkbox-group">
-            <label>성별:</label>
+            <label>성별</label><br/>
             <label>
                 <input type="radio" name="gender" value="0" checked> 남자
             </label>
@@ -196,7 +198,7 @@
             </label>
         </div>
 
-        <label for="city">거주지:</label>
+        <label for="city">거주지</label>
         <select id="city" name="city" required>
             <option value="SEOUL">서울</option>
             <option value="GYEONGGI">경기</option>
@@ -213,7 +215,7 @@
             <option value="JEJU">제주</option>
         </select>
 
-        <label for="mbti">MBTI:</label>
+        <label for="mbti">MBTI</label>
         <select id="mbti" name="mbti" required>
             <option value="ISTJ">ISTJ</option>
             <option value="ISFJ">ISFJ</option>
@@ -234,17 +236,17 @@
         </select>
 
         <div>
-            <label for="orgName">조직 이름:</label>
-            <input type="text" id="orgName" name="orgName">
-            <button type="button" id="createOrganizationButton" class="create-organization-button"
-                    onclick="openCreateModal()" style="display: none;">
-                조직 생성
-            </button>
+            <label for="orgName">조직 이름</label>
+            <input type="text" id="orgName" name="orgName"/>
+<%--            <button type="button" id="createOrganizationButton" class="create-organization-button"--%>
+<%--                    onclick="openCreateModal()" style="display: none;">--%>
+<%--                조직 생성--%>
+<%--            </button>--%>
         </div>
 
         <input type="hidden" id="role" name="role" value=<%=Role.OWNER%>>
 
-        <input type="hidden" id="orgId" name="orgId" value=-1>>
+        <input type="hidden" id="orgId" name="orgId" value=-1>
 
         <input type="submit" class="submit-button" value="신청">
     </form>

@@ -29,6 +29,9 @@
             /*padding: 20px;*/
             /*background-color: #f2f2f2;*/
         }
+        .my-page h1{
+            font-size: 24px;
+        }
 
         .greeting {
             text-align: right;

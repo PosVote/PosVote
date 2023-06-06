@@ -14,17 +14,45 @@
             padding: 0;
         }
 
+        /*.container {*/
+        /*    max-width: 600px;*/
+        /*    margin: 0 auto;*/
+        /*    padding: 40px;*/
+        /*    text-align: center;*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+        /*    height: 100vh;*/
+        /*    */
+        /*}*/
         .container {
-            max-width: 600px;
+            width: 400px;
             margin: 0 auto;
             padding: 40px;
             text-align: center;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         h1 {
             color: #333;
             font-size: 32px;
             margin-bottom: 30px;
+        }
+
+        .button-wrapper {
+            display: flex;
+            gap: 10px;
         }
 
         .button {
@@ -57,8 +85,10 @@
 <div class="container">
     <h1>VoteHub</h1>
     <p style="font-size: 18px; margin-bottom: 30px;">보트 허브에 오신 것을 환영합니다!</p>
-    <a class="button" href="user/login.jsp">로그인</a>
-    <a class="button" href="user/signup.jsp">조직 생성</a>
+    <div class="button-wrapper">
+        <a class="button" href="user/login.jsp">로그인</a>
+        <a class="button" href="user/signup.jsp">조직 생성</a>
+    </div>
 </div>
 </body>
 </html>
