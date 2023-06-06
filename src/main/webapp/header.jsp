@@ -31,13 +31,14 @@
 
         .page {
             max-width: 1440px;
+            width: 80%;
             margin: 0 auto 70px auto;
             padding: 0 20px;
             border-bottom: 2px solid black;
         }
 
         header {
-            width: 90%;
+            width: 100%;
             height: 80px;
             display: flex;
             align-items: center;
@@ -52,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-grow: 0.2;
+            /*flex-grow: 0.2;*/
             /*width: fit-content;*/
         }
 
@@ -69,6 +70,7 @@
             display: flex;
             align-items: center;
             padding: 10px;
+            margin-right: 10px;
         }
 
         .copy-button {

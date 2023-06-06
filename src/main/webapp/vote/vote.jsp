@@ -26,6 +26,8 @@
             padding: 20px;
             background-color: #ffffff;
             border: 1px solid #cccccc;
+            border-radius: 4px;
+            text-align: center;
         }
 
         h1 {
@@ -35,6 +37,9 @@
 
         form {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         p {
@@ -43,7 +48,17 @@
             margin-bottom: 10px;
         }
 
-        input[type="submit"] {
+        .vote_contents {
+            display: block;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .vote_contents > form > p {
+            text-align: center;
+        }
+
+        input[type="submit"], .a-button {
             padding: 10px 20px;
             background-color: #4CAF50;
             border: none;
@@ -65,6 +80,24 @@
 
         .input_vote {
             padding: 10px;
+            margin: 10px;
+        }
+
+        .a-button {
+            display: block;
+            margin: 10px auto;
+        }
+
+        .result {
+            background-color: #2d7e31;
+        }
+
+        .delete {
+            background-color: red
+        }
+
+        .end {
+            background-color: #0033ff
         }
     </style>
 </head>
@@ -140,59 +173,65 @@
     <%
     } else {
     %>
-
-    <form action="/vote/voteOk.jsp" method="post">
-        <p>투표 마감: <%=v.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
-        </p>
-        <%
-            for (Option option : optionList) {
-        %>
-        <div class="vote_contents">
-            <input
-                    type="<%=type%>"
-                    name="option"
-                    value="<%=option.getOptionId()%>"
-                    class="input_vote"
-            /><%=option.getLabel()%>
-            <br/>
+    <div class="vote_contents">
+        <form action="/vote/voteOk.jsp" method="post">
+            <p>투표 마감: <%=v.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
+            </p>
             <%
-                }
+                for (Option option : optionList) {
             %>
-            <input type="hidden" name="voteId" value="<%=v.getVoteId()%>"/>
-            <%
-                if (!voteAble) {
-            %>
-            <p>이미 투표하셨습니다</p>
-            <%
-            } else {
-                if (v.getEndTime().isAfter(LocalDateTime.now())) {
-                    String checkFunction = type.equals("radio")? "return validateRadioBoxes()" : "return validateCheckboxes()";
-            %>
-            <input type="submit" value="투표하기" onclick= "<%=checkFunction%>">
-            <%
+            <div>
+                <input
+                        type="<%=type%>"
+                        name="option"
+                        value="<%=option.getOptionId()%>"
+                        class="input_vote"
+                /><%=option.getLabel()%>
+                <br/>
+                <%
                     }
-                }
-            %>
-        </div>
-    </form>
+                %>
+                <input type="hidden" name="voteId" value="<%=v.getVoteId()%>"/>
+                <%
+                    if (!voteAble) {
+                %>
+                <h4>이미 투표하셨습니다</h4>
+                <%
+                } else {
+                    if (v.getEndTime().isAfter(LocalDateTime.now())) {
+                        String checkFunction = type.equals("radio") ? "return validateRadioBoxes()" : "return validateCheckboxes()";
+                %>
+                <input type="submit" value="투표하기" onclick="<%=checkFunction%>">
+                <%
+                        }
+                    }
+                %>
+            </div>
+        </form>
+    </div>
 
-    <a href="../vote/voteStatistics.jsp?postId=<%=v.getPostId()%>" style="background-color: green; color: white">결과
-        보기</a>
+    <a href="../vote/voteStatistics.jsp?postId=<%=v.getPostId()%>"
+       class="a-button result">
+        결과 보기
+    </a>
 
     <% if (role.equals(Role.OWNER)) { %>
     <a href="../vote/voteDeleteProcess.jsp?voteId=<%=v.getVoteId()%>&postId=<%=post.getPostId()%>"
-       style="background-color: red; color: white">투표 삭제하기</a>
+       class="a-button delete">
+        투표 삭제하기
+    </a>
     <%
         if (v.getEndTime().isAfter(LocalDateTime.now().plusMinutes(1))) {
     %>
-    <a href="../vote/voteEndProcess.jsp?voteId=<%=v.getVoteId()%>" style="background-color: blue; color: white">투표
-        마감하기</a>
+    <a href="../vote/voteEndProcess.jsp?voteId=<%=v.getVoteId()%>" class="a-button end">
+        투표 마감하기
+    </a>
     <%
         }
     %>
     <% } else if (v.getEndTime().isBefore(LocalDateTime.now())) {
     %>
-    <h4>투표가 마감되었습니다.</h4>
+    <h4>투표가 마감되었습니다</h4>
     <%
             }
         }

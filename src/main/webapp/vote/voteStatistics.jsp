@@ -29,9 +29,10 @@
 
         h1 {
             text-align: center;
+            font-size: 24px;
         }
 
-        h2 {
+        h3 {
             margin-top: 30px;
         }
 
@@ -69,7 +70,7 @@
 <%@include file="../header.jsp" %>
 <div class="container">
     <h1>투표 통계</h1>
-    <h2>투표 결과</h2>
+    <h3>투표 결과</h3>
     <table>
         <tr>
             <th>투표 옵션</th>

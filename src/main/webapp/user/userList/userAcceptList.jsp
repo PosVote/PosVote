@@ -84,14 +84,12 @@
 
         .back-button {
             text-align: center;
-            margin: auto;
-            margin-top: 20px;
+            display: block;
+            margin: 20px auto 0 auto;
             background-color: #ccc;
             border: none;
             color: #333;
-            text-align: center;
             text-decoration: none;
-            display: inline-block;
             font-size: 14px;
             padding: 8px 12px;
             cursor: pointer;

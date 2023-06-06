@@ -45,21 +45,8 @@
             border-radius: 4px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
-
-            /*display: flex;*/
-            /*flex-direction: column;*/
-            /*gap: 20px;*/
-            /*max-width: 800px;*/
-            /*margin: 20px auto;*/
-            /*background-color: #fff;*/
-            /*padding: 20px;*/
-            /*border-radius: 5px;*/
-            /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
         }
 
-        .container div {
-            /*margin: 10px;*/
-        }
 
         h1 {
             text-align: center;
@@ -69,7 +56,8 @@
 
         label {
             font-weight: bold;
-            padding-bottom: 15px;
+            display: block;
+            margin-bottom: 5px;
         }
 
         input[type="text"],
@@ -89,14 +77,27 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            display: block;
+            margin: 0 auto;
         }
 
         input[type="submit"]:hover {
             background-color: #45a049;
+            transition: 0.3s ease-in;
         }
 
+        .select {
+            margin: 30px 0;
+        }
+        input[type="radio"]{
+            margin: 0 8px;
+        }
+        input[type="datetime-local"]{
+            margin-bottom: 15px;
+        }
         .button {
-            margin: auto;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -132,11 +133,13 @@
         </div>
         <input type="button" value="항목 추가하기" onclick="add_textBox()"><br/>
 
-        <input type="radio" name="isAnonymous" value="0">익명
-        <input type="radio" name="isAnonymous" value="1">NO익명<br/>
+        <div class="select">
+            <input type="radio" name="isAnonymous" value="0">익명
+            <input type="radio" name="isAnonymous" value="1">NO익명<br/>
 
-        <input type="radio" name="inputType" value="checkbox">다중선택 가능
-        <input type="radio" name="inputType" value="radio">단일 선택<br/>
+            <input type="radio" name="inputType" value="checkbox">다중선택 가능
+            <input type="radio" name="inputType" value="radio">단일 선택<br/>
+        </div>
         <div class="button">
             <input type="submit" value="생성하기">
         </div>

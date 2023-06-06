@@ -201,7 +201,7 @@
     }
 %>
 
-<button class="list-button" onclick="location.href='./list.jsp'">목록으로</button>
+<button class="list-button" onclick="location.href='./list.jsp?page=1'">목록으로</button>
 
 </body>
 </html>
