@@ -3,6 +3,8 @@
 <%@ page import="study.postvote.service.OrganizationService" %>
 <%@ page import="study.postvote.domain.type.Role" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="study.postvote.service.OrganizationKeyService" %>
+<%@ page import="study.postvote.domain.OrganizationKey" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
@@ -171,19 +173,22 @@
 <body>
 
 <%
-    Long orgId = Long.parseLong(request.getParameter("orgId"));
-    OrganizationService organizationService = new OrganizationService();
-    Organization organization = organizationService.findById(orgId);
+    String key = request.getParameter("orgKey");
+    OrganizationKeyService organizationKeyService = new OrganizationKeyService();
+    OrganizationKey organizationKey = organizationKeyService.findByKey(key);
 
-    if (organization == null) {
+    OrganizationService organizationService = new OrganizationService();
+    Organization organization = new Organization();
+
+    if (organizationKey == null) {
 %>
-    <script>
-        window.alert("존재하지 않는 링크입니다");
-        location.href= "/index.jsp";
-    </script>
+<script>
+    window.alert("존재하지 않는 링크입니다");
+    location.href = "/index.jsp";
+</script>
 <%
-//        response.sendRedirect("../post/list.jsp");
-    }
+} else {
+    organization = organizationService.findById(organizationKey.getOrgId());
 %>
 
 <div class="container">
@@ -268,4 +273,7 @@
     </form>
 </div>
 </body>
+<%
+    }
+%>
 </html>

@@ -3,6 +3,9 @@
         import="study.postvote.domain.User, study.postvote.service.UserService" %>
 <%@ page import="study.postvote.domain.type.Status" %>
 <%@ page import="study.postvote.service.OrganizationService" %>
+<%@ page import="study.postvote.domain.OrganizationKey" %>
+<%@ page import="java.util.UUID" %>
+<%@ page import="study.postvote.service.OrganizationKeyService" %>
 
 <%
     Long userId = Long.valueOf(request.getParameter("userId"));
@@ -15,6 +18,7 @@
 
     if (type.equals("accept")) {
         userService.updateStatus(user, Status.ACCEPT);
+        new OrganizationKeyService().save(orgId);
     } else {
         userService.deleteById(user.getUserId());
         organizationService.deleteById(orgId);

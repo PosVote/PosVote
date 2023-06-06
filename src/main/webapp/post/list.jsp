@@ -8,6 +8,7 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="study.postvote.service.VoteService" %>
 <%@ page import="static study.postvote.util.StaticStr.POSTPERPAGE" %>
+<%@ page import="study.postvote.service.OrganizationKeyService" %>
 
 <!DOCTYPE html>
 <html>
@@ -97,7 +98,7 @@
             background-color: #ff3333;
         }
 
-        .header .editUser-button{
+        .header .editUser-button {
             background-color: #4CAF50;
         }
 
@@ -163,32 +164,7 @@
             color: #fff;
         }
     </style>
-    <script>
-        function copyText() {
-            const myTextarea = document.getElementById("copyText");
 
-            window.navigator.clipboard.writeText(myTextarea.value).then(() => {
-                alert("초대 코드 복사 완료");
-            })
-        }
-
-        const makeVote = () => {
-            window.location.href = "/post/post.jsp";
-        }
-
-        const logout = () => {
-            window.location.href = "/user/logout.jsp";
-        }
-
-        const editUser = () => {
-            window.location.href = "/user/editUser.jsp";
-        }
-
-        const mypage = () => {
-            window.location.href = "/mypage/myPage.jsp";
-        }
-
-    </script>
 </head>
 <body>
 <%
@@ -235,10 +211,10 @@
     <p class="no-posts">등록된 게시물이 없습니다.</p>
     <%
     } else {
-        int totalPost=  postService.findAllPostCount(orgId);
+        int totalPost = postService.findAllPostCount(orgId);
         int lastPage = totalPost / POSTPERPAGE + 1;
 
-        if(totalPost % POSTPERPAGE == 0) lastPage--;
+        if (totalPost % POSTPERPAGE == 0) lastPage--;
 
     %>
     <div class="search-form">
@@ -260,7 +236,7 @@
         </p>
     </div>
     <%
-            }%>
+        }%>
     <div class="pagination">
         <ul>
             <!-- 이전 페이지 링크 -->
@@ -269,9 +245,11 @@
             <!-- 페이지 번호 링크 -->
             <% for (int i = 1; i <= lastPage; i++) { %>
             <% if (i == currentPage) { %>
-            <li><strong><%=i%></strong></li> <!-- 현재 페이지 강조 -->
+            <li><strong><%=i%>
+            </strong></li> <!-- 현재 페이지 강조 -->
             <% } else { %>
-            <li><a href="/post/list.jsp?page=<%=i%>"><%=i%></a></li>
+            <li><a href="/post/list.jsp?page=<%=i%>"><%=i%>
+            </a></li>
             <% } %>
             <% } %>
 
@@ -280,11 +258,10 @@
         </ul>
     </div>
 
-       <% }
+    <% }
 
     %>
-    <input type='text' style='display: none;' id='copyText' value='<%=SERVER_IP%>/user/signupUser.jsp?orgId=<%=orgId%>'
-           readonly>
+    <%--    <input type='text' style='display: none;' id='copyText' readonly>--%>
     <%
     } else {
     %>
@@ -299,4 +276,33 @@
 </div>
 
 </body>
+
+<script>
+<%--    function copyText() {--%>
+<%--        <%--%>
+<%--//        new OrganizationKeyService().updateKey(orgId);--%>
+<%--        %>--%>
+
+<%--        window.navigator.clipboard.writeText('<%=SERVER_IP%>/user/signupUser.jsp?orgKey=' + <%=new OrganizationKeyService().findByOrgId(orgId).getOrgKey()%>).then(() => {--%>
+<%--            alert("초대 코드 복사 완료");--%>
+<%--        })--%>
+<%--    }--%>
+
+    const makeVote = () => {
+        window.location.href = "/post/post.jsp";
+    }
+
+    const logout = () => {
+        window.location.href = "/user/logout.jsp";
+    }
+
+    const editUser = () => {
+        window.location.href = "/user/editUser.jsp";
+    }
+
+    const mypage = () => {
+        window.location.href = "/mypage/myPage.jsp";
+    }
+
+</script>
 </html>

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="study.postvote.domain.type.Status" %>
 <%@ page import="study.postvote.domain.type.Role" %>
+<%@ page import="study.postvote.service.OrganizationKeyService" %>
+<%@ page import="study.postvote.domain.Organization" %>
+<%@ page import="study.postvote.util.StaticStr" %>
+<%@ page import="study.postvote.service.OrganizationService" %>
+<%@ page import="study.postvote.domain.OrganizationKey" %>
 <html>
 <head>
     <title>header</title>
@@ -14,13 +19,16 @@
             outline: none;
             color: black;
         }
-        a:hover{
+
+        a:hover {
             transition: 0.3s ease-in;
             color: #0033ff;
         }
-        .logout:hover{
+
+        .logout:hover {
             color: red;
         }
+
         .page {
             max-width: 1440px;
             margin: 0 auto 70px auto;
@@ -62,10 +70,12 @@
             align-items: center;
             padding: 10px;
         }
-        .copy-button{
+
+        .copy-button {
             padding: 10px;
         }
-        .copy-button:hover{
+
+        .copy-button:hover {
             background-color: #0033ff;
             color: white;
             border: none;
@@ -73,6 +83,7 @@
             transition: 0.3s ease-in;
             cursor: pointer;
         }
+
         @media (max-width: 600px) {
             header > h2 {
                 font-size: 24px;
@@ -83,21 +94,13 @@
             }
         }
     </style>
-    <script>
-        function copyText() {
-            const myTextarea = document.getElementById("copyText");
-
-            window.navigator.clipboard.writeText(myTextarea.value).then(() => {
-                alert("초대 코드가 성공적으로 복사되었습니다");
-            })
-        }
-    </script>
 </head>
 <body>
 <%
     request.setCharacterEncoding("utf-8");
     Status status1 = (Status) session.getAttribute("status");
     Role role1 = (Role) session.getAttribute("role");
+    Long orgId1 = (Long) session.getAttribute("orgId");
 
     if (Status.ACCEPT.equals(status1)) {
 
@@ -121,7 +124,9 @@
                 <%
                     if (Role.OWNER.equals(role1)) {
                 %>
-                    <button class="copy-button" onclick="copyText()">초대 코드 복사</button>
+                <button class="copy-button" onclick="updateKeyAndCopyText('<%=StaticStr.SERVER_IP%>', '<%= orgId1 %>')">
+                    초대 코드 복사
+                </button>
                 <%
                     }
                 %>
@@ -134,4 +139,30 @@
     }
 %>
 </body>
+
+
+<script>
+    function updateKeyAndCopyText(serverIp, orgId) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/user/updateKey.jsp?orgId=' + orgId, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    let orgKey = xhr.responseText;
+                    copyText(serverIp, orgKey);
+                } else {
+                    console.error('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
+                    alert('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function copyText(serverIp, orgKey) {
+        window.navigator.clipboard.writeText(serverIp + '/user/signupUser.jsp?orgKey=' + orgKey).then(() => {
+            alert("초대 코드가 성공적으로 복사되었습니다");
+        });
+    }
+</script>
 </html>
