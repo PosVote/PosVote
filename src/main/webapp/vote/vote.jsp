@@ -10,7 +10,7 @@
 <%@ page import="study.postvote.service.VoteUserService" %>
 <%@ page import="study.postvote.domain.VoteUser" %>
 <%@ page import="java.time.LocalDateTime" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>투표하는 창</title>

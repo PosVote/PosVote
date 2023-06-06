@@ -1,7 +1,7 @@
 <%@ page import="study.postvote.service.PostService" %>
 <%@ page import="study.postvote.domain.Post" %>
 <%@ page import="study.postvote.domain.type.Role" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>투표 상세 페이지</title>
@@ -45,7 +45,7 @@
 
         .post-info {
             margin-bottom: 20px;
-            float: right;
+            /*float: right;*/
         }
 
         .post-info span {
@@ -54,7 +54,7 @@
         }
 
         .vote-container {
-            margin-top: 20px;
+            /*margin-top: 20px;*/
         }
 
         .error-message {
@@ -70,17 +70,20 @@
     Post post = postService.findByPostId(postId).get(0);
     Role role = (Role) session.getAttribute("role");
 %>
+<%@include file="../header.jsp" %>
 <div class="container">
     <div class="contents_container">
         <h2><%=post.getTitle()%>
         </h2>
     </div>
     <div class="post-info">
-        <p><%=post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
+        <p>
+            <%=post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
         </p>
     </div>
     <div class="contents">
-        <p><%=post.getDescription()%>
+        <p>
+            <%=post.getDescription()%>
         </p>
     </div>
     <div class="vote-container">

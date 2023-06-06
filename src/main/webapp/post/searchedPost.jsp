@@ -6,17 +6,11 @@
 <%@ page import="study.postvote.domain.Post" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="study.postvote.service.VoteService" %>
-<%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %><%--
-  Created by IntelliJ IDEA.
-  User: FastPc
-  Date: 2023-06-03
-  Time: 오전 10:55
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>search</title>
 </head>
 
 <style>
@@ -168,6 +162,7 @@
 </style>
 
 <body>
+<%@include file="../header.jsp" %>
 <%
     request.setCharacterEncoding("utf-8");
     Status status = (Status) session.getAttribute("status");

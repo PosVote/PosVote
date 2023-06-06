@@ -193,9 +193,9 @@
 %>
 
 <div class="container">
-  <h1>사용자 가입</h1>
+  <h1>회원 정보 수정</h1>
   <form method="post" action="editUserProcess.jsp">
-    <label for="email">이메일:</label>
+    <label for="email">이메일</label>
     <input type="email" id="email" name="email" value="<%=user.getEmail()%>" required><br>
     <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
     <% if (errorMessage != null && !errorMessage.isEmpty()) { %>
@@ -203,17 +203,17 @@
     </p>
     <% } %>
 
-    <label for="password">비밀번호:</label>
+    <label for="password">비밀번호</label>
     <input type="password" id="password" name="password" required><br>
 
-    <label for="name">이름:</label>
+    <label for="name">이름</label>
     <input type="text" id="name" name="name" value="<%=user.getName()%>" required><br>
 
-    <label for="age">나이:</label>
+    <label for="age">나이</label>
     <input type="number" id="age" name="age" value="<%=user.getAge()%>" required><br>
 
     <div class="checkbox-group">
-      <label>성별:</label>
+      <label>성별</label> <br/>
       <%
       String maleSelected = user.getGender() == 0 ? "checked" : "";
       String femaleSelected = user.getGender() == 1? "checked" : "";
@@ -227,7 +227,7 @@
 
     </div>
 
-    <label for="city">거주지:</label>
+    <label for="city">거주지</label>
     <select id="city" name="city" required>
       <%
       for(City city : City.values()){
@@ -237,7 +237,7 @@
       %>
     </select>
 
-    <label for="mbti">MBTI:</label>
+    <label for="mbti">MBTI</label>
     <select id="mbti" name="mbti" required>
       <%
       for(Mbti mbti: Mbti.values()){
@@ -248,7 +248,7 @@
     </select>
 
     <div>
-      <label for="orgName">조직 이름: </label>
+      <label for="orgName">조직 이름 </label>
       <input type="text" id="orgName" name="orgName"
              value="<%=organization == null ? "" : organization.getOrgName()%>"
              disabled>
@@ -258,7 +258,7 @@
 
     <input type="hidden" id="role" name="role" value=<%=user.getRole()%>>
 
-    <input type="submit" class="submit-button" value="신청">
+    <input type="submit" class="submit-button" value="수정 완료">
   </form>
 </div>
 </body>

@@ -1,6 +1,6 @@
 <%@ page import="study.postvote.service.VoteUserService" %>
 <%@ page import="study.postvote.domain.VoteUser" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>투표완료창</title>

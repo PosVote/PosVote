@@ -1,13 +1,7 @@
 <%@ page import="study.postvote.domain.User" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %><%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2023-06-01
-  Time: 오후 8:37
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -39,23 +33,32 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-            padding: 20px;
+            /*padding: 20px;*/
+            margin: 0;
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #fff;
+            max-width: 800px;
+            margin: 20px auto;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+
+            /*display: flex;*/
+            /*flex-direction: column;*/
+            /*gap: 20px;*/
+            /*max-width: 800px;*/
+            /*margin: 20px auto;*/
+            /*background-color: #fff;*/
+            /*padding: 20px;*/
+            /*border-radius: 5px;*/
+            /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
         }
 
         .container div {
-            margin: 10px;
+            /*margin: 10px;*/
         }
 
         h1 {
@@ -65,7 +68,7 @@
 
         label {
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
         }
 
         input[type="text"],
@@ -96,6 +99,8 @@
         }
     </style>
 </head>
+<body>
+<%@include file="../header.jsp" %>
 <div class="container">
     <h1>투표 생성</h1>
 

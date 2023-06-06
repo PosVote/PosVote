@@ -5,7 +5,7 @@
 <%@ page import="study.postvote.dto.voteResult.response.UserSelection" %>
 <%@ page import="study.postvote.dto.voteResult.response.VoteResult" %>
 <%@ page import="study.postvote.service.PostService" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>투표 통계</title>
@@ -13,6 +13,17 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -54,97 +65,97 @@
     List<UserSelection> userSelection = voteUserService.findUserSelection(postId);
     List<VoteResult> voteResult = voteUserService.findVoteResult(postId);
 %>
-
-<h1>투표 통계</h1>
-
-<h2>투표 결과</h2>
-<table>
-    <tr>
-        <th>투표 옵션</th>
-        <th>투표 수</th>
-    </tr>
-    <% for (VoteResult result : voteResult) { %>
-    <tr>
-        <td><%= result.getLabel() %>
-        </td>
-        <td><%= result.getCount() %>
-        </td>
-    </tr>
-    <% } %>
-</table>
-
-<details>
-    <summary>도시별 통계</summary>
-    <h2>도시별 통계</h2>
+<%@include file="../header.jsp" %>
+<div class="container">
+    <h1>투표 통계</h1>
+    <h2>투표 결과</h2>
     <table>
         <tr>
-            <th>도시</th>
             <th>투표 옵션</th>
             <th>투표 수</th>
         </tr>
-        <% for (CityStatistics cityStat : cityStatistics) { %>
+        <% for (VoteResult result : voteResult) { %>
         <tr>
-            <td><%= cityStat.getCity().getDescription() %>
+            <td><%= result.getLabel() %>
             </td>
-            <td><%= cityStat.getLabel() %>
-            </td>
-            <td><%= cityStat.getCount() %>
+            <td><%= result.getCount() %>
             </td>
         </tr>
         <% } %>
     </table>
-</details>
 
-<details>
-    <summary>MBTI 통계</summary>
-    <h2>MBTI 통계</h2>
-    <table>
-        <tr>
-            <th>MBTI</th>
-            <th>투표 옵션</th>
-            <th>투표 수</th>
-        </tr>
-        <% for (MBTIStatistics mbtiStat : mbtiStatistics) { %>
-        <tr>
-            <td><%= mbtiStat.getMbti().toString() %>
-            </td>
-            <td><%= mbtiStat.getLabel() %>
-            </td>
-            <td><%= mbtiStat.getCount() %>
-            </td>
-        </tr>
-        <% } %>
-    </table>
-</details>
+    <details>
+        <summary>도시별 통계</summary>
+        <h2>도시별 통계</h2>
+        <table>
+            <tr>
+                <th>도시</th>
+                <th>투표 옵션</th>
+                <th>투표 수</th>
+            </tr>
+            <% for (CityStatistics cityStat : cityStatistics) { %>
+            <tr>
+                <td><%= cityStat.getCity().getDescription() %>
+                </td>
+                <td><%= cityStat.getLabel() %>
+                </td>
+                <td><%= cityStat.getCount() %>
+                </td>
+            </tr>
+            <% } %>
+        </table>
+    </details>
 
-<%
-    PostService postService = new PostService();
-    if (postService.isAnonymous(postId) == 1) {
-%>
-<details>
-    <summary>사용자 선택 결과</summary>
-    <h2>사용자 선택 결과</h2>
-    <table>
-        <tr>
-            <th>이메일</th>
-            <th>이름</th>
-            <th>투표 옵션</th>
-        </tr>
-        <% for (UserSelection userSel : userSelection) { %>
-        <tr>
-            <td><%= userSel.getEmail() %>
-            </td>
-            <td><%= userSel.getName() %>
-            </td>
-            <td><%= userSel.getLabel() %>
-            </td>
-        </tr>
-        <%
+    <details>
+        <summary>MBTI 통계</summary>
+        <h2>MBTI 통계</h2>
+        <table>
+            <tr>
+                <th>MBTI</th>
+                <th>투표 옵션</th>
+                <th>투표 수</th>
+            </tr>
+            <% for (MBTIStatistics mbtiStat : mbtiStatistics) { %>
+            <tr>
+                <td><%= mbtiStat.getMbti().toString() %>
+                </td>
+                <td><%= mbtiStat.getLabel() %>
+                </td>
+                <td><%= mbtiStat.getCount() %>
+                </td>
+            </tr>
+            <% } %>
+        </table>
+    </details>
+
+    <%
+        PostService postService = new PostService();
+        if (postService.isAnonymous(postId) == 1) {
+    %>
+    <details>
+        <summary>사용자 선택 결과</summary>
+        <h2>사용자 선택 결과</h2>
+        <table>
+            <tr>
+                <th>이메일</th>
+                <th>이름</th>
+                <th>투표 옵션</th>
+            </tr>
+            <% for (UserSelection userSel : userSelection) { %>
+            <tr>
+                <td><%= userSel.getEmail() %>
+                </td>
+                <td><%= userSel.getName() %>
+                </td>
+                <td><%= userSel.getLabel() %>
+                </td>
+            </tr>
+            <%
+                    }
                 }
-            }
-        %>
-    </table>
-</details>
-
+            %>
+        </table>
+    </details>
+</div>
 </body>
 </html>

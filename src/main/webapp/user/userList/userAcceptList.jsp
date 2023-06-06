@@ -103,6 +103,7 @@
     </script>
 </head>
 <body>
+<%@include file="../../header.jsp" %>
 <div class="container">
     <h1>유저 목록</h1>
     <%

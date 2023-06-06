@@ -103,6 +103,7 @@
 
         .search-form {
             text-align: right;
+            margin-bottom: 20px;
         }
 
         .search-input {
@@ -197,30 +198,31 @@
     Role role = (Role) session.getAttribute("role");
 
 
-    if (Status.ACCEPT.equals(status)) {
+//    if (Status.ACCEPT.equals(status)) {
 
 %>
-<div class="header">
-    <%
-        if (Role.OWNER.equals(role)) {
-    %>
-    <button onclick="location.href='/user/userList/userAcceptList.jsp'">유저 목록</button>
-    <button onclick="location.href='/user/userList/userWaitingList.jsp'">가입 신청 목록</button>
-    <button onclick="makeVote()">투표 생성하기</button>
-    <button class="copy-button" onclick="copyText()">초대 코드 복사</button>
-    <%
-        }
-    %>
-    <button class="editUser-button" onclick="mypage()">마이페이지</button>
-    <button class="editUser-button" onclick="editUser()">내 정보 수정하기</button>
-    <button class="logout-button" onclick="logout()">로그아웃</button>
-</div>
-<%
-    }
+<%--<div class="header">--%>
+<%--    <%--%>
+<%--        if (Role.OWNER.equals(role)) {--%>
+<%--    %>--%>
+<%--    <button onclick="location.href='/user/userList/userAcceptList.jsp'">유저 목록</button>--%>
+<%--    <button onclick="location.href='/user/userList/userWaitingList.jsp'">가입 신청 목록</button>--%>
+<%--    <button onclick="makeVote()">투표 생성하기</button>--%>
+<%--    <button class="copy-button" onclick="copyText()">초대 코드 복사</button>--%>
+<%--    <%--%>
+<%--        }--%>
+<%--    %>--%>
+<%--    <button class="editUser-button" onclick="mypage()">마이페이지</button>--%>
+<%--    <button class="editUser-button" onclick="editUser()">내 정보 수정하기</button>--%>
+<%--    <button class="logout-button" onclick="logout()">로그아웃</button>--%>
+<%--</div>--%>
+<%--<%--%>
+<%--    }--%>
 
-%>
+<%--%>--%>
+<%@include file="../header.jsp" %>
 <div class="container">
-    <h1>투표 게시판</h1>
+    <h1>투표 목록</h1>
 
     <%
         if (Status.ACCEPT.equals(status)) {

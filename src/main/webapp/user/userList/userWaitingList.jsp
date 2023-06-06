@@ -15,6 +15,7 @@
             background-color: #f2f2f2;
             margin: 0;
             padding: 0;
+            text-align: center;
         }
 
         .container {
@@ -84,6 +85,7 @@
         }
 
         .back-button {
+            margin: auto;
             margin-top: 20px;
             background-color: #ccc;
             border: none;
@@ -95,6 +97,11 @@
             padding: 8px 12px;
             cursor: pointer;
             border-radius: 4px;
+        }
+        .back-button:hover{
+            background-color: #0033ff;
+            color: white;
+            transition: 0.3s ease-in;
         }
     </style>
     <script>
@@ -108,6 +115,7 @@
     </script>
 </head>
 <body>
+<%@include file="../../header.jsp" %>
 <div class="container">
     <h1>가입 신청 목록</h1>
     <%
