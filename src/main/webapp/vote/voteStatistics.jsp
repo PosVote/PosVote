@@ -13,6 +13,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f2f2f2;
         }
         .container {
             display: flex;

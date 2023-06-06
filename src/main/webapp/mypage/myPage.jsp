@@ -102,7 +102,7 @@
     <% for (Post post : postList) {
     %>
     <div class="post">
-        <a class="post-title" href="postView.jsp?id=<%=post.getPostId()%>"><%=post.getTitle()%>
+        <a class="post-title" href="/post/postView.jsp?id=<%=post.getPostId()%>"><%=post.getTitle()%>
         </a>
         <p class="post-meta">
             작성일: <%=post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
