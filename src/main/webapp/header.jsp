@@ -127,7 +127,7 @@
                     if (Role.OWNER.equals(role1)) {
                 %>
                 <button class="copy-button" onclick="updateKeyAndCopyText('<%=StaticStr.SERVER_IP%>', '<%= orgId1 %>')">
-                    초대 코드 복사
+                    초대 코드 생성
                 </button>
                 <%
                     }
