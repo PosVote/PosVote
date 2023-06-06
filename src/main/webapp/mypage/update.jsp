@@ -1,15 +1,9 @@
 <%@ page import="study.postvote.service.UserService" %>
-<%@ page import="study.postvote.domain.User" %><%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2023-06-02
-  Time: 오후 5:30
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="study.postvote.domain.User" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>update</title>
   <style>
     .my-page {
       text-align: center;
@@ -77,6 +71,8 @@
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      display: block;
+      margin: 0 auto;
     }
 
     .submit-button:hover {
@@ -91,25 +87,26 @@
   User user= userService.findById(userid);
 %>
 <body>
+<%@include file="../header.jsp" %>
 <div class="my-page">
   <h1>개인정보 수정</h1>
 </div>
 <div class="container">
   <form method="post" action="signupProcess.jsp">
-    <label for="email">이메일:</label>
-    <input type="email"  value="<%= user.getEmail() %>" id="email" name="email"><br>
+    <label for="email">이메일</label>
+    <input type="email" value="<%= user.getEmail() %>" id="email" name="email" required><br>
 
-    <label for="password">비밀번호:</label>
-    <input type="password" value="<%= user.getPassword() %>" id="password" name="password"><br>
+    <label for="password">비밀번호</label>
+    <input type="password" value="<%= user.getPassword() %>" id="password" name="password" required><br>
 
-    <label for="name">이름:</label>
-    <input type="text" value="<%= user.getName()%>" id="name" name="name"><br>
+    <label for="name">이름</label>
+    <input type="text" value="<%= user.getName()%>" id="name" name="name" required><br>
 
-    <label for="age">나이:</label>
-    <input type="number" value="<%= user.getAge()%>" id="age" name="age"><br>
+    <label for="age">나이</label>
+    <input type="number" value="<%= user.getAge()%>" id="age" name="age" required><br>
 
     <div class="checkbox-group">
-      <label>성별:</label>
+      <label>성별</label><br/>
       <label>
         <input type="radio" name="gender" value="0" checked> 남자
       </label>
@@ -118,7 +115,7 @@
       </label>
     </div>
 
-    <label for="city">거주지:</label>
+    <label for="city">거주지</label>
     <select id="city" name="city" required>
       <option value="SEOUL">서울</option>
       <option value="GYEONGGI">경기</option>
@@ -135,7 +132,7 @@
       <option value="JEJU">제주</option>
     </select>
 
-    <label for="mbti">MBTI:</label>
+    <label for="mbti">MBTI</label>
     <select id="mbti" name="mbti" required>
       <option value="ISTJ">ISTJ</option>
       <option value="ISFJ">ISFJ</option>

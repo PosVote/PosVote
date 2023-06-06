@@ -19,6 +19,8 @@
             padding: 20px;
             background-color: #ffffff;
             border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .contents_container, .contents {
@@ -27,6 +29,8 @@
 
         .contents {
             border: 1px solid #cccccc;
+            border-radius: 4px;
+            margin-bottom: 50px;
         }
 
         .contents p {
@@ -45,7 +49,7 @@
 
         .post-info {
             margin-bottom: 20px;
-            /*float: right;*/
+            text-align: right;
         }
 
         .post-info span {

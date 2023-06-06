@@ -31,11 +31,14 @@
         }
         .my-page h1{
             font-size: 24px;
+            margin-bottom: 15px;
         }
 
         .greeting {
-            text-align: right;
-            margin-right: 80px;
+            margin: 50px 0 20px 0;
+        }
+        span{
+            color: #0033ff;
         }
 
         .button {
@@ -46,11 +49,14 @@
             border-radius: 4px;
             transition: background-color 0.3s ease;
             margin-bottom: 30px;
+            border: none;
+            padding: 10px;
         }
 
         .button:hover {
             background-color: #2d7e31;
             transition: 0.3s ease-in;
+            cursor: pointer;
         }
 
         .post-box {
@@ -73,6 +79,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             background-color: #f9f9f9;
+            text-align: left;
         }
         .post-meta {
             font-size: 12px;
@@ -97,11 +104,11 @@
     <h1>마이페이지</h1>
     <div class="greeting">
         <form method="post" action="update.jsp">
-            <h3><%= user.getName()%>님 안녕하세요</h3>
+            <h3><span><%= user.getName()%></span> 안녕하세요</h3>
             <input class="button" type="submit" value="개인정보 수정">
         </form>
     </div>
-    <h2>내가 투표한 글</h2>
+    <h3>내가 투표한 글</h3>
     <% for (Post post : postList) {
     %>
     <div class="post">
