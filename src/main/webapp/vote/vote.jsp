@@ -68,6 +68,42 @@
         }
     </style>
 </head>
+
+<script>
+    function validateCheckboxes() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var checked = false;
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                checked = true;
+                break;
+            }
+        }
+
+        if (!checked) {
+            alert('하나 이상의 옵션을 선택해주세요.');
+            return false;
+        }
+    }
+
+    function validateRadioBoxes() {
+        var radioBox = document.querySelectorAll('input[type="radio"]');
+        var checked = false;
+
+        for (var i = 0; i < radioBox.length; i++) {
+            if (radioBox[i].checked) {
+                checked = true;
+                break;
+            }
+        }
+
+        if (!checked) {
+            alert('하나 이상을 체크하세요!');
+            return false;
+        }
+    }
+</script>
 <body>
 <div class="container">
     <%
@@ -130,8 +166,9 @@
             <%
             } else {
                 if (v.getEndTime().isAfter(LocalDateTime.now())) {
+                    String checkFunction = type.equals("radio")? "return validateRadioBoxes()" : "return validateCheckboxes()";
             %>
-            <input type="submit" value="투표하기">
+            <input type="submit" value="투표하기" onclick= "<%=checkFunction%>">
             <%
                     }
                 }

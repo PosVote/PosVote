@@ -63,7 +63,7 @@
     %>
 
     <p>투표가 완료되었습니다.</p>
-    <a class="button" href="/post/list.jsp">메인으로</a>
+    <a class="button" href="/post/list.jsp?page=1">메인으로</a>
 </div>
 </body>
 </html>
