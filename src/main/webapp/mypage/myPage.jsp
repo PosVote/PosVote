@@ -13,8 +13,15 @@
 <head>
     <title>마이페이지</title>
     <style>
+        @font-face {
+            font-family: 'KIMM_Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
         body {
             background-color: #f2f2f2;
+            font-family: "KIMM_Bold", sans-serif;
         }
 
         .my-page {
@@ -40,7 +47,9 @@
         span{
             color: #0033ff;
         }
-
+        input[type="button"]{
+            font-family: "KIMM_Bold", sans-serif;
+        }
         .button {
             display: inline-block;
             text-decoration: none;
@@ -59,19 +68,9 @@
             cursor: pointer;
         }
 
-        .post-box {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
         .post-title {
             font-size: 18px;
             font-weight: bold;
-        }
-
-        .post-description {
-            font-size: 14px;
         }
         .post {
             margin-bottom: 20px;
@@ -119,13 +118,6 @@
             총 투표 수: <%=new VoteService().countVote(post.getPostId())%>
         </p>
     </div>
-<%--    <div class="post-box">--%>
-<%--        <h3 class="post-title"> 제목 : <%= post.getTitle() %>--%>
-<%--        </h3>--%>
-<%--        <p class="post-description"> 내용 : <%= post.getDescription() %>--%>
-<%--        </p>--%>
-<%--    </div>--%>
-
     <%
         }
     %>

@@ -1,13 +1,7 @@
 <%@ page import="study.postvote.domain.type.City" %>
 <%@ page import="study.postvote.domain.type.Mbti" %>
 <%@ page import="study.postvote.service.UserService" %>
-<%@ page import="study.postvote.domain.User" %><%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2023-06-02
-  Time: 오후 5:47
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="study.postvote.domain.User" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
 <%

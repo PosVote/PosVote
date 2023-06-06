@@ -1,12 +1,6 @@
 <%@ page import="study.postvote.domain.User" %>
 <%@ page import="study.postvote.service.UserService" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2023-06-02
-  Time: 오후 7:37
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <html>
@@ -14,6 +8,15 @@
     <meta charset="UTF-8">
     <title>마이페이지</title>
     <style>
+        @font-face {
+            font-family: 'KIMM_Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+        body{
+            font-family: "KIMM_Bold", sans-serif;
+        }
         .my-page {
             text-align: center;
             padding: 20px;

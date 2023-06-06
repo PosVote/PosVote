@@ -7,25 +7,19 @@
     <meta charset="UTF-8">
     <title>투브</title>
     <style>
+        @font-face {
+            font-family: 'KIMM_Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: "KIMM_Bold", sans-serif;
             background-color: #f2f2f2;
             margin: 0;
             padding: 0;
         }
 
-        /*.container {*/
-        /*    max-width: 600px;*/
-        /*    margin: 0 auto;*/
-        /*    padding: 40px;*/
-        /*    text-align: center;*/
-        /*    display: flex;*/
-        /*    flex-direction: column;*/
-        /*    justify-content: center;*/
-        /*    align-items: center;*/
-        /*    height: 100vh;*/
-        /*    */
-        /*}*/
         .container {
             width: 400px;
             margin: 0 auto;

@@ -10,8 +10,14 @@
     <meta charset="UTF-8">
     <title>가입 신청 목록</title>
     <style>
+        @font-face {
+            font-family: 'KIMM_Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: "KIMM_Bold", sans-serif;
             background-color: #f2f2f2;
             margin: 0;
             padding: 0;
@@ -63,7 +69,7 @@
             font-size: 14px;
             color: #888;
         }
-
+        button{font-family: "KIMM_Bold", sans-serif;}
         .action-buttons {
             display: flex;
             align-items: center;

@@ -5,13 +5,19 @@
 <head>
     <title>update</title>
   <style>
+    @font-face {
+      font-family: 'KIMM_Bold';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
     .my-page {
       text-align: center;
       padding: 20px;
       background-color: #f2f2f2;
     }
     body {
-      font-family: Arial, sans-serif;
+      font-family: "KIMM_Bold", sans-serif;
       background-color: #f2f2f2;
       margin: 0;
       padding: 0;
@@ -92,7 +98,7 @@
   <h1>개인정보 수정</h1>
 </div>
 <div class="container">
-  <form method="post" action="signupProcess.jsp">
+  <form method="post" action="../user/signupProcess.jsp">
     <label for="email">이메일</label>
     <input type="email" value="<%= user.getEmail() %>" id="email" name="email" required><br>
 

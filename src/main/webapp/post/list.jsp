@@ -16,8 +16,15 @@
     <meta charset="UTF-8">
     <title>게시판</title>
     <style>
+        @font-face {
+            font-family: 'KIMM_Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: "KIMM_Bold", sans-serif;
             background-color: #f2f2f2;
             margin: 0;
             padding: 0;
@@ -39,7 +46,7 @@
             margin-bottom: 20px;
             text-align: center;
         }
-
+        input[type="submit"]{font-family: "KIMM_Bold", sans-serif;}
         .post {
             margin-bottom: 20px;
             padding: 10px;
@@ -278,16 +285,6 @@
 </body>
 
 <script>
-<%--    function copyText() {--%>
-<%--        <%--%>
-<%--//        new OrganizationKeyService().updateKey(orgId);--%>
-<%--        %>--%>
-
-<%--        window.navigator.clipboard.writeText('<%=SERVER_IP%>/user/signupUser.jsp?orgKey=' + <%=new OrganizationKeyService().findByOrgId(orgId).getOrgKey()%>).then(() => {--%>
-<%--            alert("초대 코드 복사 완료");--%>
-<%--        })--%>
-<%--    }--%>
-
     const makeVote = () => {
         window.location.href = "/post/post.jsp";
     }

@@ -12,8 +12,14 @@
     <meta charset="UTF-8">
     <title>조직 신청 목록</title>
     <style>
+        @font-face {
+            font-family: 'KIMM_Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: "KIMM_Bold", sans-serif;
             background-color: #f2f2f2;
             margin: 0;
             padding: 0;
@@ -83,13 +89,13 @@
         }
 
         .back-button {
-            margin-top: 20px;
             background-color: #ccc;
             border: none;
             color: #333;
             text-align: center;
             text-decoration: none;
             display: inline-block;
+            margin: 20px auto;
             font-size: 14px;
             padding: 8px 12px;
             cursor: pointer;

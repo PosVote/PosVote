@@ -10,6 +10,12 @@
 <head>
     <title>header</title>
     <style>
+        @font-face {
+            font-family: 'KIMM_Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
         ul {
             list-style: none;
         }
@@ -24,7 +30,7 @@
             transition: 0.3s ease-in;
             color: #0033ff;
         }
-
+        .logout{font-family: "KIMM_Bold", sans-serif;}
         .logout:hover {
             color: red;
         }
