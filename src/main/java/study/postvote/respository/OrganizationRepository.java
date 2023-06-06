@@ -110,8 +110,8 @@ public class OrganizationRepository {
             pstmt.setLong(1, id);
             System.out.println(pstmt);
             pstmt.executeUpdate();
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
