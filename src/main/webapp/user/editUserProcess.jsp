@@ -31,7 +31,7 @@
 
   try {
     userService.updateUser(user);
-    response.sendRedirect("/post/list.jsp");
+    response.sendRedirect("/mypage/myPage.jsp");
   } catch (Exception e) {
     e.printStackTrace();
     System.out.println(email);

@@ -102,7 +102,7 @@
 <div class="my-page">
     <h1>마이페이지</h1>
     <div class="greeting">
-        <form method="post" action="update.jsp">
+        <form method="post" action="/user/editUser.jsp">
             <h3><span><%= user.getName()%></span> 안녕하세요</h3>
             <input class="button" type="submit" value="개인정보 수정">
         </form>
