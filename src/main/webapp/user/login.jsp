@@ -1,3 +1,4 @@
+<%@ page import="study.postvote.domain.type.Role" %>
 <!DOCTYPE html>
 <html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>

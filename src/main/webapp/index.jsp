@@ -73,15 +73,6 @@
     </style>
 </head>
 <body>
-<%
-    Role role = (Role) session.getAttribute("role");
-    if (role != null) {
-        if (role.equals(Role.ADMIN))
-            response.sendRedirect("/adminView/adminPage.jsp");
-        else
-            response.sendRedirect("/post/list.jsp");
-    }
-%>
 <div class="container">
     <h1>VoteHub</h1>
     <p style="font-size: 18px; margin-bottom: 30px;">보트 허브에 오신 것을 환영합니다!</p>
