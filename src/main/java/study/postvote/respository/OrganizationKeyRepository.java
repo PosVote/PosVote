@@ -126,8 +126,8 @@ public class OrganizationKeyRepository {
             pstmt.setLong(1, orgId);
             System.out.println(pstmt);
             pstmt.executeUpdate();
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
