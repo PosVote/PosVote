@@ -145,7 +145,7 @@ public class PostRepository {
     }
 
     public List<PostListResponse> findAllPostListResponse(Long orgId, int currentPage) {
-        String sql = "SELECT p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id where u.org_id = ? ORDER BY p.date DESC LIMIT ? OFFSET ?";
+        String sql = "SELECT  p.post_id, p.title, p.date, p.user_id, u.name FROM post p join user u on p.user_id = u.user_id where u.org_id = ? ORDER BY p.date DESC LIMIT ? OFFSET ?";
 
         PreparedStatement pstmt = null;
         try {
@@ -193,7 +193,7 @@ public class PostRepository {
     }
 
     public List<Post> findByMyVote(Long id) {
-        String sql = "select PS.* " +
+        String sql = "select DISTINCT PS.* " +
                 "from vote_user VS " +
                 "join vote VT on VS.vote_id = VT.vote_id " +
                 "join post PS on VT.post_id = PS.post_id " +
