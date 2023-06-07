@@ -86,11 +86,14 @@ public class OrganizationRepository {
     }
 
     public List<OrganizationAdminViewResponse> findAllOrgAdminView() {
-        String sql = "SELECT org.org_id, org.org_name, user.user_id, user.name, user.email, COUNT(*) AS orgMemberCount " +
-                "FROM organization org " +
-                "JOIN user ON org.org_id = user.org_id " +
-                "WHERE user.role = 'Owner' AND user.status = 'ACCEPT' " +
-                "GROUP BY org.org_id, org.org_name, user.user_id, user.email";
+        String sql = "   SELECT orgCount.org_id, orgCount.org_name, user.user_id, user.name, user.email, orgMemberCount \n" +
+                "                FROM (SELECT org.org_id,org.org_name, COUNT(*) AS orgMemberCount  \n" +
+                "                FROM organization org  \n" +
+                "                JOIN user ON org.org_id = user.org_id  \n" +
+                "                WHERE user.status = 'ACCEPT'  \n" +
+                "                GROUP BY org.org_id, org.org_name) as orgCount, user  \n" +
+                "                WHERE user.role='OWNER'  \n" +
+                "                AND orgCount.org_id = user.org_id;";
         try {
             conn = ConnectionManager.getConnection();
 
