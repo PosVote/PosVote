@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>투표 통계</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
     <style>
         @font-face {
             font-family: 'KIMM_Bold';
@@ -16,11 +17,13 @@
             font-weight: 700;
             font-style: normal;
         }
+
         body {
             font-family: "KIMM_Bold", sans-serif;
             margin: 20px;
             background-color: #f2f2f2;
         }
+
         .container {
             display: flex;
             flex-direction: column;
@@ -77,6 +80,9 @@
 <div class="container">
     <h1>투표 통계</h1>
     <h3>투표 결과</h3>
+    <%
+        if (voteResult.size() > 0) {
+    %>
     <table>
         <tr>
             <th>투표 옵션</th>
@@ -91,6 +97,68 @@
         </tr>
         <% } %>
     </table>
+
+    <canvas id="voteResultChart"></canvas>
+
+    <script>
+        // 투표 결과 데이터
+        let voteResults = [
+            <% for (VoteResult result : voteResult) { %>
+            {
+                label: '<%= result.getLabel() %>',
+                count: <%= result.getCount() %>
+            },
+            <% } %>
+        ];
+
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        let voteResultChart = document.getElementById('voteResultChart').getContext('2d');
+
+        let chart = new Chart(voteResultChart, {
+            type: 'pie',
+            data: {
+                labels: voteResults.map(function (result) {
+                    return result.label;
+                }),
+                datasets: [{
+                    data: voteResults.map(function (result) {
+                        return result.count;
+                    }),
+                    backgroundColor: voteResults.map(function (result) {
+                        return getRandomColor();
+                    })
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true, // 범례 표시 설정
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            // 툴팁 설정
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <%
+        } else {
+            out.println("<h4>아직 투표 내역이 없습니다.</h4>");
+        }
+    %>
 
     <details>
         <summary>도시별 통계</summary>
