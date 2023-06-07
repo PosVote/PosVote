@@ -59,7 +59,7 @@ public class UserService {
 
     public void updateUser(User updateUser) throws Exception {
         User findUser = userRepository.findByEmail(updateUser.getEmail());
-        if (findUser == null) {
+        if (findUser != null) {
             userRepository.updateUser(updateUser);
         }
         else {
