@@ -103,6 +103,47 @@
         }
     </style>
 </head>
+<script>
+    function updateKeyAndCopyText(serverIp, orgId) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/user/updateKey.jsp?orgId=' + orgId, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    let orgKey = xhr.responseText;
+                    copyText(serverIp, orgKey);
+                } else {
+                    console.error('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
+                    alert('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function copyText(serverIp, orgKey) {
+        const copyText = serverIp + '/user/signupUser.jsp?orgKey=' + orgKey;
+
+        const textArea = document.createElement('textarea');
+        textArea.value = copyText;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'absolute';
+        textArea.style.left = '-9999px';
+
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+
+        alert('초대 코드가 성공적으로 복사되었습니다.');
+    }
+
+    // function copyText(serverIp, orgKey) {
+    //     window.navigator.clipboard.writeText(serverIp + '/user/signupUser.jsp?orgKey=' + orgKey).then(() => {
+    //         alert("초대 코드가 성공적으로 복사되었습니다");
+    //     });
+    // }
+</script>
 <body>
 <%
     request.setCharacterEncoding("utf-8");
@@ -149,28 +190,5 @@
 </body>
 
 
-<script>
-    function updateKeyAndCopyText(serverIp, orgId) {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', '/user/updateKey.jsp?orgId=' + orgId, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    let orgKey = xhr.responseText;
-                    copyText(serverIp, orgKey);
-                } else {
-                    console.error('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
-                    alert('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
-                }
-            }
-        };
-        xhr.send();
-    }
 
-    function copyText(serverIp, orgKey) {
-        window.navigator.clipboard.writeText(serverIp + '/user/signupUser.jsp?orgKey=' + orgKey).then(() => {
-            alert("초대 코드가 성공적으로 복사되었습니다");
-        });
-    }
-</script>
 </html>
