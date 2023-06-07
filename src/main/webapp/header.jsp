@@ -16,6 +16,7 @@
             font-weight: 700;
             font-style: normal;
         }
+
         ul {
             list-style: none;
         }
@@ -31,7 +32,11 @@
             color: #0033ff;
             cursor: pointer;
         }
-        .logout{font-family: "KIMM_Bold", sans-serif;}
+
+        .logout {
+            font-family: "KIMM_Bold", sans-serif;
+        }
+
         .logout:hover {
             color: red;
         }
@@ -172,9 +177,11 @@
                 <%
                     if (Role.OWNER.equals(role1)) {
                 %>
-                <li><a onclick="updateKeyAndCopyText('<%=StaticStr.SERVER_IP%>', '<%= orgId1 %>')">
-                    초대 코드 생성
-                </a></li>
+                <li>
+                    <a onclick="updateKeyAndCopyText(''+/\/\/(.*?):(\d+)/.exec(window.location.href)[1]+':'+/\/\/(.*?):(\d+)/.exec(window.location.href)[2], '<%= orgId1 %>')">
+                        초대 코드 생성
+                    </a>
+                </li>
                 <%
                     }
                 %>
@@ -191,7 +198,6 @@
     }
 %>
 </body>
-
 
 
 </html>
