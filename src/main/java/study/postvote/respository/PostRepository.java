@@ -57,15 +57,18 @@ public class PostRepository {
         }
     }
 
-    public List<Post> findByTitle(String title, Long orgId) {
-        String sql = "select * from post join user on post.user_id = user.user_id where title like ? and user.org_id = ? ORDER BY post.date DESC";
+    public List<PostListResponse> findByTitle(String title, Long orgId, int currentPage) {
+        String sql = "select p.post_id, p.title, p.date, p.user_id, u.name from post p join user u on p.user_id = u.user_id where title like ? and u.org_id = ? ORDER BY p.date DESC LIMIT ? OFFSET ?";
 
         try {
             conn = ConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + title + "%");
             pstmt.setLong(2, orgId);
-            return executeQuery(pstmt);
+            pstmt.setInt(3, POSTPERPAGE);
+            pstmt.setInt(4, (currentPage - 1) * POSTPERPAGE );
+
+            return executeQueryPostListResponse(pstmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

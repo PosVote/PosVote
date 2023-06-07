@@ -31,8 +31,8 @@ public class PostService {
         return postRepository.findByPostId(postId);
     }
 
-    public List<Post> findByTitle(String title, Long orgId) {
-        return postRepository.findByTitle(title, orgId);
+    public List<PostListResponse> findByTitle(String title, Long orgId, int currentPage) {
+        return postRepository.findByTitle(title, orgId, currentPage);
     }
 
     public List<Post> findByMyVote(Long id) {

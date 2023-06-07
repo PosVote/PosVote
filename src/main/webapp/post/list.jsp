@@ -197,35 +197,24 @@
 //    if (Status.ACCEPT.equals(status)) {
 
 %>
-<%--<div class="header">--%>
-<%--    <%--%>
-<%--        if (Role.OWNER.equals(role)) {--%>
-<%--    %>--%>
-<%--    <button onclick="location.href='/user/userList/userAcceptList.jsp'">유저 목록</button>--%>
-<%--    <button onclick="location.href='/user/userList/userWaitingList.jsp'">가입 신청 목록</button>--%>
-<%--    <button onclick="makeVote()">투표 생성하기</button>--%>
-<%--    <button class="copy-button" onclick="copyText()">초대 코드 복사</button>--%>
-<%--    <%--%>
-<%--        }--%>
-<%--    %>--%>
-<%--    <button class="editUser-button" onclick="mypage()">마이페이지</button>--%>
-<%--    <button class="editUser-button" onclick="editUser()">내 정보 수정하기</button>--%>
-<%--    <button class="logout-button" onclick="logout()">로그아웃</button>--%>
-<%--</div>--%>
-<%--<%--%>
-<%--    }--%>
 
-<%--%>--%>
 <%@include file="../header.jsp" %>
 <div class="container">
     <h1>투표 목록</h1>
 
     <%
+        System.out.println(status);
         if (Status.ACCEPT.equals(status)) {
             int currentPage = Integer.parseInt(request.getParameter("page"));
+            String searchKeyword = request.getParameter("title");
             PostService postService = new PostService();
-            List<PostListResponse> postList = postService.findAllPostListResponse(orgId, currentPage);
-            //        int count = new VoteService().countVote();
+            List<PostListResponse> postList;
+            if(Objects.isNull(searchKeyword))
+                postList = postService.findAllPostListResponse(orgId, currentPage);
+            else{
+                postList = postService.findByTitle(searchKeyword, orgId, currentPage);
+                System.out.println(postList);
+               }
             if (postList.isEmpty()) {
     %>
     <p class="no-posts">등록된 게시물이 없습니다.</p>
@@ -238,8 +227,9 @@
 
     %>
     <div class="search-form">
-        <form action="searchedPost.jsp" method="get">
+        <form action="list.jsp" method="get">
             <input type="text" name="title" class="search-input" placeholder="제목을 입력하세요">
+            <input type="hidden" name="page" class="search-input" value="1">
             <input type="submit" value="검색" class="search-button">
         </form>
     </div>
