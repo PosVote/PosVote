@@ -39,8 +39,6 @@
         RequestDispatcher dispatcher = request.getRequestDispatcher("signup.jsp");
         dispatcher.forward(request, response);
 
-        organizationService.deleteById(orgId);
-
         e.printStackTrace();
     }
 %>
