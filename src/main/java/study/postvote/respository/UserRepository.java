@@ -112,6 +112,18 @@ public class UserRepository {
         }
     }
 
+    public int countByOrgId(Long orgId) {
+        String sql = "SELECT COUNT(*) AS count FROM user WHERE org_id = ?;";
+        try {
+            conn = ConnectionManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, orgId);
+            return executeQueryCount(pstmt);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     public void deleteById(Long id) {
         String sql = "delete from user where user_id = ?";
         try {
@@ -130,7 +142,6 @@ public class UserRepository {
             }
         }
     }
-
 
     public void deleteByOrdId(Long id) {
         String sql = "delete from user where org_id = ?";
@@ -266,5 +277,22 @@ public class UserRepository {
         }
 
         return userList;
+    }
+
+    private int executeQueryCount(PreparedStatement pstmt) {
+        ResultSet rs = null;
+        try {
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            OrganizationRepository.connclose(pstmt, rs, conn);
+        }
+
+        return 0;
     }
 }

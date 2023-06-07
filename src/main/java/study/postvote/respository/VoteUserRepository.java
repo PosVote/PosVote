@@ -79,6 +79,33 @@ public class VoteUserRepository {
         return voteUsers;
     }
 
+    public Long findDistinctVoteUserByVoteIdAndUserId(long voteId, long userId) {
+        String sql = "select distinct user_id from vote_user where vote_id = ? and user_id = ?";
+        try {
+            conn = ConnectionManager.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, voteId);
+            ps.setLong(2, userId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getLong("user_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                conn.close();
+                rs.close();
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
+    }
+
     public List<VoteUser> findVoteUserByVoteId(long voteId) {
         String sql = "select * from vote_user where vote_id = ?";
         List<VoteUser> voteUsers = new ArrayList<>();
@@ -468,8 +495,8 @@ public class VoteUserRepository {
     }
 
 
-// 제작 보류
-    public void deleteVoteUserByVoteId(long voteId){
+    // 제작 보류
+    public void deleteVoteUserByVoteId(long voteId) {
         String sql = "DELETE FROM vote_user where vote_id = ?";
         try {
             conn = ConnectionManager.getConnection();

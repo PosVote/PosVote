@@ -40,6 +40,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public int countByOrgId(Long orgId) {
+        return userRepository.countByOrgId(orgId);
+    }
+
     public void deleteByOrdId(Long id) {
         userRepository.deleteByOrdId(id);
     }
@@ -61,8 +65,7 @@ public class UserService {
         User findUser = userRepository.findByEmail(updateUser.getEmail());
         if (findUser != null) {
             userRepository.updateUser(updateUser);
-        }
-        else {
+        } else {
             throw new Exception();
         }
     }
@@ -75,7 +78,7 @@ public class UserService {
         User findUser = userRepository.findById(id);
         if (findUser != null) {
             userRepository.updateRole(findUser, Role.USER);
-        }  else {
+        } else {
             throw new Exception();
         }
     }

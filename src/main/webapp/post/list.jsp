@@ -1,14 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="study.postvote.domain.Post, study.postvote.service.PostService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="study.postvote.dto.post.response.PostListResponse" %>
 <%@ page import="static study.postvote.util.StaticStr.SERVER_IP" %>
 <%@ page import="study.postvote.domain.type.Status" %>
 <%@ page import="study.postvote.domain.type.Role" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page import="study.postvote.service.VoteService" %>
 <%@ page import="static study.postvote.util.StaticStr.POSTPERPAGE" %>
-<%@ page import="study.postvote.service.OrganizationKeyService" %>
+<%@ page import="study.postvote.service.*" %>
+<%@ page import="study.postvote.service.UserService" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="study.postvote.dto.voteResult.response.VoteResult" %>
+<%@ page import="study.postvote.domain.*" %>
+<%@ page import="java.util.Objects" %>
 
 <!DOCTYPE html>
 <html>
@@ -46,7 +49,11 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        input[type="submit"]{font-family: "KIMM_Bold", sans-serif;}
+
+        input[type="submit"] {
+            font-family: "KIMM_Bold", sans-serif;
+        }
+
         .post {
             margin-bottom: 20px;
             padding: 10px;
@@ -69,6 +76,11 @@
         .post-meta {
             font-size: 12px;
             color: #888;
+        }
+
+        .post-meta-noJoin {
+            font-size: 12px;
+            color: red;
         }
 
         .no-posts {
@@ -179,6 +191,7 @@
     Status status = (Status) session.getAttribute("status");
     Long orgId = (Long) session.getAttribute("orgId");
     Role role = (Role) session.getAttribute("role");
+    Long userId = (Long) session.getAttribute("userId");
 
 
 //    if (Status.ACCEPT.equals(status)) {
@@ -232,14 +245,41 @@
     </div>
     <%
         for (PostListResponse post : postList) {
+            int countVote = new VoteService().countVote(post.getPostId());
+            int countByOrg = new UserService().countByOrgId(orgId);
+            String per = String.format("%.1f", (double) countVote / countByOrg * 100);
     %>
     <div class="post">
-        <a class="post-title" href="postView.jsp?id=<%=post.getPostId()%>"><%=post.getTitle()%>
+        <a class="post-title"
+           href="postView.jsp?id=<%=post.getPostId()%>"><%=post.getTitle()%>&nbsp;
         </a>
+        <%
+            VoteService voteService = new VoteService();
+            Vote vote = voteService.findByPostId(post.getPostId());
+            VoteUserService voteUserService = new VoteUserService();
+            Long result = voteUserService.findDistinctVoteUserByVoteIdAndUserId(vote.getVoteId(), userId);
+            boolean join = !Objects.isNull(result);
+            if (vote.getEndTime().isBefore(LocalDateTime.now())) {
+        %>
+        <a style="color: red; font-size: small">마감</a>
+        <%
+        } else {
+        %>
+        <a style="color: green; font-size: small">진행 중</a>
+        <%
+            }
+        %>
         <p class="post-meta">
-            작성자: <%=post.getName()%>
-            작성일: <%=post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%>
-            총 투표 수: <%=new VoteService().countVote(post.getPostId())%>
+            작성자: <%=post.getName()%><br/>
+            작성일: <%=post.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%><br/>
+            총 투표 수: <%=countVote%> / <%=countByOrg%>, 참여율: <%=per%>%<br/>
+            <%
+                if (join) {
+                    out.println("<p class=\"post-meta\">참여 완료</p>");
+                } else {
+                    out.println("<p class=\"post-meta-noJoin\">미참여</p>");
+                }
+            %>
         </p>
     </div>
     <%
