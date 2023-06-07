@@ -29,6 +29,7 @@
         a:hover {
             transition: 0.3s ease-in;
             color: #0033ff;
+            cursor: pointer;
         }
         .logout{font-family: "KIMM_Bold", sans-serif;}
         .logout:hover {
@@ -168,17 +169,19 @@
                 <%
                     }
                 %>
-                <li><a href="/mypage/myPage.jsp">마이페이지</a></li>
-                <li><a href="/user/logout.jsp" class="logout">로그아웃</a></li>
                 <%
                     if (Role.OWNER.equals(role1)) {
                 %>
-                <button class="copy-button" onclick="updateKeyAndCopyText('<%=StaticStr.SERVER_IP%>', '<%= orgId1 %>')">
+                <li><a onclick="updateKeyAndCopyText('<%=StaticStr.SERVER_IP%>', '<%= orgId1 %>')">
                     초대 코드 생성
-                </button>
+                </a></li>
                 <%
                     }
                 %>
+                <li><a href="/mypage/myPage.jsp">마이페이지</a></li>
+
+                <li><a href="/user/logout.jsp" class="logout">로그아웃</a></li>
+
 
             </ul>
         </nav>
