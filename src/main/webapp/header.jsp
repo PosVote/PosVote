@@ -188,8 +188,6 @@
                 <li><a href="/mypage/myPage.jsp">마이페이지</a></li>
 
                 <li><a href="/user/logout.jsp" class="logout">로그아웃</a></li>
-
-
             </ul>
         </nav>
     </header>
